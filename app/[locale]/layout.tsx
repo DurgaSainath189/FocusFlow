@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { notFound } from "next/navigation";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 const locales = ["en"];
 
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
     "Streamline your ideas, tasks, and collaboration for effortless productivity.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { locale },
 }: Readonly<{
@@ -21,17 +23,22 @@ export default function RootLayout({
 }>) {
   const isValidLocale = locales.some((cur) => cur === locale);
   if (!isValidLocale) notFound();
+
+  const messages = await getMessages({ locale });
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
