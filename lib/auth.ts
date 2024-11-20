@@ -52,17 +52,17 @@ export const authOptions: NextAuthOptions = {
           throw new Error("User was not found, Please enter valid email");
         }
         const passwordMatch = await bcrypt.compare(
-            credentials.password,
-            user.hashedPassword
+          credentials.password,
+          user.hashedPassword
+        );
+
+        if (!passwordMatch) {
+          throw new Error(
+            "The entered password is incorrect, please enter the correct one."
           );
-  
-          if (!passwordMatch) {
-            throw new Error(
-              "The entered password is incorrect, please enter the correct one."
-            );
-          }
-  
-          return user;
+        }
+
+        return user;
       },
     }),
   ],
@@ -86,11 +86,10 @@ export const authOptions: NextAuthOptions = {
       });
 
       if (user) {
-        session.user?.image = user.image;
+        session.user.image = user.image;
         // session.user.completedOnboarding = user.completedOnboarding;
-        session.user?.name = user.name.toLowerCase();
+        session.user.name = user.name.toLowerCase();
       }
-     
 
       return session;
     },
@@ -108,7 +107,7 @@ export const authOptions: NextAuthOptions = {
 
       return {
         id: dbUser.id,
-        username: dbUser.username,
+        username: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
       };
