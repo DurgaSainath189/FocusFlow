@@ -7,6 +7,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { generateFromEmail } from "unique-username-generator";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -21,10 +22,33 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      async profile(profile) {
+        const username = generateFromEmail(profile.email, 5);
+        return {
+          id: profile.sub,
+          username,
+          name: profile.given_name ? profile.given_name : profile.name,
+          surname: profile.family_name ? profile.family_name : "",
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
     }),
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      async profile(profile) {
+        const username = generateFromEmail(profile.email, 5);
+        const fullName = profile.name.split(" ");
+        return {
+          id: profile.id,
+          username: profile.login ? profile.login : username,
+          name: fullName.at(0),
+          surname: fullName.at(1),
+          email: profile.email,
+          image: profile.avatar_url,
+        };
+      },
     }),
     AppleProvider({
       clientId: process.env.APPLE_CLIENT_ID!,
@@ -81,17 +105,16 @@ export const authOptions: NextAuthOptions = {
         // session.user.completedOnboarding = !!token.completedOnboarding;
       }
 
-      // const user = await db.user.findUnique({
-      //   where: {
-      //     id: token.id,
-      //   },
-      // });
+      const user = await db.user.findUnique({
+        where: {
+          id: token.id,
+        },
+      });
 
-      // if (user) {
-      //   session.user.image = user.image;
-      //   // session.user.completedOnboarding = user.completedOnboarding;
-      //   session.user.name = user.name.toLowerCase();
-      // }
+      if (user) {
+        session.user.image = user.image;
+        session.user.completedOnboarding = user.completedOnboarding;
+      }
 
       console.log("Session :", session);
 

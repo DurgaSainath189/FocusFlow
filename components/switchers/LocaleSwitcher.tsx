@@ -18,7 +18,7 @@ export const LocaleSwitcher = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  function onSelectChange(nextLocale: "te" | "en") {
+  function onSelectChange(nextLocale: "te" | "en" | "hi") {
     setIsLoading(true);
     startTransition(() => {
       router.replace(pathname, { locale: nextLocale });
@@ -49,6 +49,14 @@ export const LocaleSwitcher = () => {
           className="cursor-pointer"
         >
           EN
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => {
+            onSelectChange("hi");
+          }}
+          className="cursor-pointer"
+        >
+          HI
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
