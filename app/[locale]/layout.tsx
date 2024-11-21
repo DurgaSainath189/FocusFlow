@@ -8,7 +8,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 
-const locales = ["en"];
+const locales = ["en", "te","hi"];
 
 export const metadata: Metadata = {
   title: "Focus Flow",
@@ -26,7 +26,7 @@ export default async function RootLayout({
   const isValidLocale = locales.some((cur) => cur === locale);
   if (!isValidLocale) notFound();
 
-  const messages = await getMessages({ locale });
+  const messages = await getMessages(locale);
 
   return (
     <html lang={locale} suppressHydrationWarning>
