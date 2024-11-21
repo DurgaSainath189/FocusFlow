@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { notFound } from "next/navigation";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { AuthProvider } from "@/providers/AuthProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const locales = ["en"];
 
@@ -30,14 +32,17 @@ export default async function RootLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className="antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster />
+              {children}
+            </ThemeProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

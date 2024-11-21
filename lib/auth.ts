@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "credential",
       credentials: {
-        name: { label: "Name", type: "text", placeholder: "Name" },
+        username: { label: "Username", type: "text", placeholder: "Username" },
         email: { label: "Email", type: "text", placeholder: "Email" },
         password: {
           label: "Password",
@@ -69,6 +69,8 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
+      console.log("Token :", token);
+
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
@@ -79,17 +81,19 @@ export const authOptions: NextAuthOptions = {
         // session.user.completedOnboarding = !!token.completedOnboarding;
       }
 
-      const user = await db.user.findUnique({
-        where: {
-          id: token.id,
-        },
-      });
+      // const user = await db.user.findUnique({
+      //   where: {
+      //     id: token.id,
+      //   },
+      // });
 
-      if (user) {
-        session.user.image = user.image;
-        // session.user.completedOnboarding = user.completedOnboarding;
-        session.user.name = user.name.toLowerCase();
-      }
+      // if (user) {
+      //   session.user.image = user.image;
+      //   // session.user.completedOnboarding = user.completedOnboarding;
+      //   session.user.name = user.name.toLowerCase();
+      // }
+
+      console.log("Session :", session);
 
       return session;
     },
@@ -107,7 +111,7 @@ export const authOptions: NextAuthOptions = {
 
       return {
         id: dbUser.id,
-        username: dbUser.name,
+        username: dbUser.username,
         email: dbUser.email,
         picture: dbUser.image,
       };
