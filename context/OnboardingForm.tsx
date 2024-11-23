@@ -25,23 +25,23 @@ function onBoardingFormReducer(state: OnboardingFormReducer, action: Action) {
       };
     }
 
-    // case ActionType.NAME:
-    //   return {
-    //     ...state,
-    //     name: payload as string,
-    //   };
+    case ActionType.NAME:
+      return {
+        ...state,
+        name: payload as string,
+      };
 
-    // case ActionType.SURNAME:
-    //   return {
-    //     ...state,
-    //     surname: payload as string,
-    //   };
+    case ActionType.SURNAME:
+      return {
+        ...state,
+        surname: payload as string,
+      };
 
-    // case ActionType.USECASE:
-    //   return {
-    //     ...state,
-    //     useCase: payload as UseCase,
-    //   };
+    case ActionType.USECASE:
+      return {
+        ...state,
+        useCase: payload as UseCase,
+      };
     // case ActionType.PROFILEIMAGE:
     //   return {
     //     ...state,
