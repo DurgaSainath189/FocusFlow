@@ -93,7 +93,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
-      console.log("Token :", token);
+      // console.log("Token :", token);
 
       if (token) {
         session.user.id = token.id;
@@ -116,7 +116,7 @@ export const authOptions: NextAuthOptions = {
         session.user.completedOnboarding = user.completedOnboarding;
       }
 
-      console.log("Session :", session);
+      // console.log("Session :", session);
 
       return session;
     },
