@@ -6,7 +6,7 @@ import React from "react";
 
 const Onboarding = async () => {
   const session = await checkIfUserCompletedOnboarding("/onboarding");
-  console.log(session);
+  // console.log(session);
 
   return (
     <OnboardingFormProvider session={session}>

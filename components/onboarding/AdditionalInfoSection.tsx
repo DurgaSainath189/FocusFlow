@@ -4,6 +4,7 @@ import { useOnboardingForm } from "@/context/OnboardingForm";
 import { FirstStep } from "./steps/FirstStep";
 import { SecondStep } from "./steps/SecondStep";
 import { ThirdStep } from "./steps/ThirdStep";
+import { FormStepsInfo } from "./FormsStepInfo";
 
 interface Props {
   profileImage?: string | null;
@@ -29,6 +30,7 @@ export const AdditionalInfoSection = ({ profileImage }: Props) => {
         {currentStep === 3 && <ThirdStep />}
         {/* {currentStep === 4 && <p>Step 4</p>} */}
       </div>
+      <FormStepsInfo />
     </section>
   );
 };

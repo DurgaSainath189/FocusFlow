@@ -1,3 +1,6 @@
+"use client";
+
+import { useOnboardingForm } from "@/context/OnboardingForm";
 import {
   Card,
   CardContent,
@@ -8,20 +11,24 @@ import {
 } from "../ui/card";
 
 export const SummarySection = () => {
+  const { name, surname, useCase } = useOnboardingForm();
   return (
     <section className="hidden lg:w-1/2 bg-primary lg:flex justify-center items-center">
-      <Card>
-        <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
-      </Card>
+      <div className="bg-card rounded-2xl w-96 min-h-[10rem] shadow-sm flex flex-col items-center p-4 py-8 gap-5">
+        <div className="w-32 h-32 rounded-full shadow-sm bg-muted mt-[-5rem]"></div>
+        <div className="text-center space-y-1.5 text-3xl break-words max-w-xs font-semibold">
+          {name && <p>{name}</p>}
+          {surname && <p>{surname}</p>}
+        </div>
+        {!useCase && <span className="bg-muted rounded-md w-24 h-8"></span>}
+        {useCase && (
+          <p>
+            {useCase === "WORK" && "For Work"}
+            {useCase === "STUDY" && "For Study"}
+            {useCase === "PERSONAL_USE" && "For Personal use"}
+          </p>
+        )}
+      </div>
     </section>
   );
 };
