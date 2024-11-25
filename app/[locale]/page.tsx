@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-
 const Home = () => {
   const t = useTranslations("Index");
   const session = useSession();
