@@ -8,14 +8,21 @@ import {
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingState } from "@/components/ui/loadingState";
 import { UserAvatar } from "@/components/ui/user-avatar";
+import { useToast } from "@/hooks/use-toast";
 import { imageSchema, ImageSchema } from "@/schema/imageSchema";
+import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera, User } from "lucide-react";
+import { Camera, Check, Trash, User } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import { User as UserType } from "@prisma/client";
+import { useUploadThing } from "@/lib/uploadthing";
 
 interface Props {
   profileImage?: string | null;
@@ -26,6 +33,8 @@ export const AddUserImage = ({ profileImage }: Props) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const { update } = useSession();
+  const { toast } = useToast();
 
   const form = useForm<ImageSchema>({
     resolver: zodResolver(imageSchema),
@@ -45,6 +54,69 @@ export const AddUserImage = ({ profileImage }: Props) => {
       }
     }
   };
+
+  const { startUpload, isUploading } = useUploadThing("imageUploader", {
+    onUploadError: (error) => {
+      toast({
+        title: "Image is uploading",
+        variant: "destructive",
+      });
+    },
+    onClientUploadComplete: (data) => {
+      if (data) uploadProfileImage(data[0].url);
+      else {
+        toast({
+          title: "Something went wrong",
+          variant: "destructive",
+        });
+      }
+    },
+  });
+
+  const { mutate: deleteProfileImage, isPending: isDeleting } = useMutation({
+    mutationFn: async () => {
+      const { data } = await axios.post(`/api/profile/delete_profile_image`);
+      return data as UserType;
+    },
+    onError: (err) => {
+      toast({
+        title: "Something went wrong",
+        variant: "destructive",
+      });
+    },
+    onSuccess: async () => {
+      toast({
+        title: "Image deleted successfully",
+      });
+      await update();
+      router.refresh();
+    },
+    mutationKey: ["deleteProfileImage"],
+  });
+
+  const { mutate: uploadProfileImage, isPending } = useMutation({
+    mutationFn: async (profileImage: string) => {
+      const { data } = await axios.post(`/api/profile/profileImage`, {
+        profileImage,
+      });
+      return data as UserType;
+    },
+    onError: (err) => {
+      toast({
+        title: "Error uploading images",
+        variant: "destructive",
+      });
+    },
+    onSuccess: async () => {
+      toast({
+        title: "Image is uploaded succesfully",
+      });
+      setOpen(false);
+      await update();
+      router.refresh();
+    },
+    mutationKey: ["updateProfileImage"],
+  });
 
   const imageOptions = useMemo(() => {
     if (!imagePreview && profileImage) {
@@ -148,22 +220,22 @@ export const AddUserImage = ({ profileImage }: Props) => {
               ></FormField>
 
               <div className="flex mt-5 w-full justify-center items-center gap-4">
-                {/* <Button
+                <Button
                   type="button"
-                  disabled={!imageOptions.canDelete || isDeleting}
+                  disabled={!imageOptions.canDelete}
                   variant={imageOptions.canDelete ? "default" : "secondary"}
                   className={`rounded-full w-12 h-12 p-2 ${
                     imageOptions.canDelete
                       ? "text-white"
                       : "text-muted-foreground"
                   }`}
-                  onClick={() => deleteProfileImage()}
+                  onClick={() => ()}
                 >
                   {isDeleting ? <LoadingState /> : <Trash size={18} />}
-                </Button> */}
-                {/* <Button
+                </Button>
+                <Button
                   type="submit"
-                  disabled={!imageOptions.canSave || isUploading || isPending}
+                  disabled={!imageOptions.canSave}
                   variant={imageOptions.canSave ? "default" : "secondary"}
                   className={`rounded-full w-12 h-12 p-2 ${
                     imageOptions.canSave
@@ -176,7 +248,7 @@ export const AddUserImage = ({ profileImage }: Props) => {
                   ) : (
                     <Check size={18} />
                   )}
-                </Button> */}
+                </Button>
               </div>
             </form>
           </Form>
