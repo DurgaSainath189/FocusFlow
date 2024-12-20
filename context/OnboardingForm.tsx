@@ -42,11 +42,11 @@ function onBoardingFormReducer(state: OnboardingFormReducer, action: Action) {
         ...state,
         useCase: payload as UseCase,
       };
-    // case ActionType.PROFILEIMAGE:
-    //   return {
-    //     ...state,
-    //     profileImage: payload as string | null | undefined,
-    //   };
+    case ActionType.PROFILEIMAGE:
+      return {
+        ...state,
+        profileImage: payload as string | null | undefined,
+      };
     // case ActionType.WORKSPACE_NAME: {
     //   return {
     //     ...state,
