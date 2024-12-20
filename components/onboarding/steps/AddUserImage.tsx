@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,7 +23,7 @@ import { useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { User as UserType } from "@prisma/client";
-import { useUploadThing } from "@/lib/uploadthing";
+// import { useUploadThing } from "@/lib/uploadthing";
 
 interface Props {
   profileImage?: string | null;
@@ -55,68 +56,68 @@ export const AddUserImage = ({ profileImage }: Props) => {
     }
   };
 
-  const { startUpload, isUploading } = useUploadThing("imageUploader", {
-    onUploadError: (error) => {
-      toast({
-        title: "Image is uploading",
-        variant: "destructive",
-      });
-    },
-    onClientUploadComplete: (data) => {
-      if (data) uploadProfileImage(data[0].url);
-      else {
-        toast({
-          title: "Something went wrong",
-          variant: "destructive",
-        });
-      }
-    },
-  });
+  // const { startUpload, isUploading } = useUploadThing("imageUploader", {
+  //   onUploadError: (error) => {
+  //     toast({
+  //       title: "Image is uploading",
+  //       variant: "destructive",
+  //     });
+  //   },
+  //   onClientUploadComplete: (data) => {
+  //     if (data) uploadProfileImage(data[0].url);
+  //     else {
+  //       toast({
+  //         title: "Something went wrong",
+  //         variant: "destructive",
+  //       });
+  //     }
+  //   },
+  // });
 
-  const { mutate: deleteProfileImage, isPending: isDeleting } = useMutation({
-    mutationFn: async () => {
-      const { data } = await axios.post(`/api/profile/delete_profile_image`);
-      return data as UserType;
-    },
-    onError: (err) => {
-      toast({
-        title: "Something went wrong",
-        variant: "destructive",
-      });
-    },
-    onSuccess: async () => {
-      toast({
-        title: "Image deleted successfully",
-      });
-      await update();
-      router.refresh();
-    },
-    mutationKey: ["deleteProfileImage"],
-  });
+  // const { mutate: deleteProfileImage, isPending: isDeleting } = useMutation({
+  //   mutationFn: async () => {
+  //     const { data } = await axios.post(`/api/profile/delete_profile_image`);
+  //     return data as UserType;
+  //   },
+  //   onError: (err) => {
+  //     toast({
+  //       title: "Something went wrong",
+  //       variant: "destructive",
+  //     });
+  //   },
+  //   onSuccess: async () => {
+  //     toast({
+  //       title: "Image deleted successfully",
+  //     });
+  //     await update();
+  //     router.refresh();
+  //   },
+  //   mutationKey: ["deleteProfileImage"],
+  // });
 
-  const { mutate: uploadProfileImage, isPending } = useMutation({
-    mutationFn: async (profileImage: string) => {
-      const { data } = await axios.post(`/api/profile/profileImage`, {
-        profileImage,
-      });
-      return data as UserType;
-    },
-    onError: (err) => {
-      toast({
-        title: "Error uploading images",
-        variant: "destructive",
-      });
-    },
-    onSuccess: async () => {
-      toast({
-        title: "Image is uploaded succesfully",
-      });
-      setOpen(false);
-      await update();
-      router.refresh();
-    },
-    mutationKey: ["updateProfileImage"],
-  });
+  // const { mutate: uploadProfileImage, isPending } = useMutation({
+  //   mutationFn: async (profileImage: string) => {
+  //     const { data } = await axios.post(`/api/profile/profileImage`, {
+  //       profileImage,
+  //     });
+  //     return data as UserType;
+  //   },
+  //   onError: (err) => {
+  //     toast({
+  //       title: "Error uploading images",
+  //       variant: "destructive",
+  //     });
+  //   },
+  //   onSuccess: async () => {
+  //     toast({
+  //       title: "Image is uploaded succesfully",
+  //     });
+  //     setOpen(false);
+  //     await update();
+  //     router.refresh();
+  //   },
+  //   mutationKey: ["updateProfileImage"],
+  // });
 
   const imageOptions = useMemo(() => {
     if (!imagePreview && profileImage) {
@@ -229,9 +230,9 @@ export const AddUserImage = ({ profileImage }: Props) => {
                       ? "text-white"
                       : "text-muted-foreground"
                   }`}
-                  onClick={() => ()}
                 >
-                  {isDeleting ? <LoadingState /> : <Trash size={18} />}
+                  <Trash size={18} />
+                  {/* {isDeleting ? <LoadingState /> : <Trash size={18} />} */}
                 </Button>
                 <Button
                   type="submit"
@@ -243,11 +244,8 @@ export const AddUserImage = ({ profileImage }: Props) => {
                       : "text-muted-foreground"
                   }`}
                 >
-                  {isPending || isUploading ? (
-                    <LoadingState />
-                  ) : (
-                    <Check size={18} />
-                  )}
+                  <Check size={18} />
+                  {/* {isPending ? <LoadingState /> : <Check size={18} />} */}
                 </Button>
               </div>
             </form>
