@@ -27,7 +27,6 @@ interface Props {
 }
 
 export const FirstStep = ({ profileImage }: Props) => {
-  const session = useSession();
   const { currentStep, name, surname, dispatch } = useOnboardingForm();
   const form = useForm<AdditionalUserInfoFirstPart>({
     resolver: zodResolver(additionalUserInfoFirstPart),
