@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -5,6 +6,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useOnboardingForm } from "@/context/OnboardingForm";
 import {
   additionalUserInfoSecondPart,
@@ -12,23 +14,23 @@ import {
 } from "@/schema/additionalUserInfo";
 import { ActionType } from "@/types/onBoardingContext";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
+import React from "react";
+import { useForm } from "react-hook-form";
 
 const useCases = [
   {
     case: "WORK",
-    title: "For Work",
+    title: "SECOND_STEP.WORK",
   },
   {
     case: "STUDY",
-    title: "For Study",
+    title: "SECOND_STEP.STUDY",
   },
   {
     case: "PERSONAL_USE",
-    title: "For Personal use",
+    title: "SECOND_STEP.PERSONAL",
   },
 ];
 
@@ -37,6 +39,7 @@ export const SecondStep = () => {
   const form = useForm<AdditionalUserInfoSecondPart>({
     resolver: zodResolver(additionalUserInfoSecondPart),
   });
+  const t = useTranslations("ONBOARDING_FORM");
 
   const onSubmit = (data: AdditionalUserInfoSecondPart) => {
     dispatch({ type: ActionType.USECASE, payload: data.useCase });
@@ -45,11 +48,12 @@ export const SecondStep = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-4 w-full mt-10 text-center">
-        <h2 className="font-bold text-4xl md:text-5xl flex flex-col items-center max-w-xs">
-          Purpose of using Focus Flow
+        <h2 className="font-bold text-4xl md:text-5xl  max-w-xs">
+          {t("SECOND_STEP.TITLE")} <span>Focus</span>{" "}
+          <span className="text-primary font-semibold">Flow?</span>
         </h2>
         <p className="max-w-lg text-muted-foreground">
-          We will use this information, to personalize the experience for you
+          {t("SECOND_STEP.INFO")}
         </p>
       </div>
       <div className="max-w-md w-full space-y-8 mt-14">
@@ -87,7 +91,7 @@ export const SecondStep = () => {
                             <RadioGroupItem value={useCase.case} />
                           </FormControl>
                           <FormLabel className="font-normal lg:text-lg h-full left-9 flex items-center absolute w-full cursor-pointer">
-                            {useCase.title}
+                            {t(useCase.title)}
                           </FormLabel>
                         </FormItem>
                       ))}
@@ -97,12 +101,12 @@ export const SecondStep = () => {
               )}
             />
             <Button
-            //   disabled={!form.formState.isValid}
+              className="mt-10 w-full max-w-md dark:text-white font-semibold"
+              //   disabled={!form.formState.isValid}
               type="submit"
-              className="mt-10 w-full max-w-md dark:text-black font-semibold"
             >
-              Continue
-              <ArrowRight className="" height={18} width={18} />
+              {t("NEXT_BTN")}
+              <ArrowRight width={18} height={18} />
             </Button>
           </form>
         </Form>
