@@ -1,18 +1,12 @@
 "use client";
 
 import { useOnboardingForm } from "@/context/OnboardingForm";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
 import { UserAvatar } from "../ui/user-avatar";
+import { useTranslations } from "next-intl";
 
 export const SummarySection = () => {
   const { name, surname, profileImage, useCase } = useOnboardingForm();
+  const t = useTranslations("ONBOARDING_FORM");
   return (
     <section className="hidden lg:w-1/2 bg-primary lg:flex justify-center items-center">
       <div className="bg-card rounded-2xl w-96 min-h-[10rem] shadow-sm flex flex-col items-center p-4 py-8 gap-5">
@@ -28,9 +22,9 @@ export const SummarySection = () => {
         {!useCase && <span className="bg-muted rounded-md w-24 h-8"></span>}
         {useCase && (
           <p>
-            {useCase === "WORK" && "For Work"}
-            {useCase === "STUDY" && "For Study"}
-            {useCase === "PERSONAL_USE" && "For Personal use"}
+            {useCase === "WORK" && t("SECOND_STEP.WORK")}
+            {useCase === "STUDY" && t("SECOND_STEP.STUDY")}
+            {useCase === "PERSONAL_USE" && t("SECOND_STEP.PERSONAL")}
           </p>
         )}
       </div>
