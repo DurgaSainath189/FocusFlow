@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { Trash2, UploadCloudIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -20,7 +21,7 @@ interface Props<> {
   schema: z.ZodObject<any>;
   getImagePreview?: React.Dispatch<React.SetStateAction<string>>;
   inputAccept: "image/*" | "pdf";
-  typesDescription: string[];
+  typesDescription?: string;
   ContainerClassName?: string;
   LabelClassName?: string;
   LabelText?: string;
@@ -36,12 +37,22 @@ export function UploadFile({
   LabelClassName,
   LabelText,
 }: Props) {
+  const t = useTranslations("UPLOAD_FILE");
   const [dragActive, setDragActive] = useState<boolean>(false);
   const [file, setFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const onFileHandler = (providedFile: File) => {
-    const result = schema.safeParse({ image: file });
+    const result = schema
+      .pick({ file: true })
+      .safeParse({ file: providedFile }) as z.SafeParseReturnType<
+      {
+        [x: string]: any;
+      },
+      {
+        [x: string]: any;
+      }
+    >;
 
     if (result.success) {
       form.clearErrors("file");
@@ -139,14 +150,9 @@ export function UploadFile({
               />
               <UploadCloudIcon size={30} />
               <p className="text-sm font-semibold uppercase text-primary mt-5">
-                Upload
+                {t("UPLOAD")}
               </p>
-              <p className="text-xs mt-1 text-center">
-                Only <span>{typesDescription.join(", ")}</span>{" "}
-                {typesDescription.length > 1
-                  ? "types supported"
-                  : "type supported"}
-              </p>
+              <p className="text-xs mt-1 text-center">{typesDescription}</p>
             </div>
           </FormControl>
           <FormMessage />
