@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "next-intl/client";
 import { Settings } from "./Settings";
 
 export const OptionsSidebar = () => {
