@@ -9,10 +9,32 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { LoadingState } from "../ui/loadingState";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter, usePathname } from "next-intl/client";
+import { HoverCard, HoverCardContent } from "../ui/hover-card";
 
-export const LocaleSwitcher = () => {
+interface Props {
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | null;
+  size?: "default" | "sm" | "lg" | "icon" | null;
+  alignHover?: "center" | "start" | "end";
+  alignDropdown?: "center" | "start" | "end";
+  textSize?: "text-lg" | "text-base";
+}
+
+export const LocaleSwitcher = ({
+  size = "default",
+  variant = "default",
+  alignHover = "center",
+  alignDropdown = "center",
+  textSize = "text-base",
+}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const locale = useLocale();
   const router = useRouter();
@@ -25,40 +47,56 @@ export const LocaleSwitcher = () => {
     });
   }
 
+  const t = useTranslations("COMMON");
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button disabled={isLoading} variant={"outline"} size={"icon"}>
-          {isLoading ? <LoadingState className="mr-0" /> : locale.toUpperCase()}
-          <span className="sr-only">Change Language</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => {
-            onSelectChange("te");
-          }}
-          className="cursor-pointer"
-        >
-          TE
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => {
-            onSelectChange("en");
-          }}
-          className="cursor-pointer"
-        >
-          EN
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => {
-            onSelectChange("hi");
-          }}
-          className="cursor-pointer"
-        >
-          HI
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <HoverCard openDelay={250} closeDelay={250}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            disabled={isLoading}
+            variant={variant}
+            size={size}
+            className={textSize}
+          >
+            {isLoading ? (
+              <LoadingState className="mr-0" />
+            ) : (
+              locale.toUpperCase()
+            )}
+            <span className="sr-only">{t("LANG_HOVER")}</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align={alignDropdown}>
+          <DropdownMenuItem
+            onClick={() => {
+              onSelectChange("te");
+            }}
+            className="cursor-pointer"
+          >
+            TE
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              onSelectChange("en");
+            }}
+            className="cursor-pointer"
+          >
+            EN
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              onSelectChange("hi");
+            }}
+            className="cursor-pointer"
+          >
+            HI
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <HoverCardContent align={alignHover}>
+        <span>{t("LANG_HOVER")}</span>
+      </HoverCardContent>
+    </HoverCard>
   );
 };
