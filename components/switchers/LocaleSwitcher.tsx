@@ -1,6 +1,5 @@
 "use client";
 
-import { startTransition, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +9,9 @@ import {
 import { Button } from "../ui/button";
 import { LoadingState } from "../ui/loadingState";
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter, usePathname } from "next-intl/client";
+import { usePathname, useRouter } from "next-intl/client";
 import { HoverCard, HoverCardContent } from "../ui/hover-card";
+import { useChangeLocale } from "@/hooks/useChangeLocale";
 
 interface Props {
   variant?:
@@ -35,19 +35,11 @@ export const LocaleSwitcher = ({
   alignDropdown = "center",
   textSize = "text-base",
 }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
   const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
-
-  function onSelectChange(nextLocale: "te" | "en" | "hi") {
-    setIsLoading(true);
-    startTransition(() => {
-      router.replace(pathname, { locale: nextLocale });
-    });
-  }
 
   const t = useTranslations("COMMON");
+
+  const { isLoading, isPending, onSelectChange } = useChangeLocale();
 
   return (
     <HoverCard openDelay={250} closeDelay={250}>
@@ -83,14 +75,6 @@ export const LocaleSwitcher = ({
             className="cursor-pointer"
           >
             EN
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              onSelectChange("hi");
-            }}
-            className="cursor-pointer"
-          >
-            HI
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
