@@ -2,32 +2,44 @@
 
 import { usePathname } from "next-intl/client";
 import { Settings } from "./Settings";
+import { ActiveWorkspacesInfo } from "@/components/common/ActiveWorkspaceInfo";
 
-export const OptionsSidebar = () => {
+interface Props {
+  activeWorkspaces: number;
+  // userAdminWorkspaces: Workspace[];
+  // userWorkspaces: Workspace[];
+}
+
+export const OptionsSidebar = ({
+  activeWorkspaces,
+}: // userAdminWorkspaces,
+// userWorkspaces,
+Props) => {
   const pathname = usePathname();
   if (pathname === "/dashboard") return null;
 
-  const urlWorkspaceId: string | undefined = pathname.split("/")[3];
-  const urlAdditionalId: string | undefined = pathname.split("/")[6];
-  const chatId: string | undefined = pathname.split("/")[5];
-  const workspaceId = urlWorkspaceId ? urlWorkspaceId : "";
+  // const urlWorkspaceId: string | undefined = pathname.split("/")[3];
+  // const urlAdditionalId: string | undefined = pathname.split("/")[6];
+  // const chatId: string | undefined = pathname.split("/")[5];
+  // const workspaceId = urlWorkspaceId ? urlWorkspaceId : "";
 
-  if (
-    pathname === "/dashboard" ||
-    pathname === "/dashboard/starred" ||
-    pathname === "/dashboard/calendar" ||
-    (urlAdditionalId &&
-      pathname ===
-        `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}/edit`) ||
-    (urlAdditionalId &&
-      pathname ===
-        `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}/edit`)
-  ) {
-    return null;
-  }
+  // if (
+  //   pathname === "/dashboard" ||
+  //   pathname === "/dashboard/starred" ||
+  //   pathname === "/dashboard/calendar" ||
+  //   (urlAdditionalId &&
+  //     pathname ===
+  //       `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}/edit`) ||
+  //   (urlAdditionalId &&
+  //     pathname ===
+  //       `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}/edit`)
+  // ) {
+  //   return null;
+  // }
   return (
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">
       {pathname.includes("/dashboard/settings") && <Settings />}
+      <ActiveWorkspacesInfo activeNumber={activeWorkspaces} />
       {/* {(pathname === `/dashboard/workspace/${workspaceId}` ||
             pathname ===
               `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` ||
