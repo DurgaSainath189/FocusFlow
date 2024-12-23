@@ -25,17 +25,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { LoadingState } from "@/components/ui/loadingState";
 import Warning from "@/components/ui/warning";
+import { useToast } from "@/hooks/use-toast";
 import {
   deleteAccountSchema,
   DeleteAccountSchema,
 } from "@/schema/deleteAccountSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTranslations } from "next-intl";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { signOut } from "next-auth/react";
+import { useLocale, useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 
-export const DeleteAccount = () => {
+interface Props {
+  userEmail: string;
+}
+
+export const DeleteAccount = ({ userEmail }: Props) => {
   const t = useTranslations("SETTINGS.ACCOUNT");
+  const { toast } = useToast();
+  const m = useTranslations("MESSAGES");
+  const lang = useLocale();
 
   const form = useForm<DeleteAccountSchema>({
     resolver: zodResolver(deleteAccountSchema),
@@ -44,8 +56,37 @@ export const DeleteAccount = () => {
     },
   });
 
+  const { mutate: deleteProfile, isPending } = useMutation({
+    mutationFn: async (formData: DeleteAccountSchema) => {
+      const { data } = (await axios.post(
+        "/api/profile/delete",
+        formData
+      )) as AxiosResponse<DeleteAccountSchema>;
+
+      return data;
+    },
+    onError: (err: AxiosError) => {
+      const error = err?.response?.data ? err.response.data : "ERRORS.DEFAULT";
+
+      toast({
+        title: m(error),
+        variant: "destructive",
+      });
+    },
+    onSuccess: async () => {
+      toast({
+        title: m("SUCCESS.DELETED_INFO"),
+      });
+
+      signOut({
+        callbackUrl: `${window.location.origin}/${lang}`,
+      });
+    },
+    mutationKey: ["deleteProfile"],
+  });
+
   const onSubmit = (data: DeleteAccountSchema) => {
-    console.log(data);
+    deleteProfile(data);
   };
 
   return (
@@ -80,7 +121,7 @@ export const DeleteAccount = () => {
             <Dialog>
               <DialogTrigger asChild>
                 <Button
-                //   disabled={!form.formState.isValid}
+                  //   disabled={!form.formState.isValid}
                   type="button"
                   variant={"destructive"}
                   className=""
@@ -99,17 +140,16 @@ export const DeleteAccount = () => {
                   <p>{t("DIALOG.WARNING")}</p>
                 </Warning>
                 <Button
-                  //   disabled={isPending}
+                  disabled={isPending}
                   onClick={form.handleSubmit(onSubmit)}
                   size={"lg"}
                   variant={"destructive"}
                 >
-                  {/* {isPending ? (
+                  {isPending ? (
                     <LoadingState loadingText={t("DIALOG.PENDING_BTN")} />
                   ) : (
                     t("DIALOG.BUTTON")
-                  )} */}
-                  {t("DIALOG.BUTTON")}
+                  )}
                 </Button>
               </DialogContent>
             </Dialog>
