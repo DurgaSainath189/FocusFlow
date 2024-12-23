@@ -71,7 +71,8 @@ const Welcoming = React.forwardRef<HTMLDivElement, Props>(
             👋
           </p>
           <p className="text-muted-foreground max-w-sm sm:max-w-xl">
-            {day[0].toUpperCase() + day.slice(1)}
+            <span>{day[0].toUpperCase() + day.slice(1)}</span>{" "}
+            <span>{time}</span>
           </p>
         </div>
       );
