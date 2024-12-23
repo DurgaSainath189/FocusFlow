@@ -20,8 +20,15 @@ import { useLocale, useTranslations } from "next-intl";
 import { useChangeLocale } from "@/hooks/useChangeLocale";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import Image from "next/image";
 
-export const User = () => {
+interface Props {
+  profileImage?: string | null;
+  // username: string;
+  // email: string;
+}
+
+export const User = ({ profileImage }: Props) => {
   const { theme, setTheme } = useTheme();
   const t = useTranslations("COMMON");
   const { onSelectChange } = useChangeLocale();
@@ -40,7 +47,18 @@ export const User = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={10} className="">
         <div className="flex items-center gap-1 px-2">
-          <UserAvatar className="w-8 h-8" />
+          {profileImage ? (
+            <Image
+              src={profileImage}
+              alt="profile image"
+              className="w-10 h-10 rounded-full object-cover"
+              width={300}
+              height={300}
+            />
+          ) : (
+            <UserAvatar className="w-8 h-8" />
+          )}
+
           <div>
             <DropdownMenuLabel>Durga Sainath</DropdownMenuLabel>
             <DropdownMenuLabel>durgasainathdora@gmail.com</DropdownMenuLabel>
