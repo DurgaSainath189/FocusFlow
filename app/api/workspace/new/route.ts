@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { MAX_USER_WORKSPACES } from "@/lib/options";
 import { apiWorkspaceSchema } from "@/schema/workspaceSchema";
 import { NextResponse } from "next/server";
 
@@ -44,9 +45,9 @@ export async function POST(request: Request) {
       });
     }
 
-    // if (user.createdWorkspaces.length === MAX_USER_WORKSPACES) {
-    //   return new NextResponse("ERRORS.TOO_MANY_WORKSPACES", { status: 402 });
-    // }
+    if (user.createdWorkspaces.length === MAX_USER_WORKSPACES) {
+      return new NextResponse("ERRORS.TOO_MANY_WORKSPACES", { status: 402 });
+    }
 
     const theSameWorkspaceName = user.createdWorkspaces.find(
       (workspace) =>
