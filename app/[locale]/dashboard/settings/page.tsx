@@ -15,7 +15,7 @@ const Settings = async () => {
       <div className="p-4 sm:p-6">
         <Separator />
       </div>
-      <DeleteAccount />
+      <DeleteAccount userEmail={session.user.email!} />
     </div>
   );
 };
