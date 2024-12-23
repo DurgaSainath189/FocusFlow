@@ -25,12 +25,14 @@ import axios from "axios";
 import { User as UserType } from "@prisma/client";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 interface Props {
   profileImage?: string | null;
+  className?: string;
 }
 
-export const AddUserImage = ({ profileImage }: Props) => {
+export const AddUserImage = ({ profileImage, className }: Props) => {
   const [imagePreview, setImagePreview] = useState("");
   const inputRef = useRef<null | HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
@@ -139,7 +141,7 @@ export const AddUserImage = ({ profileImage }: Props) => {
     onSuccess: async () => {
       toast({
         title: m("SUCCESS.IMAGE_PROFILE_UPDATE"),
-    })
+      });
       await update();
       router.refresh();
     },
@@ -155,7 +157,12 @@ export const AddUserImage = ({ profileImage }: Props) => {
       <p className="text-sm text-muted-foreground">Add a photo</p>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="group relative bg-muted w-16 h-16 md:h-20 md:w-20 rounded-full flex justify-center items-center text-muted-foreground overflow-hidden">
+          <Button
+            className={cn(
+              "group relative bg-muted w-16 h-16 md:h-20 md:w-20 rounded-full flex justify-center items-center text-muted-foreground overflow-hidden",
+              className
+            )}
+          >
             {profileImage ? (
               <Image
                 priority
@@ -169,7 +176,7 @@ export const AddUserImage = ({ profileImage }: Props) => {
             )}
             <div className="group-hover:opacity-80 transition-opacity duration-200 opacity-0 w-full h-full absolute bg-black flex justify-center items-center flex-col gap-1 text-xs text-white">
               <Camera size={20} />
-              <p>Hover</p>
+              <p>{t("HOVER")}</p>
             </div>
           </Button>
         </DialogTrigger>
