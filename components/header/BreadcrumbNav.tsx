@@ -15,7 +15,7 @@ export const BreadcrumbNav = () => {
   const t = useTranslations("ROUTES");
   if (pathNames.length > 1) {
     return (
-      <div className="flex flex-col items-start gap-0.5 text-sm sm:text-base sm:flex-row sm:items-center">
+      <div className="flex gap-0.5 items-center">
         {pathNames.map((link, i) => {
           const href = `/${pathNames.slice(0, i + 1).join("/")}`;
           return (
