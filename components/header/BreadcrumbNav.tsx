@@ -5,6 +5,13 @@ import { useTranslations } from "next-intl";
 import { usePathname } from "next-intl/client";
 import Link from "next/link";
 
+const availableRoutesWithTranslation = [
+  "dashboard",
+  "settings",
+  "security",
+  "theme",
+];
+
 export const BreadcrumbNav = () => {
   const paths = usePathname();
   const pathNames = paths
@@ -40,10 +47,9 @@ export const BreadcrumbNav = () => {
                 </>
               ) : (
                 <p className="font-bold text-primary sm:px-2 px-1">
-                  {/* {availableRoutesWithTranslation.includes(link)
-                        ? t(link.toUpperCase())
-                        : link} */}
-                  {t(link.toUpperCase())}
+                  {availableRoutesWithTranslation.includes(link)
+                    ? t(link.toUpperCase())
+                    : link}
                 </p>
               )}
             </div>
