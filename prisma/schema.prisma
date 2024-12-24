@@ -81,8 +81,24 @@ model Workspace{
   Creator User? @relation("CreatedBy",fields: [creatorId],references: [id],onDelete: Cascade)
   subscribers Subscription[]
   image String?
+  color WorkspaceIconColor @default(BLUE)
 
   @@index([creatorId])
+}
+
+enum WorkspaceIconColor {
+  PURPLE
+  RED
+  GREEN
+  BLUE
+  PINK
+  YELLOW
+  ORANGE
+  CYAN
+  LIME
+  EMERALD
+  INDIGO
+  FUCHSIA
 }
 
 model Subscription{
