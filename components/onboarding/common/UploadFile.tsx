@@ -25,6 +25,9 @@ interface Props<> {
   ContainerClassName?: string;
   LabelClassName?: string;
   LabelText?: string;
+  useAsBtn?: boolean;
+  hideFileName?: boolean;
+  btnText?: string;
 }
 
 export function UploadFile({
@@ -36,6 +39,9 @@ export function UploadFile({
   ContainerClassName,
   LabelClassName,
   LabelText,
+  useAsBtn,
+  hideFileName,
+  btnText,
 }: Props) {
   const t = useTranslations("UPLOAD_FILE");
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -115,48 +121,74 @@ export function UploadFile({
             <FormLabel className={LabelClassName}>{LabelText}</FormLabel>
           )}
           <FormControl className="">
-            <div
-              className={cn(
-                `${
-                  dragActive ? "bg-primary/20" : "bg-muted"
-                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2  p-4 sm:p-6 h-min-0 h-40 cursor-pointer hover:bg-muted/90 duration-200 transition-colors ring-offset-background rounded-md relative border-muted-foreground border border-dashed text-muted-foreground flex flex-col items-center w-[15rem] justify-center`,
-                ContainerClassName
-              )}
-              onDragEnter={handleDragEnter}
-              onDrop={handleDrop}
-              onDragLeave={handleDragLeave}
-              onDragOver={handleDragOver}
-              onClick={() => {
-                if (inputRef.current) inputRef?.current.click();
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && inputRef.current) {
-                  inputRef.current.click();
-                }
-              }}
-              role="presentation"
-              tabIndex={0}
-            >
-              <Input
-                {...field}
-                placeholder="fileInput"
-                className="sr-only"
-                type="file"
-                multiple={true}
-                onChange={handleChange}
-                ref={inputRef}
-                value={undefined}
-                accept={inputAccept}
-              />
-              <UploadCloudIcon size={30} />
-              <p className="text-sm font-semibold uppercase text-primary mt-5">
-                {t("UPLOAD")}
-              </p>
-              <p className="text-xs mt-1 text-center">{typesDescription}</p>
-            </div>
+            {useAsBtn ? (
+              <>
+                <Button
+                  onClick={() => {
+                    if (inputRef.current) inputRef?.current.click();
+                  }}
+                  type="button"
+                  className="dark:text-white mb-1"
+                >
+                  {btnText && btnText}
+                </Button>
+                <Input
+                  {...field}
+                  placeholder="fileInput"
+                  className="sr-only"
+                  type="file"
+                  multiple={true}
+                  tabIndex={-1}
+                  onChange={handleChange}
+                  ref={inputRef}
+                  value={undefined}
+                  accept={inputAccept}
+                />
+              </>
+            ) : (
+              <div
+                className={cn(
+                  `${
+                    dragActive ? "bg-primary/20" : "bg-muted"
+                  } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2  p-4 sm:p-6 h-min-0 h-40 cursor-pointer hover:bg-muted/90 duration-200 transition-colors ring-offset-background rounded-md relative border-muted-foreground border border-dashed text-muted-foreground flex flex-col items-center w-[15rem] justify-center`,
+                  ContainerClassName
+                )}
+                onDragEnter={handleDragEnter}
+                onDrop={handleDrop}
+                onDragLeave={handleDragLeave}
+                onDragOver={handleDragOver}
+                onClick={() => {
+                  if (inputRef.current) inputRef?.current.click();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && inputRef.current) {
+                    inputRef.current.click();
+                  }
+                }}
+                role="presentation"
+                tabIndex={0}
+              >
+                <Input
+                  {...field}
+                  placeholder="fileInput"
+                  className="sr-only"
+                  type="file"
+                  multiple={true}
+                  onChange={handleChange}
+                  ref={inputRef}
+                  value={undefined}
+                  accept={inputAccept}
+                />
+                <UploadCloudIcon size={30} />
+                <p className="text-sm font-semibold uppercase text-primary mt-5">
+                  {t("UPLOAD")}
+                </p>
+                <p className="text-xs mt-1 text-center">{typesDescription}</p>
+              </div>
+            )}
           </FormControl>
           <FormMessage />
-          {file && (
+          {file && !hideFileName &&(
             <div className="flex items-center flex-row space-x-5 text-sm mt-6 text-center">
               <p>{file.name}</p>
               <Button
