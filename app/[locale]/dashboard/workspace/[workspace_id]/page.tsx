@@ -13,10 +13,11 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
     `/dashboard/workspace/${workspace_id}`
   );
 
-//   const workspace=await getWorkspace(workspace_name);
+  const workspace = await getWorkspace(workspace_id, session.user.id);
   return (
     <>
-      <DashboardHeader />
+      <DashboardHeader addManualRoutes={["dashboard", workspace.name]} />
+      <main>{workspace.name}</main>
     </>
   );
 };
