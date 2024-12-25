@@ -3,17 +3,18 @@
 import { usePathname } from "next-intl/client";
 import { Settings } from "./Settings";
 import { CreatedWorkspacesInfo } from "@/components/common/CreatedWorkspacesInfo";
+import { Workspace } from "@prisma/client";
 
 interface Props {
   createdWorkspaces: number;
-  // userAdminWorkspaces: Workspace[];
+  userAdminWorkspaces: Workspace[];
   // userWorkspaces: Workspace[];
 }
 
 export const OptionsSidebar = ({
   createdWorkspaces,
-}: // userAdminWorkspaces,
-// userWorkspaces,
+  userAdminWorkspaces,
+}: // userWorkspaces,
 Props) => {
   const pathname = usePathname();
   if (pathname === "/dashboard") return null;
@@ -38,7 +39,9 @@ Props) => {
   // }
   return (
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">
-      {pathname.includes("/dashboard/settings") && <Settings />}
+      {pathname.includes("/dashboard/settings") && (
+        <Settings userAdminWorkspaces={userAdminWorkspaces} />
+      )}
       <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
       {/* {(pathname === `/dashboard/workspace/${workspaceId}` ||
             pathname ===

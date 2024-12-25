@@ -12,13 +12,13 @@ import { useMemo } from "react";
 
 interface Props {
   workspace: Workspace;
-  //   href: string;
+  href: string;
 }
 
 export const WorkspaceComponent = ({
   workspace: { id, image, name, color },
-}: //   href,
-Props) => {
+  href,
+}: Props) => {
   const workspaceColor = useMemo(() => {
     switch (color) {
       case WorkspaceIconColor.BLUE:
@@ -53,11 +53,11 @@ Props) => {
     <HoverCard openDelay={250} closeDelay={250}>
       <HoverCardTrigger asChild>
         <ActiveLink
-          //   include={`/${href}/${id}`}
+          // include={`/${href}/${id}`}
           workspaceIcon
-          className={`text-white font-bold ${workspaceColor}`}
+          className={`text-white font-bold ${!image && workspaceColor}`}
           variant={image ? "ghost" : "default"}
-          href={`/dashboard/workspace/${id}`}
+          href={`${href}/${id}`}
           size={"icon"}
         >
           {image ? (

@@ -9,12 +9,18 @@ interface Props {
   createdWorkspaces: number;
 }
 
-export const ShortcutSidebar = ({ userWorkspaces ,createdWorkspaces}: Props) => {
+export const ShortcutSidebar = ({
+  userWorkspaces,
+  createdWorkspaces,
+}: Props) => {
   return (
     <div className="border-r h-full flex flex-col justify-between items-center p-4 sm:py-6">
       <div className="w-full h-2/3 space-y-4">
         <Top />
-        <Workspaces userWorkspaces={userWorkspaces} />
+        <Workspaces
+          userWorkspaces={userWorkspaces}
+          href="/dashboard/workspace"
+        />
         <AddWorkspace createdWorkspaces={createdWorkspaces} />
       </div>
       <Bottom />
