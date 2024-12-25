@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getRandomWorkspaceColor } from "@/lib/getRandomWorkspaceColor";
 import { MAX_USER_WORKSPACES } from "@/lib/options";
 import { apiWorkspaceSchema } from "@/schema/workspaceSchema";
 import { NextResponse } from "next/server";
@@ -58,14 +59,14 @@ export async function POST(request: Request) {
       return new NextResponse("ERRORS.SAME_NAME_WORKSPACE", { status: 403 });
     }
 
-    // const color = getRandomWorkspaceColor();
+    const color = getRandomWorkspaceColor();
 
     const workspace = await db.workspace.create({
       data: {
         creatorId: user.id,
         name: workspaceName,
         image: file,
-        // color,
+        color,
         // inviteCode: uuidv4(),
         // adminCode: uuidv4(),
         // canEditCode: uuidv4(),
@@ -73,13 +74,13 @@ export async function POST(request: Request) {
       },
     });
 
-    // await db.subscription.create({
-    //   data: {
-    //     userId: user.id,
-    //     workspaceId: workspace.id,
-    //     userRole: "OWNER",
-    //   },
-    // });
+    await db.subscription.create({
+      data: {
+        userId: user.id,
+        workspaceId: workspace.id,
+        userRole: "ADMIN",
+      },
+    });
 
     // const conversation = await db.conversation.create({
     //   data: {
