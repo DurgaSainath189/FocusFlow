@@ -64,7 +64,7 @@ export async function POST(request: Request) {
       data: {
         userId: user.id,
         workspaceId: workspace.id,
-        userRole: "ADMIN",
+        userRole: "OWNER",
       },
     });
 
