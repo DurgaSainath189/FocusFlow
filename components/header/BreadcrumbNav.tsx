@@ -28,7 +28,7 @@ export const BreadcrumbNav = ({ addManualRoutes }: Props) => {
   const t = useTranslations("ROUTES");
   if (pathNames.length > 1) {
     return (
-      <div className="flex gap-0.5 items-center">
+      <div className="flex sm:gap-0.5 text-sm sm:text-base items-center">
         {pathNames.map((link, i) => {
           const href = `/${pathNames.slice(0, i + 1).join("/")}`;
           return (
