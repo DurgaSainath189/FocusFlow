@@ -64,6 +64,7 @@ enum UserPermission{
   ADMIN
   CAN_EDIT
   READ_ONLY
+  OWNER
 }
 
 enum UseCase{
