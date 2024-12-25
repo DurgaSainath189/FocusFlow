@@ -8,12 +8,15 @@ import { Workspace } from "@prisma/client";
 
 interface Props {
   userWorkspaces: Workspace[];
-  // userId: string;
+  userId: string;
   // userAdminWorkspaces: Workspace[];
 }
 
-export const SidebarContainer = ({ userWorkspaces }: Props) => {
+export const SidebarContainer = ({ userWorkspaces, userId }: Props) => {
   const { isOpen, setIsOpen } = useToggleSidebar();
+  const createdWorkspaces = userWorkspaces.filter(
+    (workspace) => workspace.creatorId === userId
+  );
   return (
     <>
       <aside
@@ -21,8 +24,11 @@ export const SidebarContainer = ({ userWorkspaces }: Props) => {
           isOpen ? "translate-x-0 shadow-sm" : "translate-x-[-100%]"
         }`}
       >
-        <ShortcutSidebar userWorkspaces={userWorkspaces} />
-        <OptionsSidebar activeWorkspaces={userWorkspaces.length} />
+        <ShortcutSidebar
+          userWorkspaces={userWorkspaces}
+          createdWorkspaces={createdWorkspaces.length}
+        />
+        <OptionsSidebar createdWorkspaces={createdWorkspaces.length} />
         <CloseSidebar />
       </aside>
       <div

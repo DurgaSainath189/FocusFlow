@@ -2,16 +2,16 @@
 
 import { usePathname } from "next-intl/client";
 import { Settings } from "./Settings";
-import { ActiveWorkspacesInfo } from "@/components/common/ActiveWorkspaceInfo";
+import { CreatedWorkspacesInfo } from "@/components/common/CreatedWorkspacesInfo";
 
 interface Props {
-  activeWorkspaces: number;
+  createdWorkspaces: number;
   // userAdminWorkspaces: Workspace[];
   // userWorkspaces: Workspace[];
 }
 
 export const OptionsSidebar = ({
-  activeWorkspaces,
+  createdWorkspaces,
 }: // userAdminWorkspaces,
 // userWorkspaces,
 Props) => {
@@ -39,7 +39,7 @@ Props) => {
   return (
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">
       {pathname.includes("/dashboard/settings") && <Settings />}
-      <ActiveWorkspacesInfo activeNumber={activeWorkspaces} />
+      <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
       {/* {(pathname === `/dashboard/workspace/${workspaceId}` ||
             pathname ===
               `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` ||

@@ -19,13 +19,13 @@ import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { AddWorkspaceForm } from "./AddWorkspaceForm";
-import { ActiveWorkspacesInfo } from "@/components/common/ActiveWorkspaceInfo";
+import { CreatedWorkspacesInfo } from "@/components/common/CreatedWorkspacesInfo";
 
 interface Props {
-  activeWorkspaces: number;
+  createdWorkspaces: number;
 }
 
-export const AddWorkspace = ({ activeWorkspaces }: Props) => {
+export const AddWorkspace = ({ createdWorkspaces }: Props) => {
   const [open, setOpen] = useState(false);
   const t = useTranslations("SIDEBAR");
   return (
@@ -54,9 +54,9 @@ export const AddWorkspace = ({ activeWorkspaces }: Props) => {
               </DialogDescription>
             </DialogHeader>
             <Warning className="hidden sm:flex" blue>
-              <ActiveWorkspacesInfo
+              <CreatedWorkspacesInfo
                 className="text-left text-secondary-foreground"
-                activeNumber={activeWorkspaces}
+                createdNumber={createdWorkspaces}
               />
             </Warning>
             <AddWorkspaceForm onSetOpen={setOpen} />
