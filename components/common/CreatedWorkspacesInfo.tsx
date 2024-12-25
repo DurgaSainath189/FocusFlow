@@ -6,10 +6,10 @@ import { useTranslations } from "next-intl";
 
 interface Props {
   className?: string;
-  activeNumber: number;
+  createdNumber: number;
 }
 
-export const ActiveWorkspacesInfo = ({ className, activeNumber }: Props) => {
+export const CreatedWorkspacesInfo = ({ className, createdNumber }: Props) => {
   const t = useTranslations("COMMON");
 
   return (
@@ -21,7 +21,7 @@ export const ActiveWorkspacesInfo = ({ className, activeNumber }: Props) => {
     >
       {t("ACTIVE_WORKSPACES.FIRST")}{" "}
       <span className="font-bold">
-        {activeNumber} {t("ACTIVE_WORKSPACES.SECOND")} {MAX_USER_WORKSPACES}
+        {createdNumber} {t("ACTIVE_WORKSPACES.SECOND")} {MAX_USER_WORKSPACES}
       </span>{" "}
       {t("ACTIVE_WORKSPACES.THIRD")}
     </p>

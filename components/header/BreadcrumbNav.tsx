@@ -12,13 +12,19 @@ const availableRoutesWithTranslation = [
   "theme",
 ];
 
-export const BreadcrumbNav = () => {
+interface Props {
+  addManualRoutes?: string[];
+}
+
+export const BreadcrumbNav = ({ addManualRoutes }: Props) => {
   const paths = usePathname();
-  const pathNames = paths
-    .split("/")
-    .filter(
-      (path) => path !== "te" && path !== "workspace" && path.trim() !== ""
-    );
+  const pathNames = addManualRoutes
+    ? addManualRoutes
+    : paths
+        .split("/")
+        .filter(
+          (path) => path !== "te" && path !== "workspace" && path.trim() !== ""
+        );
   const t = useTranslations("ROUTES");
   if (pathNames.length > 1) {
     return (
