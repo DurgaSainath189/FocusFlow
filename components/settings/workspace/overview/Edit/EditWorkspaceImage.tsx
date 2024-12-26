@@ -239,8 +239,7 @@ export const EditorWorkspaceImage = ({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <UploadFile
-              //   onGetImagePreview={onSetImagePreviewHandler}
-              getImagePreview={setImagePreview}
+              onGetImagePreview={onSetImagePreviewHandler}
               hideFileName
               useAsBtn
               btnText={t("BTN")}

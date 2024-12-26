@@ -19,7 +19,7 @@ import { z } from "zod";
 interface Props<> {
   form: UseFormReturn<any>;
   schema: z.ZodObject<any>;
-  getImagePreview?: React.Dispatch<React.SetStateAction<string>>;
+  onGetImagePreview?: (image: string) => void;
   inputAccept: "image/*" | "pdf";
   typesDescription?: string;
   ContainerClassName?: string;
@@ -33,7 +33,7 @@ interface Props<> {
 export function UploadFile({
   form,
   schema,
-  getImagePreview,
+  onGetImagePreview,
   inputAccept,
   typesDescription,
   ContainerClassName,
@@ -64,7 +64,7 @@ export function UploadFile({
       form.clearErrors("file");
       form.setValue("file", providedFile);
       setFile(providedFile);
-      if (getImagePreview) getImagePreview(URL.createObjectURL(providedFile));
+      if (onGetImagePreview) onGetImagePreview(URL.createObjectURL(providedFile));
     } else {
       const errors = result.error.flatten().fieldErrors.file;
       errors?.forEach((error) => form.setError("file", { message: error }));
@@ -188,7 +188,7 @@ export function UploadFile({
             )}
           </FormControl>
           <FormMessage />
-          {file && !hideFileName &&(
+          {file && !hideFileName && (
             <div className="flex items-center flex-row space-x-5 text-sm mt-6 text-center">
               <p>{file.name}</p>
               <Button
