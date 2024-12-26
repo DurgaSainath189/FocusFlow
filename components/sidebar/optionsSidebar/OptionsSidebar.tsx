@@ -1,9 +1,10 @@
 "use client";
 
 import { usePathname } from "next-intl/client";
-import { Settings } from "./Settings";
 import { CreatedWorkspacesInfo } from "@/components/common/CreatedWorkspacesInfo";
 import { Workspace } from "@prisma/client";
+import { WorkspaceOptions } from "./workspaceOptions/WorkspaceOptions";
+import { Settings } from "./settingsOptions/Settings";
 
 interface Props {
   createdWorkspaces: number;
@@ -19,10 +20,10 @@ Props) => {
   const pathname = usePathname();
   if (pathname === "/dashboard") return null;
 
-  // const urlWorkspaceId: string | undefined = pathname.split("/")[3];
+  const urlWorkspaceId: string | undefined = pathname.split("/")[3];
   // const urlAdditionalId: string | undefined = pathname.split("/")[6];
   // const chatId: string | undefined = pathname.split("/")[5];
-  // const workspaceId = urlWorkspaceId ? urlWorkspaceId : "";
+  const workspaceId = urlWorkspaceId ? urlWorkspaceId : "";
 
   // if (
   //   pathname === "/dashboard" ||
@@ -42,23 +43,19 @@ Props) => {
       {pathname.includes("/dashboard/settings") && (
         <Settings userAdminWorkspaces={userAdminWorkspaces} />
       )}
-      <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
-      {/* {(pathname === `/dashboard/workspace/${workspaceId}` ||
-            pathname ===
-              `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` ||
-            pathname ===
-              `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}` ||
-            pathname ===
-              `/dashboard/workspace/${workspaceId}/chat/${chatId}`) && (
-            <WorkspaceOptions workspaceId={workspaceId} />
-          )}
-  
-          {(pathname === "/dashboard/pomodoro" ||
-            pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />}
-  
-          {pathname === "/dashboard/assigned-to-me" && (
+
+      {pathname === `/dashboard/workspace/${workspaceId}` && (
+        <WorkspaceOptions workspaceId={workspaceId} />
+      )}
+      {pathname===`/dashboard/workspace/${workspaceId}/tasks`&&<p>Tasks</p>}
+
+      {/* {(pathname === "/dashboard/pomodoro" ||
+            pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />} */}
+
+      {/* {pathname === "/dashboard/assigned-to-me" && (
             <AssignedToMeFilter userWorkspaces={userWorkspaces} />
           )} */}
+      <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
     </div>
   );
 };
