@@ -4,13 +4,14 @@ import { Layers, Users2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { EditWorkspaceCard } from "./overview/Edit/EditWorkspaceCard";
 import { DeleteWorkspace } from "./overview/DeleteWorkspace";
+import { MembersCard } from "./members/MembersCard";
 
 interface Props {
   workspace: SettingsWorkspace;
-  //   workspaceId: string;
+  workspaceId: string;
 }
 
-export const WorkspaceTab = ({ workspace }: Props) => {
+export const WorkspaceTab = ({ workspace, workspaceId }: Props) => {
   return (
     <Tabs defaultValue="overview">
       <TabsList className="mb-6">
@@ -31,7 +32,7 @@ export const WorkspaceTab = ({ workspace }: Props) => {
         <DeleteWorkspace workspace={workspace} />
       </TabsContent>
       <TabsContent value="members">
-        {/* <MembersCard workspace={workspace} workspaceId={workspaceId} /> */}
+        <MembersCard workspace={workspace} workspaceId={workspaceId} />
       </TabsContent>
     </Tabs>
   );
