@@ -4,6 +4,7 @@ import { getRandomWorkspaceColor } from "@/lib/getRandomWorkspaceColor";
 import { MAX_USER_WORKSPACES } from "@/lib/options";
 import { apiWorkspaceSchema } from "@/schema/workspaceSchema";
 import { NextResponse } from "next/server";
+import { v4 as uuidv4 } from "uuid";
 
 export async function POST(request: Request) {
   const session = await getAuthSession();
@@ -67,10 +68,10 @@ export async function POST(request: Request) {
         name: workspaceName,
         image: file,
         color,
-        // inviteCode: uuidv4(),
-        // adminCode: uuidv4(),
-        // canEditCode: uuidv4(),
-        // readOnlyCode: uuidv4(),
+        inviteCode: uuidv4(),
+        adminCode: uuidv4(),
+        canEditCode: uuidv4(),
+        readOnlyCode: uuidv4(),
       },
     });
 
