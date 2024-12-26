@@ -1,5 +1,5 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
-import { InviteUsers } from "@/components/inviteUsers/inviteUsers";
+import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
