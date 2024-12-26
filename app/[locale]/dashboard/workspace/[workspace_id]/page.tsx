@@ -1,5 +1,6 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
-import { getWorkspace } from "@/lib/api";
+import { InviteUsers } from "@/components/inviteUsers/inviteUsers";
+import { getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
 interface Params {
@@ -13,10 +14,17 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
     `/dashboard/workspace/${workspace_id}`
   );
 
-  const workspace = await getWorkspace(workspace_id, session.user.id);
+  const [workspace, userRole] = await Promise.all([
+    getWorkspace(workspace_id, session.user.id),
+    getUserWorkspaceRole(workspace_id, session.user.id),
+  ]);
   return (
     <>
-      <DashboardHeader addManualRoutes={["dashboard", workspace.name]} />
+      <DashboardHeader addManualRoutes={["dashboard", workspace.name]}>
+        {(userRole === "ADMIN" || userRole === "OWNER") && (
+          <InviteUsers workspace={workspace} />
+        )}
+      </DashboardHeader>
       <main>{workspace.name}</main>
     </>
   );
