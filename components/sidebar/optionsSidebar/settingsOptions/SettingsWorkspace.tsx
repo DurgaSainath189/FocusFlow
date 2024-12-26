@@ -1,7 +1,7 @@
 "use client";
 
 import ActiveLink from "@/components/ui/active-link";
-import { Workspace, WorkspaceIconColor } from "@prisma/client";
+import { Workspace, CustomColors } from "@prisma/client";
 import Image from "next/image";
 import { useMemo } from "react";
 
@@ -16,29 +16,29 @@ export const SettingsWorkspace = ({
 }: Props) => {
   const workspaceColor = useMemo(() => {
     switch (color) {
-      case WorkspaceIconColor.BLUE:
+      case CustomColors.BLUE:
         return "bg-blue-600 hover:bg-blue-500 border-blue-600 hover:border-blue-500";
-      case WorkspaceIconColor.EMERALD:
+      case CustomColors.EMERALD:
         return "bg-emerald-600 hover:bg-emerald-500 border-emerald-600 hover:border-emerald-500";
-      case WorkspaceIconColor.LIME:
+      case CustomColors.LIME:
         return "bg-lime-600 hover:bg-lime-500 border-lime-600 hover:border-lime-500";
-      case WorkspaceIconColor.ORANGE:
+      case CustomColors.ORANGE:
         return "bg-orange-600 hover:bg-orange-500 border-orange-600 hover:border-orange-500";
-      case WorkspaceIconColor.PINK:
+      case CustomColors.PINK:
         return "bg-pink-600 hover:bg-pink-500 border-pink-600 hover:border-pink-500";
-      case WorkspaceIconColor.YELLOW:
+      case CustomColors.YELLOW:
         return "bg-yellow-600 hover:bg-yellow-500 border-yellow-600 hover:border-yellow-500";
-      case WorkspaceIconColor.RED:
+      case CustomColors.RED:
         return "bg-red-600 hover:bg-red-500 border-red-600 hover:border-red-500";
-      case WorkspaceIconColor.PURPLE:
+      case CustomColors.PURPLE:
         return "bg-purple-600 hover:bg-purple-500 border-purple-600 hover:border-purple-500";
-      case WorkspaceIconColor.GREEN:
+      case CustomColors.GREEN:
         return "bg-green-600 hover:bg-green-500 border-green-600 hover:border-green-500";
-      case WorkspaceIconColor.CYAN:
+      case CustomColors.CYAN:
         return "bg-cyan-600 hover:bg-cyan-500 border-cyan-600 hover:border-cyan-500";
-      case WorkspaceIconColor.INDIGO:
+      case CustomColors.INDIGO:
         return "bg-indigo-600 hover:bg-indigo-500 border-indigo-600 hover:border-indigo-500";
-      case WorkspaceIconColor.FUCHSIA:
+      case CustomColors.FUCHSIA:
         return "bg-fuchsia-600 hover:bg-fuchsia-500 border-fuchsia-600 hover:border-fuchsia-500";
       default:
         return "bg-blue-600 hover:bg-blue-500 border-blue-600 hover:border-blue-500";
