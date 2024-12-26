@@ -8,11 +8,13 @@ import { cn } from "@/lib/utils";
 interface Props {
   addManualRoutes?: string[];
   className?: string;
+  children?: React.ReactNode;
 }
 
 export const DashboardHeader = async ({
   addManualRoutes,
   className,
+  children,
 }: Props) => {
   const session = await getAuthSession();
   if (!session) return null;
@@ -35,7 +37,10 @@ export const DashboardHeader = async ({
         />
         <BreadcrumbNav addManualRoutes={addManualRoutes} />
       </div>
-      <User profileImage={session?.user.image} />
+      <div className="flex items-center gap-2 sm:gap-4">
+        {children}
+        <User profileImage={session?.user.image} />
+      </div>
     </header>
   );
 };
