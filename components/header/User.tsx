@@ -24,11 +24,11 @@ import Image from "next/image";
 
 interface Props {
   profileImage?: string | null;
-  // username: string;
-  // email: string;
+  username: string;
+  email: string;
 }
 
-export const User = ({ profileImage }: Props) => {
+export const User = ({ profileImage, username, email }: Props) => {
   const { theme, setTheme } = useTheme();
   const t = useTranslations("COMMON");
   const { onSelectChange } = useChangeLocale();
@@ -60,8 +60,8 @@ export const User = ({ profileImage }: Props) => {
           )}
 
           <div>
-            <DropdownMenuLabel>Durga Sainath</DropdownMenuLabel>
-            <DropdownMenuLabel>durgasainathdora@gmail.com</DropdownMenuLabel>
+            <DropdownMenuLabel>{username}</DropdownMenuLabel>
+            <DropdownMenuLabel>{email}</DropdownMenuLabel>
           </div>
         </div>
         <DropdownMenuSeparator />

@@ -25,7 +25,7 @@ export const DashboardHeader = async ({
         className
       )}
     >
-      <div className="flex items-center gap-2 max-w-[17rem] sm:max-w-4xl">
+      <div className="flex items-center gap-2">
         <OpenSidebar />
         <Welcoming
           hideOnMobile
@@ -39,7 +39,11 @@ export const DashboardHeader = async ({
       </div>
       <div className="flex items-center gap-2 sm:gap-4">
         {children}
-        <User profileImage={session?.user.image} />
+        <User
+          profileImage={session?.user.image}
+          username={session.user.username!}
+          email={session.user.email!}
+        />
       </div>
     </header>
   );
