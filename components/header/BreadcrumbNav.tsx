@@ -14,9 +14,10 @@ const availableRoutesWithTranslation = [
 
 interface Props {
   addManualRoutes?: string[];
+  workspaceHref?: string;
 }
 
-export const BreadcrumbNav = ({ addManualRoutes }: Props) => {
+export const BreadcrumbNav = ({ addManualRoutes, workspaceHref }: Props) => {
   const paths = usePathname();
   const pathNames = addManualRoutes
     ? addManualRoutes
@@ -37,17 +38,15 @@ export const BreadcrumbNav = ({ addManualRoutes }: Props) => {
                 <>
                   <Link
                     className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background rounded-md sm:px-2 px-1 py-1 transition-colors duration-200 hover:bg-accent"
-                    // href={
-                    //   workspaceHref && pathNames.length - 1
-                    //     ? workspaceHref
-                    //     : href
-                    // }
-                    href={href}
+                    href={
+                      workspaceHref && pathNames.length - 1
+                        ? workspaceHref
+                        : href
+                    }
                   >
-                    {/* {availableRoutesWithTranslation.includes(link)
-                          ? t(link.toUpperCase())
-                          : link} */}
-                    {t(link.toUpperCase())}
+                    {availableRoutesWithTranslation.includes(link)
+                      ? t(link.toUpperCase())
+                      : link}
                   </Link>
                   <ChevronRight className="text-primary" />
                 </>
