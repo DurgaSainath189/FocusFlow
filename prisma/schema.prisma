@@ -90,6 +90,7 @@ model Workspace{
   canEditCode String @unique
   readOnlyCode String @unique
   tasks Task[]
+  tags Tag[]
 
   @@index([creatorId])
 }
@@ -98,15 +99,15 @@ model Task{
   id String @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  updatedBy User @relation(name:"TaskUpdatedByUser",fields: [updatedUserId],references: [id])
-  updatedUserId String
+  updatedBy User? @relation(name:"TaskUpdatedByUser",fields: [updatedUserId],references: [id])
+  updatedUserId String?
   creator User @relation(name:"TaskCreatedByUser",fields: [creatorId],references: [id])
   creatorId String
-  Workspace Workspace? @relation(fields: [workspaceId],references: [id])
-  workspaceId String?
+  Workspace Workspace @relation(fields: [workspaceId],references: [id])
+  workspaceId String
   title String?
-  emoji String
-  content Json
+  emoji String?
+  content Json?
   tags Tag[]
 
   @@index([updatedUserId])
@@ -117,12 +118,12 @@ model Task{
 model Tag{
   id String @id @default(cuid())
   name String
-  isActive Boolean
+  tasks Task[]
   color CustomColors
-  task Task? @relation(fields: [taskId],references: [id])
-  taskId String?
+  workspace Workspace? @relation(fields: [workspaceId],references: [id])
+  workspaceId String
 
-  @@index([taskId])
+  @@index([workspaceId])
 }
 
 enum CustomColors {
