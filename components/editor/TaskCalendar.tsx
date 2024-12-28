@@ -14,10 +14,20 @@ import { DateRange } from "react-day-picker";
 import { te, enUS } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 
+interface Props {
+  onUpdateForm: (e: DateRange | undefined) => void;
+}
+
 export function TaskCalendar({
   className,
-}: React.HTMLAttributes<HTMLDivElement>) {
+  onUpdateForm,
+}: React.HTMLAttributes<HTMLDivElement> & Props) {
   const [date, setDate] = useState<DateRange | undefined>(undefined);
+
+  const onSelectDateChange = (date: DateRange | undefined) => {
+    setDate(date);
+    onUpdateForm(date);
+  };
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
@@ -27,8 +37,7 @@ export function TaskCalendar({
             size={"sm"}
             variant={"outline"}
             className={cn(
-              "w-fit h-fit text-xs justify-start text-left font-normalnpx-2.5 py-0.5",
-              !date && "text-muted-foreground"
+              "w-fit h-fit text-xs justify-start text-left font-normalnpx-2.5 py-0.5"
             )}
           >
             <CalendarIcon size={16} className="mr-2 w-3 h-3" />
@@ -59,7 +68,7 @@ export function TaskCalendar({
             mode="range"
             defaultMonth={date?.from}
             selected={date}
-            onSelect={setDate}
+            onSelect={onSelectDateChange}
             locale={enUS}
             numberOfMonths={1}
           />
