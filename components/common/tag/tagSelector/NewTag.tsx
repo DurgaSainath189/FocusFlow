@@ -11,19 +11,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import Warning from "@/components/ui/warning";
+import { useToast } from "@/hooks/use-toast";
 import { colors } from "@/lib/getRandomWorkspaceColor";
 import { tagSchema, TagSchema } from "@/schema/tagSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CustomColors } from "@prisma/client";
+import { CustomColors, Tag } from "@prisma/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   onSetTab: (tab: "list" | "newTag" | "editTag") => void;
+  workspaceId: string;
 }
 
-export const NewTag = ({ onSetTab }: Props) => {
+export const NewTag = ({ onSetTab, workspaceId }: Props) => {
   const form = useForm<TagSchema>({
     resolver: zodResolver(tagSchema),
     defaultValues: {
@@ -32,6 +36,9 @@ export const NewTag = ({ onSetTab }: Props) => {
       id: uuidv4(),
     },
   });
+
+  const queryClient = useQueryClient();
+
   const tagColor = (providedColor: CustomColors) => {
     switch (providedColor) {
       case CustomColors.BLUE:
@@ -63,7 +70,66 @@ export const NewTag = ({ onSetTab }: Props) => {
     }
   };
 
-  const onSubmit = async (data: TagSchema) => {};
+  const { toast } = useToast();
+  const m = useTranslations("MESSAGES");
+
+  const { mutate: editWorkspaceData } = useMutation({
+    mutationFn: async (data: TagSchema) => {
+      await axios.post("/api/tags/new_tag", {
+        ...data,
+        workspaceId,
+      });
+    },
+    onMutate: async () => {
+      //@ts-ignore
+      await queryClient.cancelQueries("getWorkspaceTags");
+      const previousTags = queryClient.getQueryData<Tag[]>([
+        "getWorkspaceTags",
+      ]);
+
+      const checkedPreviousTags =
+        previousTags && previousTags.length > 0 ? previousTags : [];
+
+      const id = form.getValues("id");
+      const name = form.getValues("tagName");
+      const color = form.getValues("color");
+
+      queryClient.setQueryData(
+        ["getWorkspaceTags"],
+        [...checkedPreviousTags, { id, name, color, workspaceId }]
+      );
+      onSetTab("list");
+
+      return { checkedPreviousTags };
+    },
+    onError: (err: AxiosError, _, content) => {
+      queryClient.setQueriesData(
+        //@ts-ignore
+        ["getWorkspaceTags"],
+        content?.checkedPreviousTags
+      );
+      const error = err?.response?.data ? err.response.data : "ERRORS.DEFAULT";
+
+      toast({
+        title: m(error),
+        variant: "destructive",
+      });
+    },
+    onSettled: () => {
+      //@ts-ignore
+      queryClient.invalidateQueries(["getWorkspaceTags"]);
+    },
+    onSuccess: () => {
+      toast({
+        title: m("SUCCESS.UPDATED_WORKSPACE"),
+      });
+    },
+    mutationKey: ["newTag"],
+  });
+
+  const onSubmit = async (data: TagSchema) => {
+    editWorkspaceData(data);
+  };
 
   return (
     <Form {...form}>
