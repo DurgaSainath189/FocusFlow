@@ -1,6 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { apiTagSchema } from "@/schema/tagSchema";
+import { apiDeleteTagSchema, apiTagSchema } from "@/schema/tagSchema";
 
 import { NextResponse } from "next/server";
 
@@ -15,13 +15,13 @@ export async function POST(request: Request) {
   }
 
   const body: unknown = await request.json();
-  const result = apiTagSchema.safeParse(body);
+  const result = apiDeleteTagSchema.safeParse(body);
 
   if (!result.success) {
     return NextResponse.json("ERRORS.WRONG_DATA", { status: 401 });
   }
 
-  const { id, color, tagName, workspaceId } = result.data;
+  const { id, workspaceId } = result.data;
 
   try {
     const user = await db.user.findUnique({
@@ -78,17 +78,13 @@ export async function POST(request: Request) {
 
     if (!tag) return NextResponse.json("ERRORS.NO_TAG", { status: 404 });
 
-    const updatedTag = await db.tag.update({
+    const deletedTag = await db.tag.delete({
       where: {
         id,
       },
-      data: {
-        color,
-        name: tagName,
-      },
     });
 
-    return NextResponse.json(updatedTag, { status: 200 });
+    return NextResponse.json(deletedTag, { status: 200 });
   } catch (err) {
     console.log(err);
     return NextResponse.json("ERRORS.DB_ERROR", { status: 405 });
