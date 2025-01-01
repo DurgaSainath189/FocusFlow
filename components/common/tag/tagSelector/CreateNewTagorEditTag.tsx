@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
   FormField,
-  FormItem,
+  FormControl,
   FormLabel,
   FormMessage,
+  FormItem,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -18,25 +18,47 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CustomColors, Tag } from "@prisma/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
+import { useTranslations } from "use-intl";
 import { v4 as uuidv4 } from "uuid";
 
 interface Props {
   onSetTab: (tab: "list" | "newTag" | "editTag") => void;
   workspaceId: string;
+  edit?: boolean;
+  tagName?: string;
+  color?: CustomColors;
+  id?: string;
+  onUpdateActiveTags?: (
+    tagId: string,
+    color: CustomColors,
+    name: string
+  ) => void;
+  currentActiveTags?: Tag[];
+  onDeleteActiveTag?: (tagId: string) => void;
+  onSelectActiveTag?: (id: string) => void;
 }
 
-export const NewTag = ({ onSetTab, workspaceId }: Props) => {
+export const CreateNewTagOrEditTag = ({
+  onSetTab,
+  workspaceId,
+  edit,
+  color,
+  id,
+  tagName,
+  onUpdateActiveTags,
+  currentActiveTags,
+  onDeleteActiveTag,
+  onSelectActiveTag,
+}: Props) => {
   const form = useForm<TagSchema>({
     resolver: zodResolver(tagSchema),
     defaultValues: {
-      tagName: "",
-      color: "RED",
-      id: uuidv4(),
+      tagName: edit && tagName ? tagName : "",
+      color: edit && color ? color : "RED",
+      id: edit && id ? id : uuidv4(),
     },
   });
-
   const queryClient = useQueryClient();
 
   const tagColor = (providedColor: CustomColors) => {
@@ -72,8 +94,9 @@ export const NewTag = ({ onSetTab, workspaceId }: Props) => {
 
   const { toast } = useToast();
   const m = useTranslations("MESSAGES");
+  const t = useTranslations("TASK.HEADER.TAG");
 
-  const { mutate: editWorkspaceData } = useMutation({
+  const { mutate: newTag } = useMutation({
     mutationFn: async (data: TagSchema) => {
       await axios.post("/api/tags/new_tag", {
         ...data,
@@ -82,7 +105,7 @@ export const NewTag = ({ onSetTab, workspaceId }: Props) => {
     },
     onMutate: async () => {
       //@ts-ignore
-      await queryClient.cancelQueries("getWorkspaceTags");
+      await queryClient.cancelQueries(["getWorkspaceTags"]);
       const previousTags = queryClient.getQueryData<Tag[]>([
         "getWorkspaceTags",
       ]);
@@ -102,11 +125,11 @@ export const NewTag = ({ onSetTab, workspaceId }: Props) => {
 
       return { checkedPreviousTags };
     },
-    onError: (err: AxiosError, _, content) => {
+    onError: (err: AxiosError, _, context) => {
+      //@ts-ignore
       queryClient.setQueriesData(
-        //@ts-ignore
-        ["getWorkspaceTags"],
-        content?.checkedPreviousTags
+        ["getWorkspaceTags"] as any,
+        context?.checkedPreviousTags
       );
       const error = err?.response?.data ? err.response.data : "ERRORS.DEFAULT";
 
@@ -127,16 +150,120 @@ export const NewTag = ({ onSetTab, workspaceId }: Props) => {
     mutationKey: ["newTag"],
   });
 
+  const { mutate: editTag } = useMutation({
+    mutationFn: async (data: TagSchema) => {
+      await axios.post("/api/tags/edit_tag", {
+        ...data,
+        workspaceId,
+      });
+    },
+    onMutate: async () => {
+      //@ts-ignore
+      await queryClient.cancelQueries(["getWorkspaceTags"]);
+      const previousTags = queryClient.getQueryData<Tag[]>([
+        "getWorkspaceTags",
+      ]);
+
+      const checkedPreviousTags =
+        previousTags && previousTags.length > 0 ? previousTags : [];
+
+      const name = form.getValues("tagName");
+      const color = form.getValues("color");
+
+      const updatedTags = checkedPreviousTags.map((tag) =>
+        tag.id === id ? { ...tag, name, color } : tag
+      );
+
+      queryClient.setQueryData(["getWorkspaceTags"], updatedTags);
+      onUpdateActiveTags && onUpdateActiveTags(id!, color, name);
+      onSetTab("list");
+
+      return { checkedPreviousTags };
+    },
+    onError: (err: AxiosError, _, context) => {
+      //@ts-ignore
+      const prevTag = context?.checkedPreviousTags.find((tag) => tag.id === id);
+      queryClient.setQueryData(
+        ["getWorkspaceTags"],
+        context?.checkedPreviousTags
+      );
+      onUpdateActiveTags &&
+        onUpdateActiveTags(id!, prevTag?.color!, prevTag?.name!);
+      const error = err?.response?.data ? err.response.data : "ERRORS.DEFAULT";
+
+      toast({
+        title: m(error),
+        variant: "destructive",
+      });
+    },
+    onSettled: () => {
+      //@ts-ignore
+      queryClient.invalidateQueries(["getWorkspaceTags"]);
+    },
+    mutationKey: ["editTag"],
+  });
+
+  const { mutate: deleteTag } = useMutation({
+    mutationFn: async () => {
+      await axios.post("/api/tags/delete_tag", {
+        id,
+        workspaceId,
+      });
+    },
+    onMutate: async () => {
+      //@ts-ignore
+      await queryClient.cancelQueries(["getWorkspaceTags"]);
+      const previousTags = queryClient.getQueryData<Tag[]>([
+        "getWorkspaceTags",
+      ]);
+
+      const checkedPreviousTags =
+        previousTags && previousTags.length > 0 ? previousTags : [];
+      const previousActiveTags = currentActiveTags ? currentActiveTags : [];
+
+      const updatedTags = checkedPreviousTags.filter((tag) => tag.id !== id);
+
+      queryClient.setQueryData(["getWorkspaceTags"], updatedTags);
+      onDeleteActiveTag && onDeleteActiveTag(id!);
+      onSetTab("list");
+
+      return { checkedPreviousTags, previousActiveTags };
+    },
+    onError: (err: AxiosError, _, context) => {
+      //@ts-ignore
+
+      const previousActiveTag = context?.previousActiveTags.find(
+        (tag) => tag.id === id
+      );
+      queryClient.setQueryData(
+        ["getWorkspaceTags"],
+        context?.checkedPreviousTags
+      );
+      previousActiveTag &&
+        onSelectActiveTag &&
+        onSelectActiveTag(previousActiveTag.id);
+
+      const error = err?.response?.data ? err.response.data : "ERRORS.DEFAULT";
+
+      toast({
+        title: m(error),
+        variant: "destructive",
+      });
+    },
+    onSettled: () => {
+      //@ts-ignore
+      queryClient.invalidateQueries(["getWorkspaceTags"]);
+    },
+    mutationKey: ["deleteTag"],
+  });
+
   const onSubmit = async (data: TagSchema) => {
-    editWorkspaceData(data);
+    edit ? editTag(data) : newTag(data);
   };
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-[15rem] p-3 space-y-6"
-      >
+      <form className="w-full max-w-[15rem] p-3 space-y-6">
         <div className="space-y-4">
           <div className="space-y-1.5">
             <FormField
@@ -147,7 +274,7 @@ export const NewTag = ({ onSetTab, workspaceId }: Props) => {
                   <FormControl>
                     <Input
                       className="bg-muted h-7 py-1.5 text-sm"
-                      placeholder="Name"
+                      placeholder={t("TAG_NAME")}
                       {...field}
                     />
                   </FormControl>
@@ -163,7 +290,7 @@ export const NewTag = ({ onSetTab, workspaceId }: Props) => {
               render={({ field }) => (
                 <FormItem className="space-y-1.5">
                   <FormLabel className="text-muted-foreground">
-                    Colors
+                    {t("COLORS")}
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -199,21 +326,22 @@ export const NewTag = ({ onSetTab, workspaceId }: Props) => {
         <div className="flex gap-2">
           <Button
             onClick={() => {
-              onSetTab("list");
+              edit ? deleteTag() : onSetTab("list");
             }}
             type="button"
             className="w-1/2 h-fit py-1.5"
             variant={"secondary"}
             size={"sm"}
           >
-            Cancel
+            {edit ? t("BTNS.DELETE") : t("BTNS.CANCEL")}
           </Button>
           <Button
-            className="w-1/2 h-fit py-1.5 dark:text-white"
+            onClick={form.handleSubmit(onSubmit)}
             size={"sm"}
             type="submit"
+            className="w-1/2 h-fit py-1.5 dark:text-white"
           >
-            Create
+            {edit ? t("BTNS.UPDATE") : t("BTNS.CREATE")}
           </Button>
         </div>
       </form>

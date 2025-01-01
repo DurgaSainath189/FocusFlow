@@ -35,7 +35,7 @@ export const Editor = ({ workspaceId, initialActiveTags }: Props) => {
     },
   });
 
-  const { data: tags } = useQuery({
+  const { data: tags, isLoading } = useQuery({
     queryFn: async () => {
       const res = await fetch(
         `/api/tags/get/get_workspace_tags?workspaceId=${workspaceId}`
@@ -98,6 +98,13 @@ export const Editor = ({ workspaceId, initialActiveTags }: Props) => {
     });
   };
 
+  const onDeleteActiveTagHandler = (tagId: string) => {
+    setCurrentActiveTags((prevActiveTags) => {
+      const updatedTags = prevActiveTags.filter((tag) => tag.id !== tag.id);
+      return updatedTags;
+    });
+  };
+
   const onSubmit = (data: TaskSchema) => {};
 
   return (
@@ -123,11 +130,13 @@ export const Editor = ({ workspaceId, initialActiveTags }: Props) => {
               <div className="w-full gap-1 flex flex-wrap flex-row">
                 <TaskCalendar onUpdateForm={onUpdateFormHandler} />
                 <TagSelector
+                  isLoading={isLoading}
                   tags={tags}
                   currentActiveTags={currentActiveTags}
                   onSelectActiveTag={onSelectActiveTagHandler}
                   workspaceId={workspaceId}
                   onUpdateActiveTags={onUpdatActiveTagHandler}
+                  onDeleteActiveTag={onDeleteActiveTagHandler}
                 />
                 {currentActiveTags.map((tag) => (
                   <LinkTag key={tag.id} tag={tag} disabled />
