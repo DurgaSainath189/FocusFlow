@@ -1,6 +1,6 @@
 "use client";
 
-import { Tag } from "@prisma/client";
+import { CustomColors, Tag } from "@prisma/client";
 import { Card, CardContent } from "../ui/card";
 import { Container } from "./container/Container";
 import { useEffect, useRef, useState } from "react";
@@ -85,6 +85,19 @@ export const Editor = ({ workspaceId, initialActiveTags }: Props) => {
     });
   };
 
+  const onUpdatActiveTagHandler = (
+    tagId: string,
+    color: CustomColors,
+    name: string
+  ) => {
+    setCurrentActiveTags((prevActiveTags) => {
+      const updatedTags = prevActiveTags.map((tag) =>
+        tag.id === tag.id ? { ...tag, name, color } : tag
+      );
+      return updatedTags;
+    });
+  };
+
   const onSubmit = (data: TaskSchema) => {};
 
   return (
@@ -114,6 +127,7 @@ export const Editor = ({ workspaceId, initialActiveTags }: Props) => {
                   currentActiveTags={currentActiveTags}
                   onSelectActiveTag={onSelectActiveTagHandler}
                   workspaceId={workspaceId}
+                  onUpdateActiveTags={onUpdatActiveTagHandler}
                 />
                 {currentActiveTags.map((tag) => (
                   <LinkTag key={tag.id} tag={tag} disabled />
