@@ -1,5 +1,6 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
+import { TaskContainer } from "@/components/tasks/container/TaskContainer";
 import { NewTask } from "@/components/tasks/newTask/NewTask";
 import { getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
@@ -28,7 +29,8 @@ const Tasks = async ({ params: { workspace_id } }: Params) => {
         )}
       </DashboardHeader>
       <main className="flex flex-col gap-2 min-h-[40rem]">
-        <NewTask workspaceId={workspace_id} />
+        {/* <NewTask workspaceId={workspace_id} /> */}
+        <TaskContainer workspaceId={workspace_id} initialActiveTags={[]} />
       </main>
     </>
   );
