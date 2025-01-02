@@ -29,7 +29,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "next.config.ts",
-    "components/tasks/editable/editor/tools/ToolsContainer.tsx"
+    "components/tasks/editor/tools/ToolsContainer.tsx"
   ],
   "exclude": ["node_modules"]
 }
