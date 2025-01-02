@@ -2,7 +2,6 @@
 
 import { CustomColors, Tag } from "@prisma/client";
 import { Card, CardContent } from "../ui/card";
-import { Container } from "./container/Container";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { taskSchema, TaskSchema } from "@/schema/taskSchema";
@@ -12,8 +11,9 @@ import { Logo } from "./Logo";
 import TextareaAutosize from "react-textarea-autosize";
 import { DateRange } from "react-day-picker";
 import { TaskCalendar } from "./TaskCalendar";
-import { TagSelector } from "../common/tag/tagSelector/TagSelector";
-import { LinkTag } from "../common/tag/LinkTag";
+import { EditorTasks } from "../tasks/editor/Editor";
+import { TagSelector } from "../tasks/tag/tagSelector/TagSelector";
+import { LinkTag } from "../tasks/tag/LinkTag";
 
 interface Props {
   workspaceId: string;
@@ -144,7 +144,7 @@ export const Editor = ({ workspaceId, initialActiveTags }: Props) => {
               </div>
             </div>
           </div>
-          <Container />
+          <EditorTasks />
         </CardContent>
         <button type="submit">button</button>
       </form>
