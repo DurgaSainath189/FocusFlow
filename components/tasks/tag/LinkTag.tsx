@@ -47,7 +47,7 @@ export const LinkTag = ({
   return (
     <Link
       aria-disabled={disabled}
-      href={"/"}
+      href={`/dashboard/workspace/${workspaceId}/tasks?tagId=${id}`}
       className={cn(
         `${buttonVariants({
           variant: "outline",
