@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Trash2, UploadCloudIcon } from "lucide-react";
+import { Trash2, UploadCloud } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -28,6 +28,15 @@ interface Props<> {
   useAsBtn?: boolean;
   hideFileName?: boolean;
   btnText?: string;
+  btnSize?: "default" | "sm" | "lg" | "icon" | null;
+  btnVariant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link"
+    | null;
 }
 
 export function UploadFile({
@@ -42,6 +51,8 @@ export function UploadFile({
   useAsBtn,
   hideFileName,
   btnText,
+  btnSize,
+  btnVariant,
 }: Props) {
   const t = useTranslations("UPLOAD_FILE");
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -64,11 +75,13 @@ export function UploadFile({
       form.clearErrors("file");
       form.setValue("file", providedFile);
       setFile(providedFile);
-      if (onGetImagePreview) onGetImagePreview(URL.createObjectURL(providedFile));
+      if (onGetImagePreview)
+        onGetImagePreview(URL.createObjectURL(providedFile));
     } else {
       const errors = result.error.flatten().fieldErrors.file;
       errors?.forEach((error) => form.setError("file", { message: error }));
     }
+    form.trigger("file");
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -109,7 +122,7 @@ export function UploadFile({
   const removeFile = () => {
     setFile(null);
     form.setValue("file", null);
-    // form.trigger("file");
+    form.trigger("file");
   };
   return (
     <FormField
@@ -120,15 +133,17 @@ export function UploadFile({
           {LabelText && (
             <FormLabel className={LabelClassName}>{LabelText}</FormLabel>
           )}
-          <FormControl className="">
+          <FormControl>
             {useAsBtn ? (
               <>
                 <Button
+                  size={btnSize}
+                  variant={btnVariant}
                   onClick={() => {
                     if (inputRef.current) inputRef?.current.click();
                   }}
                   type="button"
-                  className="dark:text-white mb-1"
+                  className="dark:text-white"
                 >
                   {btnText && btnText}
                 </Button>
@@ -179,9 +194,9 @@ export function UploadFile({
                   value={undefined}
                   accept={inputAccept}
                 />
-                <UploadCloudIcon size={30} />
+                <UploadCloud size={30} />
                 <p className="text-sm font-semibold uppercase text-primary mt-5">
-                  {t("UPLOAD")}
+                  {btnText ? btnText : t("UPLOAD")}
                 </p>
                 <p className="text-xs mt-1 text-center">{typesDescription}</p>
               </div>
