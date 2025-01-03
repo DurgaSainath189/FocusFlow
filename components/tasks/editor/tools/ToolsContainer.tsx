@@ -25,7 +25,7 @@ interface Props {
 export const ToolsContainer = ({ editor }: Props) => {
   const t = useTranslations("TASK.EDITOR.HOVER");
   return (
-    <div className="flex items-center border rounded-md shadow-sm bg-popover p-1 text-popover-foreground gap-1 max-w-[13rem] flex-wrap sm:max-w-lg">
+    <div className="flex items-center border rounded-md shadow-sm bg-popover p-1 text-popover-foreground gap-1">
       <OptionBtn
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={
