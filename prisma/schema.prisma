@@ -105,10 +105,12 @@ model Task{
   creatorId String
   Workspace Workspace @relation(fields: [workspaceId],references: [id])
   workspaceId String
-  title String?
-  emoji String?
+  title String
+  emoji String @default("📒")
   content Json?
   tags Tag[]
+  date Date? @relation(fields: [dateId],references: [id])
+  dateId String?
 
   @@index([updatedUserId])
   @@index([creatorId])
@@ -124,6 +126,13 @@ model Tag{
   workspaceId String
 
   @@index([workspaceId])
+}
+
+model Date{
+  id String @id @default(cuid())
+  from String?
+  to String?
+  Task Task[]
 }
 
 enum CustomColors {
