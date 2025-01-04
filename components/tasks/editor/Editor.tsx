@@ -16,17 +16,22 @@ import CharacterCount from "@tiptap/extension-character-count";
 import Placeholder from "@tiptap/extension-placeholder";
 import { FloatingContainer } from "./tools/FloatingContainer";
 import { Button } from "@/components/ui/button";
+import { useDebouncedCallback } from "use-debounce";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useSaveTaskState } from "@/context/SaveTaskState";
 
 const limit = 600;
 
-// interface Props {
-//   content?: JSON;
-//   taskId: string;
-//   workspaceId: string;
-// }
+interface Props {
+  content?: JSON;
+  taskId: string;
+  workspaceId: string;
+}
 
-export const EditorTasks = () => {
+export const EditorTasks = ({ content, taskId, workspaceId }: Props) => {
   const t = useTranslations("TASK");
+  const { onSetStatus, status } = useSaveTaskState();
   const editor = useEditor({
     editorProps: {
       handleDrop: () => {
@@ -36,6 +41,10 @@ export const EditorTasks = () => {
         class:
           "focus:outline-none prose prose-headings:text-secondary-foreground prose-p:text-secondary-foreground prose-strong:text-secondary-foreground prose-a:text-primary prose-a:no-underline prose-a:cursor-pointer w-full focus-visible:outline-none rounded-md max-w-none prose-code:text-secondary-foreground prose-code:bg-muted  prose-ol:text-secondary-foreground prose-ul:text-secondary-foreground prose-li:marker:text-secondary-foreground prose-li:marker:font-bold prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg prose-p:text-base prose-headings:line-clamp-1 prose-headings:mt-0 prose-p:my-2",
       },
+    },
+    onUpdate: () => {
+      if (status !== "unsaved") onSetStatus("unsaved");
+      debouncedEditor();
     },
     extensions: [
       StarterKit.configure({
@@ -56,8 +65,31 @@ export const EditorTasks = () => {
         placeholder: t("EDITOR.PLACEHOLDER"),
       }),
     ],
-    content: ``,
+    content: content ? content : ``,
   });
+
+  const { mutate: updateTaskContent } = useMutation({
+    mutationFn: async (content: JSON) => {
+      await axios.post(`/api/task/update/content`, {
+        workspaceId,
+        content,
+        taskId,
+      });
+    },
+    onSuccess: () => {
+      onSetStatus("saved");
+    },
+    onError: () => {
+      onSetStatus("unsaved");
+    },
+  });
+
+  const debouncedEditor = useDebouncedCallback(() => {
+    onSetStatus("pending");
+    const json = editor?.state.doc.toJSON() as JSON;
+    updateTaskContent(json);
+  }, 5000);
+
   return (
     <div>
       {editor && (
@@ -74,23 +106,14 @@ export const EditorTasks = () => {
       )}
       <EditorContent spellCheck={false} editor={editor} />
       {editor && (
-        <div className="mt-10 flex justify-between items-center text-muted-foreground text-sm py-4">
-          <Button
-            className="w-fit self-start"
-            variant={"secondary"}
-            type="submit"
-          >
-            Add Task
-          </Button>
-          <div className="flex flex-col items-end">
-            <p>
-              {t("EDITOR.WORDS")} {editor.storage.characterCount.words()}
-            </p>
-            <p>
-              {editor.storage.characterCount.characters()}/{limit}{" "}
-              {t("EDITOR.CHARS")}
-            </p>
-          </div>
+        <div className="flex flex-col items-end mt-10">
+          <p>
+            {t("EDITOR.WORDS")} {editor.storage.characterCount.words()}
+          </p>
+          <p>
+            {editor.storage.characterCount.characters()}/{limit}{" "}
+            {t("EDITOR.CHARS")}
+          </p>
         </div>
       )}
     </div>

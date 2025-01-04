@@ -11,7 +11,7 @@ import {
   import { ImageIcon } from "lucide-react";
   import { useCallback, useState } from "react";
   import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { OptionBtn } from "../OptionBtn";
+import { OptionBtn } from "../btn/OptionBtn";
 import { AddImageByLink } from "./AddImageByLink";
 import { AddImageByImport } from "./AddImageByImport";
   
