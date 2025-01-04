@@ -1,23 +1,27 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
-import { getUserWorkspaceRole, getWorkspace } from "@/lib/api";
+import { TaskContainer } from "@/components/tasks/container/TaskContainer";
+import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
 interface Params {
   params: {
     workspace_id: string;
+    task_id: string;
   };
 }
 
-const Workspace = async ({ params: { workspace_id } }: Params) => {
+const Task = async ({ params: { workspace_id, task_id } }: Params) => {
   const session = await checkIfUserCompletedOnboarding(
-    `/dashboard/workspace/${workspace_id}`
+    `/dashboard/workspace/${workspace_id}/tasks/task/${task_id}`
   );
 
-  const [workspace, userRole] = await Promise.all([
+  const [workspace, userRole, task] = await Promise.all([
     getWorkspace(workspace_id, session.user.id),
     getUserWorkspaceRole(workspace_id, session.user.id),
+    getTask(task_id, session.user.id),
   ]);
+
   return (
     <>
       <DashboardHeader
@@ -31,15 +35,25 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
             name: workspace.name,
             href: `/dashboard/workspace/${workspace_id}`,
           },
+          {
+            name: `${task.emoji} ${task.title}`,
+            href: `/p`,
+          },
         ]}
       >
         {(userRole === "ADMIN" || userRole === "OWNER") && (
           <InviteUsers workspace={workspace} />
         )}
       </DashboardHeader>
-      <main>{workspace.name}</main>
+      <main className="flex flex-col gap-2 min-h-[40rem]">
+        <TaskContainer
+          taskId={task_id}
+          workspaceId={workspace_id}
+          initialActiveTags={[]}
+        />
+      </main>
     </>
   );
 };
 
-export default Workspace;
+export default Task;
