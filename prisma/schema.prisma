@@ -24,6 +24,7 @@ model User {
   useCase UseCase?
   createdTasks Task[] @relation("TaskCreatedByUser")
   updatedTasks Task[] @relation("TaskUpdatedByUser")
+  savedTask savedTask[]
 }
  
 model Account {
@@ -103,18 +104,30 @@ model Task{
   updatedUserId String?
   creator User @relation(name:"TaskCreatedByUser",fields: [creatorId],references: [id])
   creatorId String
-  Workspace Workspace @relation(fields: [workspaceId],references: [id])
+  Workspace Workspace @relation(fields: [workspaceId],references: [id],onDelete: Cascade)
   workspaceId String
   title String
-  emoji String @default("📒")
+  emoji String @default("1f9ex")
   content Json?
   tags Tag[]
-  date Date? @relation(fields: [dateId],references: [id])
+  date Date? @relation(fields: [dateId],references: [id],onDelete: Cascade)
   dateId String?
+  savedTask savedTask[]
 
   @@index([updatedUserId])
   @@index([creatorId])
   @@index([workspaceId])
+}
+
+model savedTask{
+  id String @id @default(cuid())
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  userId String
+  task Task @relation(fields: [taskId],references: [id],onDelete: Cascade)
+  taskId String
+
+  @@index([userId])
+  @@index([taskId])
 }
 
 model Tag{
@@ -122,7 +135,7 @@ model Tag{
   name String
   tasks Task[]
   color CustomColors
-  workspace Workspace? @relation(fields: [workspaceId],references: [id])
+  workspace Workspace? @relation(fields: [workspaceId],references: [id],onDelete: Cascade)
   workspaceId String
 
   @@index([workspaceId])
