@@ -1,18 +1,51 @@
 "use client";
 
 import { EmojiSelector } from "@/components/common/EmojiSelector";
+import { useSaveTaskState } from "@/context/SaveTaskState";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 interface Props {
   onFormSelect: (emoji: string) => void;
+  emoji: string;
+  taskId: string;
+  workspaceId: string;
 }
 
-export const Emoji = ({ onFormSelect }: Props) => {
-  const [selectedEmoji, setSelectedEmoji] = useState("🧠");
+export const Emoji = ({ onFormSelect, emoji, taskId, workspaceId }: Props) => {
+  const [selectedEmoji, setSelectedEmoji] = useState(emoji);
+  const { onSetStatus, status } = useSaveTaskState();
+
+  const { mutate: updateTaskEmoji, isPending } = useMutation({
+    mutationFn: async () => {
+      await axios.post(`/api/task/update/emoji`, {
+        workspaceId,
+        selectedEmoji,
+        taskId,
+      });
+    },
+    onSuccess: () => {
+      onSetStatus("saved");
+    },
+    onError: () => {
+      onSetStatus("unsaved");
+    },
+  });
+
   const selectEmojiHandler = (emoji: string) => {
+    if (status !== "unsaved") onSetStatus("unsaved");
     setSelectedEmoji(emoji);
     onFormSelect(emoji);
+    debounced();
   };
+
+  const debounced = useDebouncedCallback(() => {
+    onSetStatus("pending");
+    updateTaskEmoji();
+  }, 5000);
+
   return (
     <EmojiSelector onSelectedEmoji={selectEmojiHandler}>
       <span

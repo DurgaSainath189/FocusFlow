@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { te, enUS, hi } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
@@ -19,18 +19,34 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "../../ui/hover-card";
+import { useDebounce, useDebouncedCallback } from "use-debounce";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useSaveTaskState } from "@/context/SaveTaskState";
 
 interface Props {
   onUpdateForm: (e: DateRange | undefined) => void;
+  from: Date | undefined;
+  to: Date | undefined;
+  workspaceId: string;
+  taskId: string;
 }
 
 export function TaskCalendar({
   className,
   onUpdateForm,
+  from,
+  to,
+  workspaceId,
+  taskId,
 }: React.HTMLAttributes<HTMLDivElement> & Props) {
   const t = useTranslations("TASK.HEADER.DATE");
   const lang = useLocale();
-  const [date, setDate] = useState<DateRange | undefined>(undefined);
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: from ? new Date(from) : undefined,
+    to: to ? new Date(to) : undefined,
+  });
+  const { onSetStatus, status } = useSaveTaskState();
 
   const currentLocale = useMemo(() => {
     if (lang === "te") return te;
@@ -38,9 +54,32 @@ export function TaskCalendar({
     else return enUS;
   }, [lang]);
 
+  const { mutate: updateTaskDate, isPending } = useMutation({
+    mutationFn: async () => {
+      await axios.post("/api/task/update/date", {
+        workspaceId,
+        date,
+        taskId,
+      });
+    },
+    onSuccess: () => {
+      onSetStatus("saved");
+    },
+    onError: () => {
+      onSetStatus("unsaved");
+    },
+  });
+
+  const debounced = useDebouncedCallback(() => {
+    onSetStatus("pending");
+    updateTaskDate();
+  }, 2000);
+
   const onSelectDateChange = (date: DateRange | undefined) => {
+    if (status !== "unsaved") onSetStatus("unsaved");
     setDate(date);
     onUpdateForm(date);
+    debounced();
   };
   return (
     <div className={cn("flex items-center gap-1", className)}>
