@@ -4,12 +4,20 @@ import { User } from "./User";
 import { OpenSidebar } from "./OpenSidebar";
 import Welcoming from "../common/Welcoming";
 import { cn } from "@/lib/utils";
+import { SavingStatus } from "./SavingStatus";
 
 interface Props {
-  addManualRoutes?: string[];
+  addManualRoutes?: {
+    name: string;
+    href: string;
+    useTranslate?: boolean;
+    emoji?: string;
+  }[];
   className?: string;
   children?: React.ReactNode;
   workspaceHref?: string;
+  hideBreadCrumb?: boolean;
+  showingSavingStatus?: boolean;
 }
 
 export const DashboardHeader = async ({
@@ -17,6 +25,8 @@ export const DashboardHeader = async ({
   className,
   children,
   workspaceHref,
+  hideBreadCrumb,
+  showingSavingStatus,
 }: Props) => {
   const session = await getAuthSession();
   if (!session) return null;
@@ -37,10 +47,13 @@ export const DashboardHeader = async ({
           surname={session?.user.surname}
           showOnlyOnPath="/dashboard"
         />
-        <BreadcrumbNav
-          addManualRoutes={addManualRoutes}
-          workspaceHref={workspaceHref}
-        />
+        {!showingSavingStatus && <SavingStatus />}
+        {!hideBreadCrumb && (
+          <BreadcrumbNav
+            addManualRoutes={addManualRoutes}
+            workspaceHref={workspaceHref}
+          />
+        )}
       </div>
       <div className="flex items-center gap-2 sm:gap-4">
         {children}
