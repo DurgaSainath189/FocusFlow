@@ -21,7 +21,7 @@ Props) => {
   if (pathname === "/dashboard") return null;
 
   const urlWorkspaceId: string | undefined = pathname.split("/")[3];
-  // const urlAdditionalId: string | undefined = pathname.split("/")[6];
+  const urlTaskId: string | undefined = pathname.split("/")[6];
   // const chatId: string | undefined = pathname.split("/")[5];
   const workspaceId = urlWorkspaceId ? urlWorkspaceId : "";
 
@@ -38,16 +38,26 @@ Props) => {
   // ) {
   //   return null;
   // }
+
+  if (
+    pathname === "/dashboard" ||
+    (urlTaskId &&
+      pathname ===
+        `/dashboard/workspace/${workspaceId}/tasks/task/${urlTaskId}/edit`)
+  ) {
+    return null;
+  }
   return (
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">
       {pathname.includes("/dashboard/settings") && (
         <Settings userAdminWorkspaces={userAdminWorkspaces} />
       )}
 
-      {pathname === `/dashboard/workspace/${workspaceId}` && (
+      {(pathname === `/dashboard/workspace/${workspaceId}` ||
+        pathname ===
+          `/dashboard/workspace/${workspaceId}/tasks/task/${urlTaskId}`) && (
         <WorkspaceOptions workspaceId={workspaceId} />
       )}
-      {pathname===`/dashboard/workspace/${workspaceId}/tasks`&&<p>Tasks</p>}
 
       {/* {(pathname === "/dashboard/pomodoro" ||
             pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />} */}
