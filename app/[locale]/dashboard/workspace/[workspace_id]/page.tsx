@@ -23,7 +23,7 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
       <DashboardHeader
         addManualRoutes={[
           {
-            name: "Dashboard",
+            name: "DASHBOARD",
             href: "/dashboard",
             useTranslate: true,
           },

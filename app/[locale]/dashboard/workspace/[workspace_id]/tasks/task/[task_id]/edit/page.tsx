@@ -25,12 +25,12 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
 
   return (
     <>
-      <DashboardHeader hideBreadCrumb>
+      <DashboardHeader hideBreadCrumb showingSavingStatus showBackBtn>
         {(userRole === "ADMIN" || userRole === "OWNER") && (
           <InviteUsers workspace={workspace} />
         )}
       </DashboardHeader>
-      <main className="flex flex-col gap-2 min-h-[40rem]">
+      <main className="flex flex-col gap-2">
         <TaskContainer
           taskId={task_id}
           workspaceId={workspace_id}

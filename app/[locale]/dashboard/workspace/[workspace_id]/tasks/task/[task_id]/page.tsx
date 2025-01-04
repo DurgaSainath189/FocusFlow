@@ -1,6 +1,7 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { TaskContainer } from "@/components/tasks/container/TaskContainer";
+import { ReadOnlyContent } from "@/components/tasks/readOnly/ReadOnlyContent";
 import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
@@ -22,12 +23,16 @@ const Task = async ({ params: { workspace_id, task_id } }: Params) => {
     getTask(task_id, session.user.id),
   ]);
 
+  const isSavedByUser =
+    task.savedTask?.find((task) => task.userId === session.user.id) !=
+    undefined;
+
   return (
     <>
       <DashboardHeader
         addManualRoutes={[
           {
-            name: "Dashboard",
+            name: "DASHBOARD",
             href: "/dashboard",
             useTranslate: true,
           },
@@ -37,7 +42,7 @@ const Task = async ({ params: { workspace_id, task_id } }: Params) => {
           },
           {
             name: `${task.emoji} ${task.title}`,
-            href: `/p`,
+            href: `/`,
           },
         ]}
       >
@@ -45,11 +50,11 @@ const Task = async ({ params: { workspace_id, task_id } }: Params) => {
           <InviteUsers workspace={workspace} />
         )}
       </DashboardHeader>
-      <main className="flex flex-col gap-2 min-h-[40rem]">
-        <TaskContainer
-          taskId={task_id}
-          workspaceId={workspace_id}
-          initialActiveTags={[]}
+      <main className="flex flex-col gap-2">
+        <ReadOnlyContent
+          task={task}
+          isSavedByUser={isSavedByUser}
+          userRole={userRole}
         />
       </main>
     </>

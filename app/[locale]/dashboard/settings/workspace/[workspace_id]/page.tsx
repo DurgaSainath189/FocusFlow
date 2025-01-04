@@ -26,12 +26,12 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
         className="mb-2 sm:mb-0"
         addManualRoutes={[
           {
-            name: "Dashboard",
+            name: "DASHBOARD",
             href: "/dashboard",
             useTranslate: true,
           },
           {
-            name: "Settings",
+            name: "settings",
             href: "/dashboard/settings",
           },
           {
