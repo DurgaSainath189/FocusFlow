@@ -23,6 +23,7 @@ import { Link2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
+import { OptionBtn } from "./btn/OptionBtn";
 
 interface Props {
   editor: Editor | null;
@@ -67,15 +68,9 @@ export const AddLink = ({ editor }: Props) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button
-          type="button"
-          size="icon"
-          variant={"ghost"}
-          onClick={setLink}
-          className="w-7 h-7 flex justify-center items-center rounded-sm text-muted-foreground"
-        >
+        <OptionBtn onClick={setLink} hoverText={t("LINK")}>
           <Link2 size={16} />
-        </Button>
+        </OptionBtn>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

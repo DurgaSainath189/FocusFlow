@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Separator } from "@/components/ui/separator";
-import { OptionBtn } from "./OptionBtn";
+import { OptionBtn } from "./btn/OptionBtn";
 import { AddImage } from "./addImage/AddImage";
 
 interface Props {

@@ -16,7 +16,7 @@ import { Editor } from "@tiptap/react";
 import { Separator } from "@/components/ui/separator";
 import { AddLink } from "./AddLink";
 import { useTranslations } from "next-intl";
-import { OptionBtn } from "./OptionBtn";
+import { OptionBtn } from "./btn/OptionBtn";
 
 interface Props {
   editor: Editor;
