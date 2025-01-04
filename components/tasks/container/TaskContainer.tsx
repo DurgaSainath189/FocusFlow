@@ -9,11 +9,12 @@ import { useQuery } from "@tanstack/react-query";
 import TextareaAutosize from "react-textarea-autosize";
 import { DateRange } from "react-day-picker";
 import { Card, CardContent } from "@/components/ui/card";
-import { Logo } from "@/components/editor/Logo";
-import { TaskCalendar } from "@/components/editor/TaskCalendar";
 import { EditorTasks } from "../editor/Editor";
 import { TagSelector } from "../tag/tagSelector/TagSelector";
 import { LinkTag } from "../tag/LinkTag";
+import { TaskCalendar } from "./TaskCalendar";
+import { Emoji } from "./Emoji";
+import { useTranslations } from "next-intl";
 
 interface Props {
   workspaceId: string;
@@ -24,6 +25,7 @@ export const TaskContainer = ({ workspaceId, initialActiveTags }: Props) => {
   const [currentActiveTags, setCurrentActiveTags] = useState(initialActiveTags);
   const [isMounted, setIsMounted] = useState(false);
   const _titleRef = useRef<HTMLTextAreaElement>(null);
+  const t = useTranslations("TASK");
 
   const form = useForm<TaskSchema>({
     resolver: zodResolver(taskSchema),
@@ -112,7 +114,7 @@ export const TaskContainer = ({ workspaceId, initialActiveTags }: Props) => {
       <form id="task-form" onSubmit={form.handleSubmit(onSubmit)}>
         <CardContent className="py-4 sm:py-6 flex flex-col gap-10">
           <div className="w-full flex item-start gap-2 sm:gap-4">
-            <Logo onFormSelect={onFormSelectHandler} />
+            <Emoji onFormSelect={onFormSelectHandler} />
             <div className="w-full flex flex-col gap-2">
               <TextareaAutosize
                 ref={(e) => {
@@ -124,7 +126,7 @@ export const TaskContainer = ({ workspaceId, initialActiveTags }: Props) => {
                   if (e.key === "Enter") e.preventDefault();
                 }}
                 {...rest}
-                placeholder="Some text here"
+                placeholder={t("HEADER.PLACEHOLDER")}
                 className="w-full resize-none appearance-none overflow-hidden bg-transparent placeholder:text-muted-foreground text-2xl font-semibold focus:outline-none"
               />
               <div className="w-full gap-1 flex flex-wrap flex-row">
@@ -146,7 +148,6 @@ export const TaskContainer = ({ workspaceId, initialActiveTags }: Props) => {
           </div>
           <EditorTasks />
         </CardContent>
-        <button type="submit">button</button>
       </form>
     </Card>
   );
