@@ -3,7 +3,10 @@
 import ActiveLink from "@/components/ui/active-link";
 import { Brain, CalendarRange, Files, Map, PencilRuler } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { NewTask } from "./actions/NewTask";
+import { useQuery } from "@tanstack/react-query";
+import { WorkspaceShortcuts } from "@/types/extended";
+import { WorkspaceOption } from "./WorkspaceOption";
 
 interface Props {
   workspaceId: string;
@@ -12,54 +15,44 @@ interface Props {
 export const WorkspaceOptions = ({ workspaceId }: Props) => {
   const t = useTranslations("SIDEBAR.WORKSPACE_OPTIONS");
 
-  const workspaceOptionsFields = useMemo(
-    () => [
-      {
-        href: `/dashboard/workspace/${workspaceId}/tasks`,
-        icon: <PencilRuler size={20} />,
-        title: `${t("TASKS")}`,
-      },
-      {
-        href: `/dashboard/workspace/${workspaceId}/mind-maps`,
-        icon: <Map size={20} />,
-        title: `${t("MIND_MAPS")}`,
-      },
-      {
-        href: `/dashboard/workspace/${workspaceId}/schedules`,
-        icon: <CalendarRange size={20} />,
-        title: `${t("SCHEDULES")}`,
-      },
-      {
-        href: `/dashboard/workspace/${workspaceId}/study`,
-        icon: <Brain size={20} />,
-        title: `${t("STUDY")}`,
-      },
-      {
-        href: `/dashboard/workspace/${workspaceId}/files`,
-        icon: <Files size={20} />,
-        title: `${t("FILES")}`,
-      },
-    ],
-    [workspaceId, t]
-  );
+  const { data: workspaceShortcuts, isLoading } = useQuery({
+    queryFn: async () => {
+      const res = await fetch(
+        `/api/workspace/get/workspace_shortcuts?workspaceId=${workspaceId}`
+      );
+
+      if (!res.ok) return null;
+
+      const data = await res.json();
+      return data as WorkspaceShortcuts;
+    },
+    queryKey: ["getWorkspaceShortcuts", workspaceId],
+  });
   return (
     <div>
-      <p className="text-xs sm:text-sm upppercase text-muted-foreground">
-        {t("SHORTCUTS")}
-      </p>
-      <div className="flex flex-col gap-2 w-full mt-2">
-        {workspaceOptionsFields.map((field, i) => (
-          <ActiveLink
-            key={i}
-            href={field.href}
-            variant={"ghost"}
-            size={"sm"}
-            className="w-full flex justify-start items-center gap-2"
-          >
-            {field.icon}
-            {field.title}
-          </ActiveLink>
-        ))}
+      <div>
+        <p className="text-xs sm:text-sm upppercase text-muted-foreground">
+          {t("SHORTCUTS")}
+        </p>
+        {!isLoading && workspaceShortcuts && (
+          <div>
+            <WorkspaceOption
+              workspaceId={workspaceId}
+              href={`tasks/task`}
+              fields={workspaceShortcuts.tasks}
+              defaultName="Task"
+            >
+              <PencilRuler size={16} />
+              {t("TASKS")}
+            </WorkspaceOption>
+          </div>
+        )}
+      </div>
+      <div>
+        <p>Actions</p>
+        <div>
+          <NewTask workspaceId={workspaceId} />
+        </div>
       </div>
     </div>
   );
