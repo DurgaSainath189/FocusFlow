@@ -283,7 +283,7 @@
     "HEADER": {
       "PLACEHOLDER": "Untitled task",
       "DATE": {
-        "PICK": "Pic a date",
+        "PICK": "Pick a date",
         "INFO": "If you select a date, the task will be added to your calendar"
       },
       "TAG": {
