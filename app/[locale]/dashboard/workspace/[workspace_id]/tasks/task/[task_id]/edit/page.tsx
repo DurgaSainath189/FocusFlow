@@ -1,7 +1,6 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
-import { TaskContainer } from "@/components/tasks/container/TaskContainer";
-import { SaveTaskStateProvider } from "@/context/SaveTaskState";
+import { TaskContainer } from "@/components/tasks/editable/container/TaskContainer";
 import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 

@@ -1,8 +1,8 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
-import { TaskContainer } from "@/components/tasks/container/TaskContainer";
 import { ReadOnlyContent } from "@/components/tasks/readOnly/ReadOnlyContent";
 import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
+import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
 interface Params {
@@ -42,7 +42,9 @@ const Task = async ({ params: { workspace_id, task_id } }: Params) => {
           },
           {
             name: `${task.emoji} ${task.title}`,
-            href: `/`,
+            emoji: changeCodeToEmoji(task.emoji),
+            href: "/",
+            useTranslate: task.title ? false : true,
           },
         ]}
       >

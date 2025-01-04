@@ -76,7 +76,7 @@ Props) => {
             theme={emojiTheme}
             locale={locale}
             onEmojiSelect={(e: OnSelect) => {
-              onSelectedEmoji(e.native);
+              onSelectedEmoji(e.unified);
               setOpen(false);
             }}
           />

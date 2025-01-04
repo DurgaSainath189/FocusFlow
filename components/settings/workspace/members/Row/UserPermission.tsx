@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-// import { useChangeCodeToEmoji } from "@/hooks/useChangeCodeToEmoji";
+import { useChangeCodeToEmoji } from "@/hooks/useChangeCodeToEmoji";
 
 interface Props {
   userRole: UserPermissionType;
@@ -43,12 +43,12 @@ export const UserPermission = ({
   const router = useRouter();
   const t = useTranslations("PERMISSIONS");
   const m = useTranslations("MESSAGES");
-//   const userRoleEmojis = useChangeCodeToEmoji(
-//     "1f432",
-//     "1f60e",
-//     "1f920",
-//     "1f913"
-//   );
+  const userRoleEmojis = useChangeCodeToEmoji(
+    "1f432",
+    "1f60e",
+    "1f920",
+    "1f913"
+  );
   const { mutate: editUserRole, isPending } = useMutation({
     mutationFn: async (role: UserPermissionType) => {
       const { data } = (await axios.post("/api/workspace/users/edit_role", {
@@ -92,7 +92,7 @@ export const UserPermission = ({
         <>
           {userRole === "OWNER" ? (
             <div className="flex gap-1 h-9 items-center px-3 text-sm font-medium">
-              {/* <span className="hidden sm:inline">{userRoleEmojis[0]}</span> */}
+              <span className="hidden sm:inline">{userRoleEmojis[0]}</span>
               <span>{t("OWNER.TITLE")}</span>
             </div>
           ) : (
@@ -105,25 +105,25 @@ export const UserPermission = ({
                 >
                   {userRole === "ADMIN" && (
                     <p className="flex gap-1 items-center">
-                      {/* <span className="hidden sm:inline">
+                      <span className="hidden sm:inline">
                         {userRoleEmojis[1]}
-                      </span>{" "} */}
+                      </span>{" "}
                       <span>{t("ADMIN.TITLE")}</span>
                     </p>
                   )}
                   {userRole === "CAN_EDIT" && (
                     <p className="flex gap-1 items-center">
-                      {/* <span className="hidden sm:inline">
+                      <span className="hidden sm:inline">
                         {userRoleEmojis[2]}
-                      </span>{" "} */}
+                      </span>{" "}
                       <span>{t("EDITOR.TITLE")}</span>
                     </p>
                   )}
                   {userRole === "READ_ONLY" && (
                     <p className="flex gap-1 items-center">
-                      {/* <span className="hidden sm:inline">
+                      <span className="hidden sm:inline">
                         {userRoleEmojis[3]}
-                      </span>{" "} */}
+                      </span>{" "}
                       <span>{t("VIEWER.TITLE")}</span>
                     </p>
                   )}
@@ -139,7 +139,7 @@ export const UserPermission = ({
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-1">
-                        {/* <span>{userRoleEmojis[1]}</span>{" "} */}
+                        <span>{userRoleEmojis[1]}</span>{" "}
                         <span>{t("ADMIN.TITLE")}</span>
                       </div>
                       {userRole === "ADMIN" && <Check size={18} />}
@@ -158,7 +158,7 @@ export const UserPermission = ({
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-1">
-                        {/* <span>{userRoleEmojis[2]}</span>{" "} */}
+                        <span>{userRoleEmojis[2]}</span>{" "}
                         <span>{t("EDITOR.TITLE")}</span>
                       </div>
                       {userRole === "CAN_EDIT" && <Check size={18} />}
@@ -177,7 +177,7 @@ export const UserPermission = ({
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-1">
-                        {/* <span>{userRoleEmojis[3]}</span>{" "} */}
+                        <span>{userRoleEmojis[3]}</span>{" "}
                         <span>{t("VIEWER.TITLE")}</span>
                       </div>
                       {userRole === "READ_ONLY" && <Check size={18} />}

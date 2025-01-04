@@ -2,6 +2,7 @@
 
 import { EmojiSelector } from "@/components/common/EmojiSelector";
 import { useSaveTaskState } from "@/context/SaveTaskState";
+import { useChangeCodeToEmoji } from "@/hooks/useChangeCodeToEmoji";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
@@ -17,6 +18,7 @@ interface Props {
 export const Emoji = ({ onFormSelect, emoji, taskId, workspaceId }: Props) => {
   const [selectedEmoji, setSelectedEmoji] = useState(emoji);
   const { onSetStatus, status } = useSaveTaskState();
+  const renderedEmoji = useChangeCodeToEmoji(selectedEmoji);
 
   const { mutate: updateTaskEmoji, isPending } = useMutation({
     mutationFn: async () => {
@@ -53,7 +55,7 @@ export const Emoji = ({ onFormSelect, emoji, taskId, workspaceId }: Props) => {
         aria-label="emoji"
         className="w-16 h-16 rounded-lg bg-secondary flex justify-center items-center text-3xl"
       >
-        {selectedEmoji}
+        {renderedEmoji}
       </span>
     </EmojiSelector>
   );

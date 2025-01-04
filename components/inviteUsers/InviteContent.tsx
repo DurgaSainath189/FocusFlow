@@ -22,7 +22,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-// import { useChangeCodeToEmoji } from "@/hooks/useChangeCodeToEmoji";
+import { useChangeCodeToEmoji } from "@/hooks/useChangeCodeToEmoji";
 
 interface Props {
   workspace: Workspace;
@@ -102,7 +102,7 @@ export const InviteContent = ({
     });
   };
 
-  // const userRoleEmojis = useChangeCodeToEmoji("1f60e", "1f920", "1f913");
+  const userRoleEmojis = useChangeCodeToEmoji("1f60e", "1f920", "1f913");
 
   return (
     <div className="space-y-4 my-6">
@@ -146,19 +146,19 @@ export const InviteContent = ({
             >
               {selectedRole === "admin" && (
                 <p className="flex gap-1 items-center">
-                  {/* <span>{userRoleEmojis[0]}</span>{" "} */}
+                  <span>{userRoleEmojis[0]}</span>{" "}
                   <span>{t("ADMIN.TITLE")}</span>
                 </p>
               )}
               {selectedRole === "editor" && (
                 <p className="flex gap-1 items-center">
-                  {/* <span>{userRoleEmojis[1]}</span>{" "} */}
+                  <span>{userRoleEmojis[1]}</span>{" "}
                   <span>{t("EDITOR.TITLE")}</span>
                 </p>
               )}
               {selectedRole === "viewer" && (
                 <p className="flex gap-1 items-center">
-                  {/* <span>{userRoleEmojis[2]}</span>{" "} */}
+                  <span>{userRoleEmojis[2]}</span>{" "}
                   <span>{t("VIEWER.TITLE")}</span>
                 </p>
               )}
@@ -178,7 +178,7 @@ export const InviteContent = ({
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
-                    {/* <span>{userRoleEmojis[0]}</span> */}
+                    <span>{userRoleEmojis[0]}</span>
                     <h3>{t("ADMIN.TITLE")}</h3>
                   </div>
                   {selectedRole === "admin" && <Check size={18} />}
@@ -196,7 +196,7 @@ export const InviteContent = ({
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
-                    {/* <span>{userRoleEmojis[1]}</span> */}
+                    <span>{userRoleEmojis[1]}</span>
                     <h3>{t("EDITOR.TITLE")}</h3>
                   </div>
                   {selectedRole === "editor" && <Check size={18} />}
@@ -214,7 +214,7 @@ export const InviteContent = ({
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
-                    {/* <span>{userRoleEmojis[2]}</span> */}
+                    <span>{userRoleEmojis[2]}</span>
                     <h3>{t("VIEWER.TITLE")}</h3>
                   </div>
                   {selectedRole === "viewer" && <Check size={18} />}

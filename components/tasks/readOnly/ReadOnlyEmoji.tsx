@@ -1,4 +1,4 @@
-// import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
+import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -14,7 +14,7 @@ export const ReadOnlyEmoji = ({ selectedEmoji, className }: Props) => {
         className
       )}
     >
-      {selectedEmoji}
+      {changeCodeToEmoji(selectedEmoji ? selectedEmoji : "1f4d2")}
     </div>
   );
 };

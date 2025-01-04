@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import ActiveLink from "@/components/ui/active-link";
+import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 // import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 
 interface Props {
@@ -62,7 +63,7 @@ export const WorkspaceOption = ({
                 size={"sm"}
                 className="w-full flex justify-start items-center gap-2 font-normal"
               >
-                {field.emoji && <span>{field.emoji}</span>}
+                {field.emoji && <span>{changeCodeToEmoji(field.emoji)}</span>}
                 <span>{field.title ? name : defaultName}</span>
               </ActiveLink>
             );
