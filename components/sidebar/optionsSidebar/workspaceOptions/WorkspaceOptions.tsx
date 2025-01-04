@@ -49,8 +49,10 @@ export const WorkspaceOptions = ({ workspaceId }: Props) => {
         )}
       </div>
       <div>
-        <p>Actions</p>
-        <div>
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          {t("ACTIONS")}
+        </p>
+        <div className="flex flex-col gap-2 w-full mt-2">
           <NewTask workspaceId={workspaceId} />
         </div>
       </div>
