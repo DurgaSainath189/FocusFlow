@@ -25,6 +25,7 @@ export const GET = async (
       include: {
         tags: true,
         date: true,
+        savedTask:true
       },
     });
 
