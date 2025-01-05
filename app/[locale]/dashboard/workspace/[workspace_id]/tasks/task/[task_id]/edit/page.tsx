@@ -1,8 +1,10 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { TaskContainer } from "@/components/tasks/editable/container/TaskContainer";
+import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
+import { redirect } from "next-intl/server";
 
 interface Params {
   params: {
@@ -22,25 +24,30 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
     getTask(task_id, session.user.id),
   ]);
 
+  const canEdit = userRole === "ADMIN" || userRole === "OWNER" ? true : false;
+  if (!canEdit)
+    redirect(`/dashboard/workspace/${workspace_id}/tasks/task/${task_id}`);
+
   return (
     <>
-      <DashboardHeader hideBreadCrumb showingSavingStatus showBackBtn>
-        {(userRole === "ADMIN" || userRole === "OWNER") && (
+      <AutosaveIndicatorProvider>
+        {" "}
+        <DashboardHeader hideBreadCrumb showingSavingStatus showBackBtn>
           <InviteUsers workspace={workspace} />
-        )}
-      </DashboardHeader>
-      <main className="flex flex-col gap-2">
-        <TaskContainer
-          taskId={task_id}
-          workspaceId={workspace_id}
-          initialActiveTags={task.tags}
-          title={task.title}
-          content={task.content as unknown as JSON}
-          emoji={task.emoji}
-          from={task?.date?.from}
-          to={task?.date?.to}
-        />
-      </main>
+        </DashboardHeader>
+        <main className="flex flex-col gap-2">
+          <TaskContainer
+            taskId={task_id}
+            workspaceId={workspace_id}
+            initialActiveTags={task.tags}
+            title={task.title}
+            content={task.content as unknown as JSON}
+            emoji={task.emoji}
+            from={task?.date?.from}
+            to={task?.date?.to}
+          />
+        </main>
+      </AutosaveIndicatorProvider>
     </>
   );
 };

@@ -1,10 +1,10 @@
 import { Sidebar } from "@/components/sidebar/Sidebar";
-import { SaveTaskStateProvider } from "@/context/SaveTaskState";
+import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { ToggleSidebarProvider } from "@/context/ToggleSidebar";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <SaveTaskStateProvider>
+    <AutosaveIndicatorProvider>
       <ToggleSidebarProvider>
         <div className="flex h-0 min-h-screen w-full overflow-hidden">
           <Sidebar />
@@ -13,7 +13,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </ToggleSidebarProvider>
-    </SaveTaskStateProvider>
+    </AutosaveIndicatorProvider>
   );
 };
 
