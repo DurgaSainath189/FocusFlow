@@ -27,6 +27,7 @@ interface Props {
   onDeleteActiveTag: (tagId: string) => void;
   className?: string;
   plusIconSize?: number;
+  dropDownSizeOffset?: number;
 }
 
 export const TagSelector = ({
@@ -39,6 +40,7 @@ export const TagSelector = ({
   onDeleteActiveTag,
   className,
   plusIconSize = 16,
+  dropDownSizeOffset,
 }: Props) => {
   const router = useRouter();
   return (
@@ -57,7 +59,9 @@ export const TagSelector = ({
           <span className="sm:hidden">Tag</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent
+        sideOffset={dropDownSizeOffset && dropDownSizeOffset}
+      >
         {isLoading && (
           <div className="p-3 flex justify-center items-center">
             <LoadingState />
