@@ -1,14 +1,11 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { mindMapSchema } from "@/schema/mindMapSchema";
-import { apiTagSchema } from "@/schema/tagSchema";
+import { updateTitleAndEmojiSchema } from "@/schema/mindMapSchema";
 
 import { NextResponse } from "next/server";
-import { z } from "zod";
 
 export async function POST(request: Request) {
   const session = await getAuthSession();
-  console.log(session);
 
   if (!session?.user) {
     return new Response("Unauthorized", {
@@ -18,16 +15,13 @@ export async function POST(request: Request) {
   }
 
   const body: unknown = await request.json();
-  console.log(body);
-  const result = mindMapSchema.safeParse(body);
-
-  console.log(result);
+  const result = updateTitleAndEmojiSchema.safeParse(body);
 
   if (!result.success) {
     return NextResponse.json("ERRORS.WRONG_DATA", { status: 401 });
   }
 
-  const { workspaceId, content, mindMapId } = result.data;
+  const { icon, mapId, title, workspaceId } = result.data;
 
   try {
     const user = await db.user.findUnique({
@@ -59,7 +53,7 @@ export async function POST(request: Request) {
 
     const mindMap = await db.mindMap.findUnique({
       where: {
-        id: mindMapId,
+        id: mapId,
       },
     });
 
@@ -72,7 +66,8 @@ export async function POST(request: Request) {
       },
       data: {
         updatedUserId: session.user.id,
-        content,
+        emoji: icon,
+        title,
       },
     });
 
