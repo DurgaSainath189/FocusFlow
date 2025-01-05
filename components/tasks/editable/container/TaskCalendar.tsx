@@ -9,16 +9,16 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon, Info } from "lucide-react";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { te, enUS, hi } from "date-fns/locale";
 import { Calendar } from "@/components/ui/calendar";
 import { useLocale, useTranslations } from "next-intl";
-import { useDebounce, useDebouncedCallback } from "use-debounce";
+import { useDebouncedCallback } from "use-debounce";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useSaveTaskState } from "@/context/SaveTaskState";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
 
 interface Props {
   onUpdateForm: (e: DateRange | undefined) => void;
@@ -42,7 +42,7 @@ export function TaskCalendar({
     from: from ? new Date(from) : undefined,
     to: to ? new Date(to) : undefined,
   });
-  const { onSetStatus, status } = useSaveTaskState();
+  const { onSetStatus, status } = useAutosaveIndicator();
 
   const currentLocale = useMemo(() => {
     if (lang === "te") return te;

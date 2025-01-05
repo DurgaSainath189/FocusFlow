@@ -10,15 +10,16 @@ import TextareaAutosize from "react-textarea-autosize";
 import { DateRange } from "react-day-picker";
 import { Card, CardContent } from "@/components/ui/card";
 import { EditorTasks } from "../editor/Editor";
-import { TagSelector } from "../tag/tagSelector/TagSelector";
 import { LinkTag } from "../tag/LinkTag";
 import { TaskCalendar } from "./TaskCalendar";
 import { Emoji } from "./Emoji";
 import { useTranslations } from "next-intl";
-import { useDebounce, useDebouncedCallback } from "use-debounce";
-import { useSaveTaskState } from "@/context/SaveTaskState";
+import { useDebouncedCallback } from "use-debounce";
 import axios from "axios";
 import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
+import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
+import { TagSelector } from "@/components/common/tag/TagSelector";
+import { useTags } from "@/hooks/UseTags";
 
 interface Props {
   workspaceId: string;
@@ -41,12 +42,11 @@ export const TaskContainer = ({
   from,
   to,
 }: Props) => {
-  const [currentActiveTags, setCurrentActiveTags] = useState(initialActiveTags);
   const [isMounted, setIsMounted] = useState(false);
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const t = useTranslations("TASK");
 
-  const { status, onSetStatus } = useSaveTaskState();
+  const { status, onSetStatus } = useAutosaveIndicator();
 
   const form = useForm<TaskSchema>({
     resolver: zodResolver(taskSchema),
@@ -54,22 +54,6 @@ export const TaskContainer = ({
       icon: emoji ? changeCodeToEmoji(emoji) : changeCodeToEmoji("1f4d2"),
       title: title ? title : "",
     },
-  });
-
-  const { data: tags, isLoading } = useQuery({
-    queryFn: async () => {
-      const res = await fetch(
-        `/api/tags/get/get_workspace_tags?workspaceId=${workspaceId}`
-      );
-
-      if (!res.ok) return [];
-
-      const data = await res.json();
-
-      return data as Tag[];
-    },
-    enabled: isMounted,
-    queryKey: ["getWorkspaceTags"],
   });
 
   useEffect(() => {
@@ -84,51 +68,6 @@ export const TaskContainer = ({
 
   const onUpdateFormHandler = (date: DateRange | undefined) => {
     form.setValue("date", date);
-  };
-
-  const onSelectActiveTagHandler = (tagId: string) => {
-    if (status !== "unsaved") onSetStatus("unsaved");
-    setCurrentActiveTags((prevActiveTags) => {
-      const tagIndex = prevActiveTags.findIndex(
-        (activeTag) => activeTag.id === tagId
-      );
-
-      if (tagIndex !== -1) {
-        const updatedActiveTags = [...prevActiveTags];
-        updatedActiveTags.splice(tagIndex, 1);
-        return updatedActiveTags;
-      } else {
-        const selectedTag = tags!.find((tag) => tag.id === tagId);
-        if (selectedTag) {
-          return [...prevActiveTags, selectedTag];
-        }
-      }
-      return prevActiveTags;
-    });
-    debouncedCurrentActiveTags();
-  };
-
-  const onUpdatActiveTagHandler = (
-    tagId: string,
-    color: CustomColors,
-    name: string
-  ) => {
-    setCurrentActiveTags((prevActiveTags) => {
-      const updatedTags = prevActiveTags.map((tag) =>
-        tag.id === tag.id ? { ...tag, name, color } : tag
-      );
-      return updatedTags;
-    });
-  };
-
-  const onDeleteActiveTagHandler = (tagId: string) => {
-    if (status !== "unsaved") onSetStatus("unsaved");
-    setCurrentActiveTags((prevActiveTags) => {
-      if (prevActiveTags.length === 0) return prevActiveTags;
-      const updatedTags = prevActiveTags.filter((tag) => tag.id !== tag.id);
-      return updatedTags;
-    });
-    debouncedCurrentActiveTags();
   };
 
   const { mutate: updateTaskTitle, isPending } = useMutation({
@@ -177,6 +116,20 @@ export const TaskContainer = ({
     updateTaskActiveTags(tagsIds);
   }, 2000);
 
+  const {
+    currentActiveTags,
+    tags,
+    isLoadingTags,
+    onDeleteActiveTagHandler,
+    onSelectActiveTagHandler,
+    onUpdateActiveTagHandler,
+  } = useTags(
+    workspaceId,
+    isMounted,
+    initialActiveTags,
+    debouncedCurrentActiveTags
+  );
+
   const onSubmit = (data: TaskSchema) => {};
 
   return (
@@ -217,12 +170,12 @@ export const TaskContainer = ({
                   to={to}
                 />
                 <TagSelector
-                  isLoading={isLoading}
+                  isLoading={isLoadingTags}
                   tags={tags}
                   currentActiveTags={currentActiveTags}
                   onSelectActiveTag={onSelectActiveTagHandler}
                   workspaceId={workspaceId}
-                  onUpdateActiveTags={onUpdatActiveTagHandler}
+                  onUpdateActiveTags={onUpdateActiveTagHandler}
                   onDeleteActiveTag={onDeleteActiveTagHandler}
                 />
                 {currentActiveTags.map((tag) => (

@@ -1,7 +1,7 @@
 "use client";
 
 import { EmojiSelector } from "@/components/common/EmojiSelector";
-import { useSaveTaskState } from "@/context/SaveTaskState";
+import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
 import { useChangeCodeToEmoji } from "@/hooks/useChangeCodeToEmoji";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -17,7 +17,7 @@ interface Props {
 
 export const Emoji = ({ onFormSelect, emoji, taskId, workspaceId }: Props) => {
   const [selectedEmoji, setSelectedEmoji] = useState(emoji);
-  const { onSetStatus, status } = useSaveTaskState();
+  const { onSetStatus, status } = useAutosaveIndicator();
   const renderedEmoji = useChangeCodeToEmoji(selectedEmoji);
 
   const { mutate: updateTaskEmoji, isPending } = useMutation({

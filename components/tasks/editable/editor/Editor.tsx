@@ -6,20 +6,16 @@ import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import { ToolsContainer } from "./tools/ToolsContainer";
 import { Color } from "@tiptap/extension-color";
-import TextStyle from "@tiptap/extension-text-style";
-import History from "@tiptap/extension-history";
+import TextStyle from "@tiptap/extension-text-style";;
 import { useTranslations } from "next-intl";
-import { Separator } from "@/components/ui/separator";
-import { AddLink } from "./tools/AddLink";
 import Image from "@tiptap/extension-image";
 import CharacterCount from "@tiptap/extension-character-count";
 import Placeholder from "@tiptap/extension-placeholder";
 import { FloatingContainer } from "./tools/FloatingContainer";
-import { Button } from "@/components/ui/button";
 import { useDebouncedCallback } from "use-debounce";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useSaveTaskState } from "@/context/SaveTaskState";
+import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
 
 const limit = 600;
 
@@ -31,7 +27,7 @@ interface Props {
 
 export const EditorTasks = ({ content, taskId, workspaceId }: Props) => {
   const t = useTranslations("TASK");
-  const { onSetStatus, status } = useSaveTaskState();
+  const { onSetStatus, status } = useAutosaveIndicator();
   const editor = useEditor({
     editorProps: {
       handleDrop: () => {
