@@ -27,6 +27,18 @@ model User {
   savedTask savedTask[]
   createdMindMaps MindMap[] @relation("MindMapCreatedByUser")
   updatedMindMaps MindMap[] @relation("MindMapUpdatedByUser")
+  savedMindMaps savedMindMaps[]
+}
+
+model savedMindMaps{
+  id String @id @default(cuid())
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  userId String
+  mindMap MindMap @relation(fields: [taskId],references: [id],onDelete: Cascade)
+  taskId String
+
+  @@index([userId])
+  @@index([taskId])
 }
  
 model Account {
@@ -103,9 +115,9 @@ model Task{
   id String @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  updatedBy User? @relation(name:"TaskUpdatedByUser",fields: [updatedUserId],references: [id])
+  updatedBy User? @relation(name:"TaskUpdatedByUser",fields: [updatedUserId],references: [id],onDelete: Cascade)
   updatedUserId String?
-  creator User @relation(name:"TaskCreatedByUser",fields: [creatorId],references: [id])
+  creator User @relation(name:"TaskCreatedByUser",fields: [creatorId],references: [id],onDelete: Cascade)
   creatorId String
   workspace Workspace @relation(fields: [workspaceId],references: [id],onDelete: Cascade)
   workspaceId String
@@ -191,8 +203,9 @@ model MindMap {
   workspaceId String
   content Json?
   title String
-  emoji String @default("1f4dd")
+  emoji String @default("1f4d2")
   tags Tag[]
+  savedMindMaps savedMindMaps[]
 
 
   @@index([workspaceId])
