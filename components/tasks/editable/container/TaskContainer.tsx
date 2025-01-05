@@ -51,7 +51,7 @@ export const TaskContainer = ({
   const form = useForm<TaskSchema>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
-      icon: emoji ? changeCodeToEmoji(emoji) : changeCodeToEmoji("1f4d2"),
+      icon: emoji,
       title: title ? title : "",
     },
   });
@@ -138,7 +138,7 @@ export const TaskContainer = ({
         <CardContent className="py-4 sm:py-6 flex flex-col gap-10">
           <div className="w-full flex flex-col sm:flex-row item-start gap-2 sm:gap-4">
             <Emoji
-              emoji={emoji ? emoji : "1f4d2"}
+              emoji={form.getValues("icon")}
               taskId={taskId}
               workspaceId={workspaceId}
               onFormSelect={onFormSelectHandler}
