@@ -23,7 +23,7 @@ interface Props {
   initialActiveTags: Tag[];
 }
 
-export const MindMapTagSelector = ({
+export const MindMapTagsSelector = ({
   mindMapId,
   workspaceId,
   isMounted,
@@ -82,6 +82,7 @@ export const MindMapTagSelector = ({
             onUpdateActiveTags={onUpdateActiveTagHandler}
             onDeleteActiveTag={onDeleteActiveTagHandler}
             isLoading={isLoadingTags}
+            dropDownSizeOffset={10}
           />
         </HoverCardTrigger>
         <HoverCardContent sideOffset={8} align="start">

@@ -28,8 +28,11 @@ import { CustomStepSharp } from "./labels/CustomStepSharp";
 import { CustomStepRounded } from "./labels/CustomStepRounded";
 import { Sheet } from "../ui/sheet";
 import { EdgeOptionsSchema } from "@/schema/edgeOptionsSchema";
+import { EdgeColor } from "@/types/enums";
 import { MindMap as MindMapType, Tag } from "@prisma/client";
 import { useDebouncedCallback } from "use-debounce";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 import { LoadingScreen } from "../common/LoadingScreen";
 import {
   HoverCard,
@@ -37,13 +40,14 @@ import {
   HoverCardTrigger,
 } from "../ui/hover-card";
 import { PlusSquare, Save } from "lucide-react";
-import { Separator } from "../ui/separator";
-import { useTranslations } from "next-intl";
 import { DeleteAllNodes } from "./DeleteAllNodes";
-import axios from "axios";
 import { useAutoSaveMindMap } from "@/context/AutoSaveMindMap";
 import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
-import { MindMapTagSelector } from "./MindMapTagSelector";
+import { Separator } from "../ui/separator";
+import { MindMapTagsSelector } from "./MindMapTagSelector";
+import { EditInfo } from "./editInfo/EditInfo";
+import { ExtendedMindMap } from "@/types/extended";
+import { useTranslations } from "next-intl";
 
 const edgeTypes: EdgeTypes = {
   customBezier: CustomBezier,
@@ -55,9 +59,9 @@ const edgeTypes: EdgeTypes = {
 const nodeTypes = { textNode: TextNode };
 
 interface Props {
-  initialInfo: MindMapType;
+  initialInfo: ExtendedMindMap;
   workspaceId: string;
-  canEdit?: boolean;
+  canEdit: boolean;
   initialActiveTags: Tag[];
 }
 
@@ -77,7 +81,7 @@ export const MindMap = ({
   const t = useTranslations("MIND_MAP");
 
   const { setRfInstance, onSave, onSetIds } = useAutoSaveMindMap();
-  const { status, onSetStatus } = useAutosaveIndicator();
+  const { onSetStatus, status } = useAutosaveIndicator();
 
   const debouncedMindMapInfo = useDebouncedCallback(() => {
     onSetStatus("pending");
@@ -118,15 +122,15 @@ export const MindMap = ({
     });
   }, []);
 
+  useEffect(() => {
+    setIsEditable(canEdit);
+  }, [canEdit]);
+
   const onEdgesChange: OnEdgesChange = useCallback((changes: any) => {
     setEdges((eds) => {
       return applyEdgeChanges(changes, eds);
     });
   }, []);
-
-  useEffect(() => {
-    setIsEditable(canEdit);
-  }, [canEdit]);
 
   const onEdgeClick = useCallback(
     (event: React.MouseEvent, edge: Edge) => {
@@ -229,6 +233,9 @@ export const MindMap = ({
           nodesConnectable={isEditable}
           nodesFocusable={isEditable}
           elementsSelectable={isEditable}
+          proOptions={{
+            hideAttribution: true,
+          }}
         >
           {isEditable && (
             <Panel
@@ -246,6 +253,14 @@ export const MindMap = ({
                     {t("HOVER_TIP.ADD_TITLE")}
                   </HoverCardContent>
                 </HoverCard>
+
+                <EditInfo
+                  workspaceId={workspaceId}
+                  title={initialInfo.title}
+                  mapId={initialInfo.id}
+                  emoji={initialInfo.emoji}
+                />
+
                 <HoverCard openDelay={250} closeDelay={250}>
                   <HoverCardTrigger asChild>
                     <Button
@@ -274,7 +289,7 @@ export const MindMap = ({
                   <Separator orientation="vertical" />
                 </div>
 
-                <MindMapTagSelector
+                <MindMapTagsSelector
                   initialActiveTags={initialActiveTags}
                   mindMapId={initialInfo.id}
                   isMounted={isMounted}
@@ -283,6 +298,7 @@ export const MindMap = ({
               </div>
             </Panel>
           )}
+
           <Background />
         </ReactFlow>
       </div>
