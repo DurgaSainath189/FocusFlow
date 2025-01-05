@@ -1,4 +1,8 @@
-import { ExtendedTask, SettingsWorkspace } from "@/types/extended";
+import {
+  ExtendedMindMap,
+  ExtendedTask,
+  SettingsWorkspace,
+} from "@/types/extended";
 import { UserPermission, Workspace } from "@prisma/client";
 import { notFound } from "next/navigation";
 
@@ -107,4 +111,20 @@ export const getTask = async (task_id: string, userId: string) => {
   }
 
   return res.json() as Promise<ExtendedTask>;
+};
+
+export const getMindMap = async (mind_map_id: string, userId: string) => {
+  const res = await fetch(
+    `${domain}/api/mind_maps/get/details/${mind_map_id}?userId=${userId}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    return notFound();
+  }
+
+  return res.json() as Promise<ExtendedMindMap>;
 };
