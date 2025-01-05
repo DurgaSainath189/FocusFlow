@@ -1,6 +1,5 @@
 "use client";
 
-import { useSaveTaskState } from "@/context/SaveTaskState";
 import {
   HoverCard,
   HoverCardContent,
@@ -10,9 +9,10 @@ import { FileWarning, Save } from "lucide-react";
 import { LoadingState } from "../ui/loadingState";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
 
 export const SavingStatus = () => {
-  const { status } = useSaveTaskState();
+  const { status } = useAutosaveIndicator();
   const t = useTranslations("COMMON.SAVING_STATUS");
 
   return (
