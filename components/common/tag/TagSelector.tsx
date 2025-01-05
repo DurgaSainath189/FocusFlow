@@ -11,6 +11,7 @@ import { CommandContainer } from "./CommandContainer";
 import { CustomColors, Tag } from "@prisma/client";
 import { LoadingState } from "@/components/ui/loadingState";
 import { useRouter } from "next-intl/client";
+import { cn } from "@/lib/utils";
 
 interface Props {
   tags?: Tag[];
@@ -24,6 +25,8 @@ interface Props {
   ) => void;
   isLoading: boolean;
   onDeleteActiveTag: (tagId: string) => void;
+  className?: string;
+  plusIconSize?: number;
 }
 
 export const TagSelector = ({
@@ -34,17 +37,22 @@ export const TagSelector = ({
   onUpdateActiveTags,
   isLoading,
   onDeleteActiveTag,
+  className,
+  plusIconSize = 16,
 }: Props) => {
   const router = useRouter();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="w-fit h-fit text-xs justify-start text-left font-normal px-2.5 py-0.5"
+          className={cn(
+            `w-fit h-fit text-xs justify-start text-left font-normal px-2.5 py-0.5`,
+            className
+          )}
           variant={"outline"}
           size={"sm"}
         >
-          <Plus size={16} className="" />
+          <Plus size={plusIconSize} className="mr-1" />
           <span className="hidden sm:inline">New Tag</span>
           <span className="sm:hidden">Tag</span>
         </Button>
