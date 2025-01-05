@@ -21,29 +21,17 @@ Props) => {
   if (pathname === "/dashboard") return null;
 
   const urlWorkspaceId: string | undefined = pathname.split("/")[3];
-  const urlTaskId: string | undefined = pathname.split("/")[6];
-  // const chatId: string | undefined = pathname.split("/")[5];
+  const urlAdditionalId: string | undefined = pathname.split("/")[6];
   const workspaceId = urlWorkspaceId ? urlWorkspaceId : "";
-
-  // if (
-  //   pathname === "/dashboard" ||
-  //   pathname === "/dashboard/starred" ||
-  //   pathname === "/dashboard/calendar" ||
-  //   (urlAdditionalId &&
-  //     pathname ===
-  //       `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}/edit`) ||
-  //   (urlAdditionalId &&
-  //     pathname ===
-  //       `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}/edit`)
-  // ) {
-  //   return null;
-  // }
 
   if (
     pathname === "/dashboard" ||
-    (urlTaskId &&
+    (urlAdditionalId &&
       pathname ===
-        `/dashboard/workspace/${workspaceId}/tasks/task/${urlTaskId}/edit`)
+        `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}/edit`) ||
+    (urlAdditionalId &&
+      pathname ===
+        `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}/edit`)
   ) {
     return null;
   }
@@ -55,16 +43,11 @@ Props) => {
 
       {(pathname === `/dashboard/workspace/${workspaceId}` ||
         pathname ===
-          `/dashboard/workspace/${workspaceId}/tasks/task/${urlTaskId}`) && (
+          `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` ||
+        pathname ===
+          `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}`) && (
         <WorkspaceOptions workspaceId={workspaceId} />
       )}
-
-      {/* {(pathname === "/dashboard/pomodoro" ||
-            pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />} */}
-
-      {/* {pathname === "/dashboard/assigned-to-me" && (
-            <AssignedToMeFilter userWorkspaces={userWorkspaces} />
-          )} */}
       <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
     </div>
   );

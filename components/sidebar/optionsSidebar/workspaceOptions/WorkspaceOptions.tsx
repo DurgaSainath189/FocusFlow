@@ -7,6 +7,7 @@ import { NewTask } from "./actions/NewTask";
 import { useQuery } from "@tanstack/react-query";
 import { WorkspaceShortcuts } from "@/types/extended";
 import { WorkspaceOption } from "./WorkspaceOption";
+import { NewMindMap } from "./actions/NewMindMap";
 
 interface Props {
   workspaceId: string;
@@ -45,6 +46,15 @@ export const WorkspaceOptions = ({ workspaceId }: Props) => {
               <PencilRuler size={16} />
               {t("TASKS")}
             </WorkspaceOption>
+            <WorkspaceOption
+              workspaceId={workspaceId}
+              href={`mind-maps/mind-map`}
+              fields={workspaceShortcuts.mindMaps}
+              defaultName="Task"
+            >
+              <Map size={16} />
+              {t("MIND_MAPS")}
+            </WorkspaceOption>
           </div>
         )}
       </div>
@@ -54,6 +64,7 @@ export const WorkspaceOptions = ({ workspaceId }: Props) => {
         </p>
         <div className="flex flex-col gap-2 w-full mt-2">
           <NewTask workspaceId={workspaceId} />
+          <NewMindMap workspaceId={workspaceId} />
         </div>
       </div>
     </div>
