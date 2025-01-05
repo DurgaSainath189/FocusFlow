@@ -22,6 +22,9 @@ export const GET = async (request: Request) => {
             id: true,
           },
         },
+        mindMaps: {
+          select: { id: true, title: true },
+        },
       },
     });
 
