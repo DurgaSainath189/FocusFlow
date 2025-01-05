@@ -191,6 +191,7 @@ model MindMap {
   workspaceId String
   content Json?
   title String
+  emoji String @default("1f4dd")
   tags Tag[]
 
 
