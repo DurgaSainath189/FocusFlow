@@ -53,7 +53,7 @@ export const WorkspaceComponent = ({
     <HoverCard openDelay={250} closeDelay={250}>
       <HoverCardTrigger asChild>
         <ActiveLink
-          // include={`/${href}/${id}`}
+          include={`/${href}/${id}`}
           workspaceIcon
           className={`text-white font-bold ${!image && workspaceColor}`}
           variant={image ? "ghost" : "default"}
