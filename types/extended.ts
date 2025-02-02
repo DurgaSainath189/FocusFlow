@@ -1,5 +1,6 @@
 import {
   MindMap,
+  savedMindMaps,
   savedTask,
   Tag,
   Task,
@@ -48,4 +49,5 @@ export interface WorkspaceShortcuts extends Workspace {
 
 export interface ExtendedMindMap extends MindMap {
   tags: Tag[];
+  savedMindMaps?: savedMindMaps[];
 }
