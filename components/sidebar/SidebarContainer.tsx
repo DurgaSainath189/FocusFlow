@@ -35,6 +35,7 @@ export const SidebarContainer = ({
         <OptionsSidebar
           createdWorkspaces={createdWorkspaces.length}
           userAdminWorkspaces={userAdminWorkspaces}
+          userWorkspaces={userWorkspaces}
         />
         <CloseSidebar />
       </aside>

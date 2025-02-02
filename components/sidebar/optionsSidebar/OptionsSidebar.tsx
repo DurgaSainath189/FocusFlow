@@ -7,18 +7,19 @@ import { WorkspaceOptions } from "./workspaceOptions/WorkspaceOptions";
 import { Settings } from "./settingsOptions/Settings";
 import { PomodoroLinks } from "./pomodoro/PomodoroLinks";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { AssignedToMeFilter } from "./assignedToMeFilter/AssignedToMeFilter";
 
 interface Props {
   createdWorkspaces: number;
   userAdminWorkspaces: Workspace[];
-  // userWorkspaces: Workspace[];
+  userWorkspaces: Workspace[];
 }
 
 export const OptionsSidebar = ({
   createdWorkspaces,
   userAdminWorkspaces,
-}: // userWorkspaces,
-Props) => {
+  userWorkspaces,
+}: Props) => {
   const pathname = usePathname();
   if (pathname === "/dashboard") return null;
 
@@ -58,9 +59,9 @@ Props) => {
         {(pathname === "/dashboard/pomodoro" ||
           pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />}
 
-        {/* {pathname === "/dashboard/assigned-to-me" && (
+        {pathname === "/dashboard/assigned-to-me" && (
           <AssignedToMeFilter userWorkspaces={userWorkspaces} />
-        )} */}
+        )}
       </ScrollArea>
 
       <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
