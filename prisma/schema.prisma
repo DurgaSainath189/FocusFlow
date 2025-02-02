@@ -29,6 +29,8 @@ model User {
   updatedMindMaps MindMap[] @relation("MindMapUpdatedByUser")
   savedMindMaps savedMindMaps[]
   pomodoroSettings PomodoroSettings[]
+  assignedToTask assignedToTask[]
+  assignedToMindMap assignedToMindMap[]
 }
 
 model savedMindMaps{
@@ -129,6 +131,7 @@ model Task{
   taskDate TaskDate? @relation(fields: [dateId],references: [id],onDelete: Cascade)
   dateId String?
   savedTask savedTask[]
+  assignedToTask assignedToTask[]
 
   @@index([updatedUserId])
   @@index([creatorId])
@@ -159,6 +162,28 @@ model PomodoroSettings {
   soundEffectVolume Float @default(0.5)
 
   @@index([userId])
+}
+
+model assignedToTask {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  task Task @relation(fields: [taskId],references: [id], onDelete: Cascade)
+  taskId String
+
+  @@index([userId])
+  @@index([taskId])
+}
+
+model assignedToMindMap {
+  id String @id @default(cuid())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  mindMap MindMap @relation(fields: [mindMapId],references: [id], onDelete: Cascade)
+  mindMapId String
+
+  @@index([userId])
+  @@index([mindMapId])
 }
 
 enum PomodoroSoundEffect {
@@ -231,6 +256,7 @@ model MindMap {
   emoji String @default("1f4d2")
   tags Tag[]
   savedMindMaps savedMindMaps[]
+  assignedToMindMap assignedToMindMap[]
 
 
   @@index([workspaceId])
