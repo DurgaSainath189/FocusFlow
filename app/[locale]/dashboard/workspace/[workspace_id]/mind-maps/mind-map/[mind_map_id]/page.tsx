@@ -1,9 +1,11 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { MindMap } from "@/components/mindMaps/MindMap";
+import { MindMapPreviewCardWrapper } from "@/components/mindMaps/preview/MindMapPreviewCardWrapper";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { AutoSaveMindMapProvider } from "@/context/AutoSaveMindMap";
 import { getMindMap, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
+import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
 interface Params {
@@ -28,6 +30,11 @@ const MindMapPage = async ({
 
   const canEdit = userRole === "ADMIN" || userRole === "OWNER" ? true : false;
 
+  const isSavedByUser =
+    mindMap.savedMindMaps?.find(
+      (mindMap) => mindMap.userId === session.user.id
+    ) !== undefined;
+
   return (
     <AutosaveIndicatorProvider>
       <AutoSaveMindMapProvider>
@@ -45,6 +52,7 @@ const MindMapPage = async ({
             {
               name: `${mindMap.title ? mindMap.title : "UNTITLED"}`,
               href: "/",
+              emoji: changeCodeToEmoji(mindMap.emoji),
               useTranslate: mindMap.title ? false : true,
             },
           ]}
@@ -55,12 +63,18 @@ const MindMapPage = async ({
           {canEdit && <InviteUsers workspace={workspace} />}
         </DashboardHeader>
         <main className="flex flex-col gap-2 h-full">
-          <MindMap
-            initialInfo={mindMap}
-            workspaceId={workspace_id}
-            canEdit={false}
-            initialActiveTags={mindMap.tags}
-          />
+          <MindMapPreviewCardWrapper
+            mindMap={mindMap}
+            userRole={userRole}
+            isSavedByUser={isSavedByUser}
+          >
+            <MindMap
+              initialInfo={mindMap}
+              workspaceId={workspace_id}
+              canEdit={false}
+              initialActiveTags={mindMap.tags}
+            />
+          </MindMapPreviewCardWrapper>
         </main>
       </AutoSaveMindMapProvider>{" "}
     </AutosaveIndicatorProvider>
