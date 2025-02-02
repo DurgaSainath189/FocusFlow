@@ -16,7 +16,7 @@ import { MindMapCardPreviewOptions } from "./MindMapCardPreviewOptions";
 import { ReadOnlyEmoji } from "@/components/common/ReadOnlyEmoji";
 import { UserHoverInfo } from "@/components/common/UserHoverInfoCard";
 import { Separator } from "@/components/ui/separator";
-// import { AssignedToMindMapSelector } from "../assignToMindMap/AssignedToMindMapSelector";
+import { AssignedToMindMapSelector } from "../assignToMindMaps/AssignedToMindMapSelector";
 
 interface Props {
   mindMap: ExtendedMindMap;
@@ -77,10 +77,10 @@ export const MindMapPreviewCardWrapper = ({
                   </HoverCardContent>
                 </HoverCard>
               </div>
-              {/* <AssignedToMindMapSelector
+              <AssignedToMindMapSelector
                 mindMapId={mindMap.id}
                 workspaceId={mindMap.workspaceId}
-              /> */}
+              />
               {mindMap.tags &&
                 mindMap.tags.map((tag) => <LinkTag key={tag.id} tag={tag} />)}
             </div>
