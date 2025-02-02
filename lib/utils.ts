@@ -1,8 +1,9 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { CalendarDays, Clock, Home, Star, User } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export const pathsToSoundEffects = {
@@ -13,3 +14,32 @@ export const pathsToSoundEffects = {
   DIGITAL: "/music/digital.mp3",
   FANCY: "/music/fancy.mp3",
 } as const;
+
+export const topSidebarLinks = [
+  {
+    href: "/dashboard",
+    Icon: Home,
+    hoverTextKey: "HOME_HOVER",
+  },
+  {
+    href: "/dashboard/pomodoro",
+    include: "/dashboard/pomodoro",
+    Icon: Clock,
+    hoverTextKey: "POMODORO_HOVER",
+  },
+  {
+    href: "/dashboard/calendar",
+    Icon: CalendarDays,
+    hoverTextKey: "CALENDAR_HOVER",
+  },
+  {
+    href: "/dashboard/starred",
+    Icon: Star,
+    hoverTextKey: "STARRED_HOVER",
+  },
+  {
+    href: "/dashboard/assigned-to-me",
+    Icon: User,
+    hoverTextKey: "ASSIGNED_TO_ME_HOVER",
+  },
+];
