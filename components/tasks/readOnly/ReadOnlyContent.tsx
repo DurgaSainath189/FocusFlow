@@ -12,6 +12,7 @@ import { ReadOnlyCalendar } from "./ReadOnlyCalendar";
 import { LinkTag } from "../editable/tag/LinkTag";
 import { UserHoverInfo } from "@/components/common/UserHoverInfoCard";
 import { Separator } from "@/components/ui/separator";
+import { AssignedToTaskSelector } from "../assignToTask/AssignedToTaskSelector";
 
 interface Props {
   task: ExtendedTask;
@@ -56,10 +57,10 @@ export const ReadOnlyContent = ({ task, isSavedByUser, userRole }: Props) => {
               </div>
             </div>
             <div className="w-full gap-1 flex flex-wrap flex-row">
-              {/* <AssignedToTaskSelector
+              <AssignedToTaskSelector
                 taskId={task.id}
                 workspaceId={task.workspaceId}
-              /> */}
+              />
               <ReadOnlyCalendar from={task.taskDate?.from} to={task.taskDate?.to} />
               {task.tags &&
                 task.tags.map((tag) => <LinkTag key={tag.id} tag={tag} />)}
