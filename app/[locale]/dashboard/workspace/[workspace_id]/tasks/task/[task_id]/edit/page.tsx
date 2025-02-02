@@ -1,5 +1,6 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
+import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { TaskContainer } from "@/components/tasks/editable/container/TaskContainer";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
@@ -39,6 +40,7 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
           {(userRole === "ADMIN" || userRole === "OWNER") && (
             <InviteUsers workspace={workspace} />
           )}
+          {userRole !== "OWNER" && <LeaveWorkspace workspace={workspace} />}
         </DashboardHeader>
         <main className="flex flex-col gap-2">
           <TaskContainer

@@ -1,5 +1,6 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
+import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { MindMap } from "@/components/mindMaps/MindMap";
 import { MindMapPreviewCardWrapper } from "@/components/mindMaps/preview/MindMapPreviewCardWrapper";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
@@ -61,6 +62,7 @@ const MindMapPage = async ({
           showBackBtn
         >
           {canEdit && <InviteUsers workspace={workspace} />}
+          {userRole !== "OWNER" && <LeaveWorkspace workspace={workspace} />}
         </DashboardHeader>
         <main className="flex flex-col gap-2 h-full mb-2">
           <MindMapPreviewCardWrapper

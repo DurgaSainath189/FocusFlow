@@ -1,5 +1,6 @@
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
+import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { MindMap } from "@/components/mindMaps/MindMap";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { AutoSaveMindMapProvider } from "@/context/AutoSaveMindMap";
@@ -41,7 +42,7 @@ const EditMindMapPage = async ({
           {(userRole === "ADMIN" || userRole === "OWNER") && (
             <InviteUsers workspace={workspace} />
           )}
-          {/* <AddTaskShortcut userId={session.user.id} /> */}
+          {userRole !== "OWNER" && <LeaveWorkspace workspace={workspace} />}
         </DashboardHeader>
         <main className="flex flex-col gap-2 h-full">
           <MindMap
