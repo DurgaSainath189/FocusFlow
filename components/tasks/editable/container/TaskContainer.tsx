@@ -1,25 +1,29 @@
 "use client";
-
 import { CustomColors, Tag } from "@prisma/client";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { taskSchema, TaskSchema } from "@/schema/taskSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
+
 import TextareaAutosize from "react-textarea-autosize";
+
 import { DateRange } from "react-day-picker";
 import { Card, CardContent } from "@/components/ui/card";
+import { Emoji } from "@/components/tasks/editable/container/Emoji";
+import { TaskCalendar } from "@/components/tasks/editable/container/TaskCalendar";
+
 import { EditorTasks } from "../editor/Editor";
+import { TagSelector } from "../../../common/tag/TagSelector";
 import { LinkTag } from "../tag/LinkTag";
-import { TaskCalendar } from "./TaskCalendar";
-import { Emoji } from "./Emoji";
 import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
+import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
 import axios from "axios";
 import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
-import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
-import { TagSelector } from "@/components/common/tag/TagSelector";
 import { useTags } from "@/hooks/UseTags";
+
 
 interface Props {
   workspaceId: string;
@@ -45,6 +49,7 @@ export const TaskContainer = ({
   const [isMounted, setIsMounted] = useState(false);
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const t = useTranslations("TASK");
+  const [taskDate] = useState({ from, to });
 
   const { status, onSetStatus } = useAutosaveIndicator();
 
@@ -130,18 +135,16 @@ export const TaskContainer = ({
     debouncedCurrentActiveTags
   );
 
-  const onSubmit = (data: TaskSchema) => {};
-
   return (
     <Card>
       <form id="task-form">
         <CardContent className="py-4 sm:py-6 flex flex-col gap-10">
-          <div className="w-full flex flex-col sm:flex-row item-start gap-2 sm:gap-4">
+          <div className="w-full flex flex-col sm:flex-row items-start gap-2 sm:gap-4">
             <Emoji
+              onFormSelect={onFormSelectHandler}
               emoji={form.getValues("icon")}
               taskId={taskId}
               workspaceId={workspaceId}
-              onFormSelect={onFormSelectHandler}
             />
             <div className="w-full flex flex-col gap-2">
               <TextareaAutosize
@@ -166,8 +169,8 @@ export const TaskContainer = ({
                   onUpdateForm={onUpdateFormHandler}
                   workspaceId={workspaceId}
                   taskId={taskId}
-                  from={from}
-                  to={to}
+                  from={taskDate.from}
+                  to={taskDate.to}
                 />
                 <TagSelector
                   isLoading={isLoadingTags}

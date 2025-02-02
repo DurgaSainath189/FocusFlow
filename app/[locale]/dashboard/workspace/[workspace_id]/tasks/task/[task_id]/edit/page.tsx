@@ -43,8 +43,8 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
             title={task.title}
             content={task.content as unknown as JSON}
             emoji={task.emoji}
-            from={task?.date?.from}
-            to={task?.date?.to}
+            from={task?.taskDate?.from}
+            to={task?.taskDate?.to}
           />
         </main>
       </AutosaveIndicatorProvider>
