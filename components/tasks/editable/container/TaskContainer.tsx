@@ -23,7 +23,7 @@ import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
 import axios from "axios";
 import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 import { useTags } from "@/hooks/UseTags";
-
+import { isError } from "util";
 
 interface Props {
   workspaceId: string;
@@ -125,6 +125,7 @@ export const TaskContainer = ({
     currentActiveTags,
     tags,
     isLoadingTags,
+    isError,
     onDeleteActiveTagHandler,
     onSelectActiveTagHandler,
     onUpdateActiveTagHandler,
@@ -173,6 +174,7 @@ export const TaskContainer = ({
                   to={taskDate.to}
                 />
                 <TagSelector
+                  isError={isError}
                   isLoading={isLoadingTags}
                   tags={tags}
                   currentActiveTags={currentActiveTags}

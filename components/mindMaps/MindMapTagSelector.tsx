@@ -58,6 +58,7 @@ export const MindMapTagsSelector = ({
     currentActiveTags,
     tags,
     isLoadingTags,
+    isError,
     onDeleteActiveTagHandler,
     onSelectActiveTagHandler,
     onUpdateActiveTagHandler,
@@ -73,7 +74,7 @@ export const MindMapTagsSelector = ({
         <HoverCardTrigger>
           <TagSelector
             plusIconSize={22}
-            // isError={isError}
+            isError={isError}
             className="border-none h-9 px-2.5 py-0 text-base"
             workspaceId={workspaceId}
             tags={tags}
