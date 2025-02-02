@@ -1,7 +1,14 @@
 "use client";
 
 import ActiveLink from "@/components/ui/active-link";
-import { Brain, CalendarRange, Files, Map, PencilRuler } from "lucide-react";
+import {
+  Brain,
+  CalendarRange,
+  Files,
+  Map,
+  PencilRuler,
+  Workflow,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { NewTask } from "./actions/NewTask";
 import { useQuery } from "@tanstack/react-query";
@@ -52,7 +59,7 @@ export const WorkspaceOptions = ({ workspaceId }: Props) => {
               fields={workspaceShortcuts.mindMaps}
               defaultName={t("DEFAULT_NAME")}
             >
-              <Map size={16} />
+              <Workflow size={16} />
               {t("MIND_MAPS")}
             </WorkspaceOption>
           </div>

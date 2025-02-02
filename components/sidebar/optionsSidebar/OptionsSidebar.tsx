@@ -5,6 +5,7 @@ import { CreatedWorkspacesInfo } from "@/components/common/CreatedWorkspacesInfo
 import { Workspace } from "@prisma/client";
 import { WorkspaceOptions } from "./workspaceOptions/WorkspaceOptions";
 import { Settings } from "./settingsOptions/Settings";
+import { PomodoroLinks } from "./pomodoro/PomodoroLinks";
 
 interface Props {
   createdWorkspaces: number;
@@ -48,6 +49,9 @@ Props) => {
           `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}`) && (
         <WorkspaceOptions workspaceId={workspaceId} />
       )}
+
+      {(pathname === "/dashboard/pomodoro" ||
+        pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />}
       <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
     </div>
   );

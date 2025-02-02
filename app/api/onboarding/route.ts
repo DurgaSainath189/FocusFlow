@@ -74,11 +74,11 @@ export async function POST(request: Request) {
       },
     });
 
-    // await db.pomodoroSettings.create({
-    //   data: {
-    //     userId: user.id,
-    //   },
-    // });
+    await db.pomodoroSettings.create({
+      data: {
+        userId: user.id,
+      },
+    });
 
     // const conversation = await db.conversation.create({
     //   data: {
