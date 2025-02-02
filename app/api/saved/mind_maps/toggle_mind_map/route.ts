@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     }
 
     const existSavedMindMap = user.savedMindMaps.find(
-      (mindMap) => mindMap.id === mindMapId
+      (mindMap) => mindMap.mindMapId === mindMapId
     );
 
     if (existSavedMindMap) {
