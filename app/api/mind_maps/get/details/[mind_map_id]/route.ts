@@ -23,6 +23,7 @@ export const GET = async (
       },
       include: {
         tags: true,
+        savedMindMaps: true,
       },
     });
 
