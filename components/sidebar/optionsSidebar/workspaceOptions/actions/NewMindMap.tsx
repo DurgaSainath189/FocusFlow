@@ -32,10 +32,10 @@ export const NewMindMap = ({ workspaceId }: Props) => {
     },
     onSuccess: (data: MindMap) => {
       toast({
-        title: m("SUCCES.TASK_ADDED"),
+        title: m("SUCCES.MIND_MAP_ADDED"),
       });
       router.push(
-        `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${data.id}`
+        `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${data.id}/edit`
       );
     },
     onError: (err: AxiosError) => {
@@ -59,7 +59,11 @@ export const NewMindMap = ({ workspaceId }: Props) => {
       size="sm"
     >
       <Plus size={16} />
-      {isPending ? <LoadingState /> : "New Mind Map"}
+      {isPending ? (
+        <LoadingState loadingText={t("ADD_MIND_MAP_PENDING")} />
+      ) : (
+        t("ADD_MIND_MAP")
+      )}
     </Button>
   );
 };
