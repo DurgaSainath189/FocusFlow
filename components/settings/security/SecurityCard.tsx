@@ -21,7 +21,7 @@ export const SecurityCard = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Warning yellow className="my-0 mb-6 sm:mb-10">
+        <Warning blue className="my-0 mb-6 sm:mb-10">
           <p>{t("WARNING.FIRST")}</p>
           <span className="font-bold">{t("WARNING.SECOND")}</span>
           {t("WARNING.THIRD")}
