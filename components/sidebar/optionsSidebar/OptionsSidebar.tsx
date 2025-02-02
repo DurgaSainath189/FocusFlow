@@ -6,6 +6,7 @@ import { Workspace } from "@prisma/client";
 import { WorkspaceOptions } from "./workspaceOptions/WorkspaceOptions";
 import { Settings } from "./settingsOptions/Settings";
 import { PomodoroLinks } from "./pomodoro/PomodoroLinks";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Props {
   createdWorkspaces: number;
@@ -38,20 +39,29 @@ Props) => {
   }
   return (
     <div className="border-r sm:w-64 w-52 h-full p-4 sm:py-6 flex flex-col justify-between">
-      {pathname.includes("/dashboard/settings") && (
-        <Settings userAdminWorkspaces={userAdminWorkspaces} />
-      )}
+      <ScrollArea className="h-full">
+        {pathname.includes("/dashboard/settings") && (
+          <Settings userAdminWorkspaces={userAdminWorkspaces} />
+        )}
+        {(pathname === `/dashboard/workspace/${workspaceId}` ||
+          pathname ===
+            `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` ||
+          pathname ===
+            `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}`) && (
+          //   ||
+          // pathname ===
+          //   `/dashboard/workspace/${workspaceId}/chat/${chatId}`)
+          <WorkspaceOptions workspaceId={workspaceId} />
+        )}
 
-      {(pathname === `/dashboard/workspace/${workspaceId}` ||
-        pathname ===
-          `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` ||
-        pathname ===
-          `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}`) && (
-        <WorkspaceOptions workspaceId={workspaceId} />
-      )}
+        {(pathname === "/dashboard/pomodoro" ||
+          pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />}
 
-      {(pathname === "/dashboard/pomodoro" ||
-        pathname === "/dashboard/pomodoro/settings") && <PomodoroLinks />}
+        {/* {pathname === "/dashboard/assigned-to-me" && (
+          <AssignedToMeFilter userWorkspaces={userWorkspaces} />
+        )} */}
+      </ScrollArea>
+
       <CreatedWorkspacesInfo createdNumber={createdWorkspaces} />
     </div>
   );
