@@ -28,6 +28,7 @@ model User {
   createdMindMaps MindMap[] @relation("MindMapCreatedByUser")
   updatedMindMaps MindMap[] @relation("MindMapUpdatedByUser")
   savedMindMaps savedMindMaps[]
+  pomodoroSettings PomodoroSettings[]
 }
 
 model savedMindMaps{
@@ -143,6 +144,19 @@ model savedTask{
 
   @@index([userId])
   @@index([taskId])
+}
+
+model PomodoroSettings{
+  id String @id @default(cuid())
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  userId String
+  workDuration Int @default(25)
+  shortBreakDuration Int @default(5)
+  longBreakDuration Int @default(15)
+  longBreakInterval Int @default(2)
+  rounds Int @default(3)
+
+  @@index([userId])
 }
 
 model Tag{
