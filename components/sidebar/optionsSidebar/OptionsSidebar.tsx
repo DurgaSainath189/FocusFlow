@@ -28,6 +28,7 @@ Props) => {
 
   if (
     pathname === "/dashboard" ||
+    pathname === "/dashboard/starred" ||
     (urlAdditionalId &&
       pathname ===
         `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}/edit`) ||
