@@ -4,13 +4,14 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ExtendedTask } from "@/types/extended";
 import { UserPermission } from "@prisma/client";
 import { useFormatter, useTranslations } from "next-intl";
+import { ReadOnlyEmoji } from "../../common/ReadOnlyEmoji";
 import { useState } from "react";
 import { Star } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { ReadOnlyEmoji } from "./ReadOnlyEmoji";
 import { TaskOptions } from "./TaskOptions";
 import { ReadOnlyCalendar } from "./ReadOnlyCalendar";
 import { LinkTag } from "../editable/tag/LinkTag";
+import { UserHoverInfo } from "@/components/common/UserHoverInfoCard";
+import { Separator } from "@/components/ui/separator";
 
 interface Props {
   task: ExtendedTask;
@@ -21,10 +22,10 @@ interface Props {
 export const ReadOnlyContent = ({ task, isSavedByUser, userRole }: Props) => {
   const [isSaved, setisSaved] = useState(isSavedByUser);
   const t = useTranslations("TASK.EDITOR.READ_ONLY");
-  //   const [updater] = useState(task.updatedBy);
+  const [updater] = useState(task.updatedBy);
 
   const format = useFormatter();
-  //   const dateTime = new Date(task.updatedAt);
+  const dateTime = new Date(task.updatedAt);
   const now = new Date();
 
   const onSetIsSaved = () => {
@@ -59,10 +60,9 @@ export const ReadOnlyContent = ({ task, isSavedByUser, userRole }: Props) => {
                 taskId={task.id}
                 workspaceId={task.workspaceId}
               /> */}
-              <ReadOnlyCalendar from={task.date?.from} to={task.date?.to} />
+              <ReadOnlyCalendar from={task.taskDate?.from} to={task.taskDate?.to} />
               {task.tags &&
-                task.tags.map((tag) => <LinkTag key={tag.id} tag={tag} />)
-                }
+                task.tags.map((tag) => <LinkTag key={tag.id} tag={tag} />)}
             </div>
           </div>
         </div>
@@ -70,13 +70,13 @@ export const ReadOnlyContent = ({ task, isSavedByUser, userRole }: Props) => {
       <CardFooter className="w-full flex items-center justify-center gap-2 text-xs">
         <div className="flex items-center">
           <p>{t("CREATOR_INFO")}</p>
-          {/* <UserHoverInfo user={task.creator} /> */}
+          <UserHoverInfo user={task.creator} />
         </div>
         <Separator className="hidden h-4 sm:block" orientation="vertical" />
         <div className="flex items-center">
           <p>{t("EDITOR_INFO")}</p>
-          {/* <UserHoverInfo user={updater} /> */}
-          {/* <p>{format.relativeTime(dateTime, now)}</p> */}
+          <UserHoverInfo user={updater} />
+          <p>{format.relativeTime(dateTime, now)}</p>
         </div>
       </CardFooter>
     </Card>
