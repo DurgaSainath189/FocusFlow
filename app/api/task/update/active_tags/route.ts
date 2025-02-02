@@ -56,7 +56,7 @@ export async function POST(request: Request) {
         id: taskId,
       },
       include: {
-        date: true,
+        taskDate: true,
         tags: true,
       },
     });

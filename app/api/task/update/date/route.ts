@@ -56,7 +56,7 @@ export async function POST(request: Request) {
         id: taskId,
       },
       include: {
-        date: true,
+        taskDate: true,
       },
     });
 
@@ -64,9 +64,9 @@ export async function POST(request: Request) {
       return NextResponse.json("ERRORS.NO_TASK_FOUND", { status: 404 });
     }
 
-    await db.date.update({
+    await db.taskDate.update({
       where: {
-        id: task.date?.id,
+        id: task.taskDate?.id,
       },
       data: {
         from: date?.from ? date.from : null,

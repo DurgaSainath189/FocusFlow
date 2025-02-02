@@ -24,8 +24,26 @@ export const GET = async (
       },
       include: {
         tags: true,
-        date: true,
-        savedTask:true
+        taskDate: true,
+        savedTask: true,
+        creator: {
+          select: {
+            id: true,
+            username: true,
+            image: true,
+            name: true,
+            surname: true,
+          },
+        },
+        updatedBy: {
+          select: {
+            id: true,
+            username: true,
+            image: true,
+            name: true,
+            surname: true,
+          },
+        },
       },
     });
 

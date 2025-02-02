@@ -1,7 +1,10 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { updateTaskTitleSchema } from "@/schema/updateTaskSchema";
+import { deleteMindMapSchema, mindMapSchema } from "@/schema/mindMapSchema";
+import { apiTagSchema } from "@/schema/tagSchema";
+
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function POST(request: Request) {
   const session = await getAuthSession();
@@ -14,14 +17,13 @@ export async function POST(request: Request) {
   }
 
   const body: unknown = await request.json();
-
-  const result = updateTaskTitleSchema.safeParse(body);
+  const result = deleteMindMapSchema.safeParse(body);
 
   if (!result.success) {
     return NextResponse.json("ERRORS.WRONG_DATA", { status: 401 });
   }
 
-  const { title, taskId, workspaceId } = result.data;
+  const { workspaceId, mindMapId } = result.data;
 
   try {
     const user = await db.user.findUnique({
@@ -51,31 +53,24 @@ export async function POST(request: Request) {
       return NextResponse.json("ERRORS.NO_PERMISSION", { status: 403 });
     }
 
-    const task = await db.task.findUnique({
+    const mindMap = await db.mindMap.findUnique({
       where: {
-        id: taskId,
-      },
-      include: {
-        taskDate: true,
+        id: mindMapId,
       },
     });
 
-    if (!task) {
-      return NextResponse.json("ERRORS.NO_TASK_FOUND", { status: 404 });
-    }
+    if (!mindMap)
+      return NextResponse.json("ERRORS.NO_MIND_MAP_FOUND", { status: 404 });
 
-    const updatedTask = await db.task.update({
+    await db.mindMap.delete({
       where: {
-        id: task.id,
-      },
-      data: {
-        updatedUserId: session.user.id,
-        title,
+        id: mindMap.id,
       },
     });
 
-    return NextResponse.json(updatedTask, { status: 200 });
-  } catch (_) {
+    return NextResponse.json("ok", { status: 200 });
+  } catch (err) {
+    console.log(err);
     return NextResponse.json("ERRORS.DB_ERROR", { status: 405 });
   }
 }
