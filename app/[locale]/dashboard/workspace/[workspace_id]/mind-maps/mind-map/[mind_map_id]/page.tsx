@@ -62,7 +62,7 @@ const MindMapPage = async ({
         >
           {canEdit && <InviteUsers workspace={workspace} />}
         </DashboardHeader>
-        <main className="flex flex-col gap-2 h-full">
+        <main className="flex flex-col gap-2 h-full mb-2">
           <MindMapPreviewCardWrapper
             mindMap={mindMap}
             userRole={userRole}
