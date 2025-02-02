@@ -29,12 +29,14 @@ export interface ShortTask {
 
 export interface ExtendedTask extends Task {
   tags: Tag[];
-  date?: {
+  taskDate?: {
     id: string;
     from: Date | undefined;
     to: Date | undefined;
   };
   savedTask?: savedTask[];
+  creator: UserInfo;
+  updatedBy: UserInfo;
 }
 
 export interface ShortMindMap {
@@ -50,4 +52,14 @@ export interface WorkspaceShortcuts extends Workspace {
 export interface ExtendedMindMap extends MindMap {
   tags: Tag[];
   savedMindMaps?: savedMindMaps[];
+  creator: UserInfo;
+  updatedBy: UserInfo;
+}
+
+export interface UserInfo {
+  id: string;
+  username: string;
+  image?: string | null;
+  name?: string | null;
+  surname?: string | null;
 }
