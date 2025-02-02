@@ -1,6 +1,6 @@
 // import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
-// import { StarredContainer } from "@/components/starred/StarredContainer";
+import { StarredContainer } from "@/components/starred/StarredContainer";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
 const Starred = async () => {
@@ -11,7 +11,9 @@ const Starred = async () => {
       <DashboardHeader>
         {/* <AddTaskShortcut userId={session.user.id} /> */}
       </DashboardHeader>
-      <main>{/* <StarredContainer userId={session.user.id} /> */}</main>
+      <main>
+        <StarredContainer userId={session.user.id} />
+      </main>
     </>
   );
 };
