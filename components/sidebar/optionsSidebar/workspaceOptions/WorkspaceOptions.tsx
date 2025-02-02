@@ -50,7 +50,7 @@ export const WorkspaceOptions = ({ workspaceId }: Props) => {
               workspaceId={workspaceId}
               href={`mind-maps/mind-map`}
               fields={workspaceShortcuts.mindMaps}
-              defaultName="Task"
+              defaultName={t("DEFAULT_NAME")}
             >
               <Map size={16} />
               {t("MIND_MAPS")}
