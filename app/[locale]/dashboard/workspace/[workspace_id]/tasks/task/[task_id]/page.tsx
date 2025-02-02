@@ -41,7 +41,7 @@ const Task = async ({ params: { workspace_id, task_id } }: Params) => {
             href: `/dashboard/workspace/${workspace_id}`,
           },
           {
-            name: `${task.emoji} ${task.title}`,
+            name: `${task.title ? task.title : "Untitled"}`,
             emoji: changeCodeToEmoji(task.emoji),
             href: "/",
             useTranslate: task.title ? false : true,

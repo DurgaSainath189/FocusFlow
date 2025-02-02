@@ -24,7 +24,10 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
     getTask(task_id, session.user.id),
   ]);
 
-  const canEdit = userRole === "ADMIN" || userRole === "OWNER" ? true : false;
+  const canEdit =
+    userRole === "ADMIN" || userRole === "OWNER" || userRole === "CAN_EDIT"
+      ? true
+      : false;
   if (!canEdit)
     redirect(`/dashboard/workspace/${workspace_id}/tasks/task/${task_id}`);
 
@@ -33,7 +36,9 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
       <AutosaveIndicatorProvider>
         {" "}
         <DashboardHeader hideBreadCrumb showingSavingStatus showBackBtn>
-          <InviteUsers workspace={workspace} />
+          {(userRole === "ADMIN" || userRole === "OWNER") && (
+            <InviteUsers workspace={workspace} />
+          )}
         </DashboardHeader>
         <main className="flex flex-col gap-2">
           <TaskContainer
