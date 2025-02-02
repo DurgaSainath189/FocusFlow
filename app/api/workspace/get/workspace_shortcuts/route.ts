@@ -23,7 +23,7 @@ export const GET = async (request: Request) => {
           },
         },
         mindMaps: {
-          select: { id: true, title: true },
+          select: { id: true, title: true, emoji: true },
         },
       },
     });
