@@ -17,8 +17,8 @@ interface Props {
   className?: string;
   children: React.ReactNode;
   onSelectedEmoji: (emoji: string) => void;
-  //   slide?: "top" | "right" | "bottom" | "left";
-  //   align?: "start" | "center" | "end";
+  slide?: "top" | "right" | "bottom" | "left";
+  align?: "start" | "center" | "end";
   //   id?: string;
   //   onOpenChange?: (open: boolean) => void;
 }
@@ -37,9 +37,9 @@ export const EmojiSelector = ({
   className,
   children,
   onSelectedEmoji,
-}: //   slide,
-//   align,
-//   id,
+  slide,
+  align,
+}: //   id,
 Props) => {
   const { theme, setTheme, systemTheme } = useTheme();
   const locale = useLocale();
@@ -67,7 +67,7 @@ Props) => {
       >
         {children}
       </DropdownMenuTrigger>
-      <DropdownMenuContent asChild>
+      <DropdownMenuContent asChild align={align}>
         <div className="z-50 emoji-picker">
           <Picker
             data={data}

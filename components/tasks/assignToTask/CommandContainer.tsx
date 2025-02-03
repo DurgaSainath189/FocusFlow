@@ -13,14 +13,14 @@ import {
     users: AssignedToTaskUser[];
     taskId: string;
     workspaceId: string;
-    // canEdit: boolean;
+    canEdit: boolean;
   }
   
   export const CommandContainer = ({
     users,
     taskId,
     workspaceId,
-    // canEdit,
+    canEdit,
   }: Props) => {
     const t = useTranslations("TASK.ASSIGNMENT");
     return (
@@ -35,7 +35,7 @@ import {
                 user={user}
                 taskId={taskId}
                 workspaceId={workspaceId}
-                // canEdit={canEdit}
+                canEdit={canEdit}
               />
             ))}
           </CommandGroup>
