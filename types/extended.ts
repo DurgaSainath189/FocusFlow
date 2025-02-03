@@ -1,4 +1,5 @@
 import {
+  CustomColors,
   MindMap,
   savedMindMaps,
   savedTask,
@@ -115,4 +116,17 @@ export interface AssignedToMeDataItem {
 export interface AssignedToMeTaskAndMindMaps {
   tasks: AssignedToMeDataItem[];
   mindMaps: AssignedToMeDataItem[];
+}
+
+export interface CalendarItem {
+  title: string;
+  taskDate: {
+    id: string;
+    from: Date | undefined;
+    to: Date | undefined;
+  } | null;
+  workspaceId: string;
+  workspaceName: string;
+  workspaceColor: CustomColors;
+  taskId: string;
 }
