@@ -1,3 +1,4 @@
+import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
@@ -43,6 +44,7 @@ const EditMindMapPage = async ({
             <InviteUsers workspace={workspace} />
           )}
           {userRole !== "OWNER" && <LeaveWorkspace workspace={workspace} />}
+          <AddTaskShortcut userId={session.user.id} />
         </DashboardHeader>
         <main className="flex flex-col gap-2 h-full">
           <MindMap

@@ -1,3 +1,4 @@
+import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { AccountInfo } from "@/components/settings/account/AccountInfo";
 import { DeleteAccount } from "@/components/settings/account/DeleteAccount";
@@ -11,7 +12,9 @@ const Settings = async () => {
 
   return (
     <>
-      <DashboardHeader />
+      <DashboardHeader>
+        <AddTaskShortcut userId={session.user.id} />
+      </DashboardHeader>
       <main>
         <Heading />
         <AccountInfo session={session} />

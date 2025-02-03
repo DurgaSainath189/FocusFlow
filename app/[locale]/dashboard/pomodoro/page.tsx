@@ -1,3 +1,4 @@
+import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { PomodoContainer } from "@/components/pomodoro/timer/PomodoroContainer";
 import { getUserPomodoroSettings } from "@/lib/api";
@@ -10,7 +11,7 @@ const Pomodoro = async () => {
   return (
     <>
       <DashboardHeader>
-        {/* <AddTaskShortcut userId={session.user.id} /> */}
+        <AddTaskShortcut userId={session.user.id} />
       </DashboardHeader>
       <main className="flex flex-col gap-2 h-full items-center">
         <PomodoContainer pomodoroSettings={pomodoroSettings} />
