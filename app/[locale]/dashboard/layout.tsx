@@ -1,10 +1,10 @@
 import { Sidebar } from "@/components/sidebar/Sidebar";
-import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { ToggleSidebarProvider } from "@/context/ToggleSidebar";
+import { UserEditableWorkspacesProvider } from "@/context/UserEditableWorkspaces";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AutosaveIndicatorProvider>
+    <UserEditableWorkspacesProvider>
       <ToggleSidebarProvider>
         <div className="flex h-0 min-h-screen w-full overflow-hidden">
           <Sidebar />
@@ -13,7 +13,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </ToggleSidebarProvider>
-    </AutosaveIndicatorProvider>
+    </UserEditableWorkspacesProvider>
   );
 };
 
