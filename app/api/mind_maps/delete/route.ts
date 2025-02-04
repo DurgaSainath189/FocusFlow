@@ -2,6 +2,7 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { deleteMindMapSchema, mindMapSchema } from "@/schema/mindMapSchema";
 import { apiTagSchema } from "@/schema/tagSchema";
+import { NotifyType } from "@prisma/client";
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -65,6 +66,14 @@ export async function POST(request: Request) {
     await db.mindMap.delete({
       where: {
         id: mindMap.id,
+      },
+    });
+
+    await db.notification.deleteMany({
+      where: {
+        workspaceId,
+        mindMapId: mindMap.id,
+        notifyType: NotifyType.NEW_MIND_MAP,
       },
     });
 

@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { editUserRoleSchema } from "@/schema/editUserRoleScheme";
-// import { NotifyType } from "@prisma/client";
+import { NotifyType } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -66,14 +66,14 @@ export async function POST(request: Request) {
       },
     });
 
-    // await db.notification.create({
-    //   data: {
-    //     notifyCreatorId: session.user.id,
-    //     userId: userId,
-    //     workspaceId,
-    //     notifyType: NotifyType.NEW_ROLE,
-    //   },
-    // });
+    await db.notification.create({
+      data: {
+        notifyCreatorId: session.user.id,
+        userId: userId,
+        workspaceId,
+        notifyType: NotifyType.NEW_ROLE,
+      },
+    });
 
     return NextResponse.json(updatedUser.userRole, { status: 200 });
   } catch (_) {

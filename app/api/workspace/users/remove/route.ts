@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { deleteUserFromWorkspaceSchema } from "@/schema/deleteUserFromWorkspaceSchema";
-// import { NotifyType } from "@prisma/client";
+import { NotifyType } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
@@ -63,25 +63,25 @@ export async function POST(request: Request) {
       },
     });
 
-    // const workspaceUsers = await db.subscription.findMany({
-    //   where: {
-    //     workspaceId,
-    //   },
-    //   select: {
-    //     userId: true,
-    //   },
-    // });
+    const workspaceUsers = await db.subscription.findMany({
+      where: {
+        workspaceId,
+      },
+      select: {
+        userId: true,
+      },
+    });
 
-    // const notificationsData = workspaceUsers.map((user) => ({
-    //   notifyCreatorId: session.user.id,
-    //   userId: user.userId,
-    //   workspaceId,
-    //   notifyType: NotifyType.USER_LEFT_WORKSPACE,
-    // }));
+    const notificationsData = workspaceUsers.map((user) => ({
+      notifyCreatorId: session.user.id,
+      userId: user.userId,
+      workspaceId,
+      notifyType: NotifyType.USER_LEFT_WORKSPACE,
+    }));
 
-    // await db.notification.createMany({
-    //   data: notificationsData,
-    // });
+    await db.notification.createMany({
+      data: notificationsData,
+    });
 
     return NextResponse.json("OK", { status: 200 });
   } catch (_) {

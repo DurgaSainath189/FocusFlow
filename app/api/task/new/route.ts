@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { NotifyType } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -78,6 +79,31 @@ export async function POST(request: Request) {
       data: {
         updatedUserId: session.user.id,
       },
+    });
+
+    const workspaceUsers = await db.subscription.findMany({
+      where: {
+        workspaceId,
+      },
+      select: {
+        userId: true,
+      },
+    });
+
+    const notificationsData = workspaceUsers.map((user) => ({
+      notifyCreatorId: session.user.id,
+      userId: user.userId,
+      workspaceId,
+      notifyType: NotifyType.NEW_TASK,
+      taskId: task.id,
+    }));
+
+    const filterNotificationsData = notificationsData.filter(
+      (data) => data.userId !== session.user.id
+    );
+
+    await db.notification.createMany({
+      data: filterNotificationsData,
     });
 
     return NextResponse.json(task, { status: 200 });
