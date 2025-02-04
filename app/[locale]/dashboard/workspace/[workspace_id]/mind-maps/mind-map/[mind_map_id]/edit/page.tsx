@@ -3,6 +3,7 @@ import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { MindMap } from "@/components/mindMaps/MindMap";
+import { PermissionIndicator } from "@/components/permissionIndicator/PermissionIndicator";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { AutoSaveMindMapProvider } from "@/context/AutoSaveMindMap";
 import { getMindMap, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
@@ -40,6 +41,10 @@ const EditMindMapPage = async ({
     <AutosaveIndicatorProvider>
       <AutoSaveMindMapProvider>
         <DashboardHeader showBackBtn hideBreadCrumb showingSavingStatus>
+          <PermissionIndicator
+            userRole={userRole}
+            workspaceName={workspace.name}
+          />
           {(userRole === "ADMIN" || userRole === "OWNER") && (
             <InviteUsers workspace={workspace} />
           )}

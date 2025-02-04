@@ -3,6 +3,7 @@ import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { MindMap } from "@/components/mindMaps/MindMap";
+import { PermissionIndicator } from "@/components/permissionIndicator/PermissionIndicator";
 import { getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 
@@ -36,6 +37,7 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
           },
         ]}
       >
+        <PermissionIndicator userRole={userRole} workspaceName={workspace.name}/>
         {(userRole === "ADMIN" || userRole === "OWNER") && (
           <InviteUsers workspace={workspace} />
         )}

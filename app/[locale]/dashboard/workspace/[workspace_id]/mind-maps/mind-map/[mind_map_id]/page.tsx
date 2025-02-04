@@ -4,6 +4,7 @@ import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { MindMap } from "@/components/mindMaps/MindMap";
 import { MindMapPreviewCardWrapper } from "@/components/mindMaps/preview/MindMapPreviewCardWrapper";
+import { PermissionIndicator } from "@/components/permissionIndicator/PermissionIndicator";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { AutoSaveMindMapProvider } from "@/context/AutoSaveMindMap";
 import { getMindMap, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
@@ -62,6 +63,10 @@ const MindMapPage = async ({
           showingSavingStatus
           showBackBtn
         >
+          <PermissionIndicator
+            userRole={userRole}
+            workspaceName={workspace.name}
+          />
           {canEdit && <InviteUsers workspace={workspace} />}
           {userRole !== "OWNER" && <LeaveWorkspace workspace={workspace} />}
           <AddTaskShortcut userId={session.user.id} />

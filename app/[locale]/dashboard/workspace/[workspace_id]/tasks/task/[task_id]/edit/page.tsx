@@ -2,6 +2,7 @@ import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
+import { PermissionIndicator } from "@/components/permissionIndicator/PermissionIndicator";
 import { TaskContainer } from "@/components/tasks/editable/container/TaskContainer";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
@@ -38,6 +39,10 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
       <AutosaveIndicatorProvider>
         {" "}
         <DashboardHeader hideBreadCrumb showingSavingStatus showBackBtn>
+          <PermissionIndicator
+            userRole={userRole}
+            workspaceName={workspace.name}
+          />
           {(userRole === "ADMIN" || userRole === "OWNER") && (
             <InviteUsers workspace={workspace} />
           )}
