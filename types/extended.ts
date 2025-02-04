@@ -149,3 +149,10 @@ export interface UserNotification extends Notification {
     name: string;
   } | null;
 }
+
+export interface HomeRecentActivity extends AssignedToMeDataItem {
+  starred: boolean;
+}
+
+export interface HomeRecentTasksAndMindMapsActivity
+  extends AssignedToMeTaskAndMindMaps {}
