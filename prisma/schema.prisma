@@ -31,6 +31,8 @@ model User {
   pomodoroSettings PomodoroSettings[]
   assignedToTask assignedToTask[]
   assignedToMindMap assignedToMindMap[]
+  userNotifications Notification[] @relation("NotifyUser")
+  userCreatedNotifications Notification[] @relation("NotifyCreator")
   lastTimeActive DateTime @default(now())
 }
 
@@ -94,6 +96,38 @@ enum UseCase{
   PERSONAL_USE
 }
 
+enum NotifyType {
+  NEW_USER_IN_WORKSPACE
+  USER_LEFT_WORKSPACE
+  NEW_TASK
+  NEW_MIND_MAP
+  NEW_ROLE
+  NEW_ASSIGNMENT_TASK
+  NEW_ASSIGNMENT_MIND_MAP
+}
+
+model Notification {
+  id String @id @default(cuid())
+  user User @relation(name: "NotifyUser", fields: [userId], references: [id] , onDelete: Cascade)
+  userId String
+  notifyCreator User @relation(name: "NotifyCreator", fields: [notifyCreatorId], references: [id], onDelete: Cascade)
+  notifyCreatorId String
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+  seen Boolean @default(false)
+  clicked Boolean @default(false)
+  createdDate DateTime @default(now())
+  notifyType NotifyType
+  newUserRole UserPermission?
+  taskId String?
+  mindMapId String?
+
+  @@index([userId])
+  @@index([notifyCreatorId])
+  @@index([workspaceId])
+
+}
+
 model Workspace{
   id String @id @default(cuid())
   name String
@@ -111,6 +145,7 @@ model Workspace{
   tasks Task[]
   tags Tag[]
   mindMaps MindMap[]
+  notification Notification[]
 
   @@index([creatorId])
 }
