@@ -130,3 +130,10 @@ export interface CalendarItem {
   workspaceColor: CustomColors;
   taskId: string;
 }
+
+export interface UserActiveItemList {
+  id: string;
+  username: string;
+  image: string | null;
+  userRole: UserPermission;
+}
