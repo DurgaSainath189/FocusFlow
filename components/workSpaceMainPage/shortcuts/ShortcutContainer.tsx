@@ -7,9 +7,9 @@ import { ShortcutContainerLinkItem } from "./ShortcutContainerLinkItem";
 import { ExtendedWorkspace } from "@/types/extended";
 import { ShortcutContainerBtnItem } from "./ShortcutContainerBtnItem";
 import { LeaveWorkspace } from "../../leaveWorkspace/LeaveWorkspace";
-import { PermissionIndicator } from "@/components/permissionIndicator/PermissionIndicator";
 import { useNewTask } from "@/hooks/useNewTask";
 import { useNewMindMap } from "@/hooks/useNewMindMap";
+import { PermissionIndicator } from "./permissionIndicator/PermissionIndicator";
 
 interface Props {
   workspace: ExtendedWorkspace;
@@ -24,10 +24,10 @@ export const ShortcutContainer = ({ workspace, userRole }: Props) => {
   return (
     <ScrollArea className="w-full">
       <div className="flex w-max space-x-4 pb-4 mt-4">
-        {/* <PermissionIndicator
+        <PermissionIndicator
           userRole={userRole}
           workspaceName={workspace.name}
-        /> */}
+        />
         <ShortcutContainerLinkItem
           userRole={userRole}
           Icon={MessagesSquare}
