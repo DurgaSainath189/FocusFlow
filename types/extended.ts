@@ -168,3 +168,41 @@ export interface ExtendedWorkspace extends Workspace {
     id: string;
   };
 }
+
+export interface WorkspaceRecentActivityTagItem {
+  id: string;
+  name: string;
+  color: CustomColors;
+}
+
+export interface WorkspaceRecentActivityAssignedToItem {
+  user: {
+    id: string;
+    image: string | null;
+    username: string;
+  };
+  id: string;
+  userId: string;
+  mindMapId?: string;
+  taskId?: string;
+}
+
+export interface WorkspaceRecentActivity {
+  id: string;
+  title: string;
+  emoji: string;
+  type: AssignedItemType;
+  updated: {
+    at: Date;
+    by?: UserInfo | null;
+  };
+  starred: boolean;
+  tags: Tag[];
+  assignedTo: WorkspaceRecentActivityAssignedToItem[];
+  link: string;
+}
+
+export interface AssignedToMeTaskAndMindMapsWorkspaceRecentActivity {
+  tasks: WorkspaceRecentActivity[];
+  mindMaps: WorkspaceRecentActivity[];
+}
