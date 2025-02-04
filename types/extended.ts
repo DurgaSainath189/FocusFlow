@@ -156,3 +156,15 @@ export interface HomeRecentActivity extends AssignedToMeDataItem {
 
 export interface HomeRecentTasksAndMindMapsActivity
   extends AssignedToMeTaskAndMindMaps {}
+
+export interface FilterUser {
+  id: string;
+  username: string;
+  image: string | null;
+}
+
+export interface ExtendedWorkspace extends Workspace {
+  conversation: {
+    id: string;
+  };
+}
