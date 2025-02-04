@@ -1,10 +1,12 @@
 import {
   ExtendedMindMap,
   ExtendedTask,
+  HomeRecentActivity,
   SettingsWorkspace,
 } from "@/types/extended";
 import { PomodoroSettings, UserPermission, Workspace } from "@prisma/client";
 import { notFound } from "next/navigation";
+import { ACTIVITY_PER_PAGE } from "./constants";
 
 export const domain =
   process.env.NODE_ENV !== "production"
@@ -143,4 +145,20 @@ export const getUserPomodoroSettings = async (userId: string) => {
   }
 
   return res.json() as Promise<PomodoroSettings>;
+};
+
+export const getInitialHomeRecentActivity = async (userId: string) => {
+  const res = await fetch(
+    `${domain}/api/home-page/get?userId=${userId}&page=${1}&take=${ACTIVITY_PER_PAGE}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    return notFound();
+  }
+
+  return res.json() as Promise<HomeRecentActivity[]>;
 };
