@@ -1,16 +1,14 @@
 import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
-import {
-  getUserWorkspaceRole,
-  getWorkspace,
-} from "@/lib/api";
+import { getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 import { FilterByUsersAndTagsInWorkspaceProvider } from "@/context/FilterByUsersAndTagsInWorkspace";
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { ShortcutContainer } from "@/components/workSpaceMainPage/shortcuts/ShortcutContainer";
 import { FilterContainer } from "@/components/workSpaceMainPage/filter/FilterContainer";
 import { PermissionIndicator } from "@/components/permissionIndicator/PermissionIndicator";
+import { RecentActivityContainer } from "@/components/workSpaceMainPage/recentActivity/RecentActivityContainer";
 
 interface Params {
   params: {
@@ -55,6 +53,10 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
       <main className="flex flex-col gap-2 h-full">
         <ShortcutContainer workspace={workspace} userRole={userRole} />
         <FilterContainer sessionUserId={session.user.id} />
+        <RecentActivityContainer
+          userId={session.user.id}
+          workspaceId={workspace.id}
+        />
       </main>
     </FilterByUsersAndTagsInWorkspaceProvider>
   );
