@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { NotifyType } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -84,6 +85,17 @@ export async function POST(request: Request) {
         },
       });
 
+      if (assignToUserId !== session.user.id) {
+        await db.notification.create({
+          data: {
+            notifyCreatorId: session.user.id,
+            userId: assignToUserId,
+            notifyType: NotifyType.NEW_ASSIGNMENT_MIND_MAP,
+            workspaceId,
+            mindMapId,
+          },
+        });
+      }
       return NextResponse.json("OK", { status: 200 });
     } else {
       await db.assignedToMindMap.delete({
@@ -92,6 +104,17 @@ export async function POST(request: Request) {
         },
       });
 
+      if (assigningUser.assignedToMindMap[0].id !== session.user.id) {
+        await db.notification.deleteMany({
+          where: {
+            notifyCreatorId: session.user.id,
+            userId: assignToUserId,
+            notifyType: NotifyType.NEW_ASSIGNMENT_TASK,
+            workspaceId,
+            mindMapId,
+          },
+        });
+      }
 
       return NextResponse.json("OK", { status: 200 });
     }
