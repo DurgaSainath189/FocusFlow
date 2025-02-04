@@ -10,9 +10,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { HoverCard, HoverCardContent } from "../ui/hover-card";
-import { Button } from "../ui/button";
+} from "../../../ui/dialog";
+import { HoverCard } from "../../../ui/hover-card";
+import { Button } from "../../../ui/button";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -38,10 +38,9 @@ export const PermissionIndicator = ({ userRole, workspaceName }: Props) => {
           <Button
             variant={"outline"}
             size={"icon"}
-            // className={`text-sm md:text-base min-w-[10rem] sm:min-w-[13rem] h-14 p-2 rounded-lg shadow-sm flex justify-center items-center gap-1 md:gap-2 ${
-            //   userRole !== "OWNER" ? "w-1/5" : "w-1/4"
-            // }`}
-            className="w-8 h-8 sm:w-9 sm:h-9"
+            className={`text-sm md:text-base min-w-[10rem] sm:min-w-[13rem] h-14 p-2 rounded-lg shadow-sm flex justify-center items-center gap-1 md:gap-2 ${
+              userRole !== "OWNER" ? "w-1/5" : "w-1/4"
+            }`}
           >
             {userRole === "OWNER" && <span>{userRoleEmojis[0]}</span>}
             {userRole === "ADMIN" && <span>{userRoleEmojis[1]}</span>}
