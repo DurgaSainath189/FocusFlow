@@ -7,7 +7,7 @@ import { FilterByUsersAndTagsInWorkspaceProvider } from "@/context/FilterByUsers
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { ShortcutContainer } from "@/components/workSpaceMainPage/shortcuts/ShortcutContainer";
 import { FilterContainer } from "@/components/workSpaceMainPage/filter/FilterContainer";
-import { PermissionIndicator } from "@/components/permissionIndicator/PermissionIndicator";
+import { PermissionIndicator } from "@/components/workSpaceMainPage/shortcuts/permissionIndicator/PermissionIndicator";
 import { RecentActivityContainer } from "@/components/workSpaceMainPage/recentActivity/RecentActivityContainer";
 
 interface Params {
