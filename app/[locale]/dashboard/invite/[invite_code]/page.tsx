@@ -1,6 +1,6 @@
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 import { db } from "@/lib/db";
-// import { NotifyType } from "@prisma/client";
+import { NotifyType } from "@prisma/client";
 import { redirect } from "next-intl/server";
 
 interface Params {
@@ -78,25 +78,25 @@ const Workspace = async ({ params: { invite_code }, searchParams }: Params) => {
   if (!inviteCodeValid)
     redirect("/dashboard/errors?error=outdated-invite-code");
 
-//   const workspaceUsers = await db.subscription.findMany({
-//     where: {
-//       workspaceId: inviteCodeValid.id,
-//     },
-//     select: {
-//       userId: true,
-//     },
-//   });
+  const workspaceUsers = await db.subscription.findMany({
+    where: {
+      workspaceId: inviteCodeValid.id,
+    },
+    select: {
+      userId: true,
+    },
+  });
 
-  //   const notificationsData = workspaceUsers.map((user) => ({
-  //     notifyCreatorId: session.user.id,
-  //     userId: user.userId,
-  //     workspaceId: inviteCodeValid.id,
-  //     notifyType: NotifyType.NEW_USER_IN_WORKSPACE,
-  //   }));
+    const notificationsData = workspaceUsers.map((user) => ({
+      notifyCreatorId: session.user.id,
+      userId: user.userId,
+      workspaceId: inviteCodeValid.id,
+      notifyType: NotifyType.NEW_USER_IN_WORKSPACE,
+    }));
 
-  //   await db.notification.createMany({
-  //     data: notificationsData,
-  //   });
+    await db.notification.createMany({
+      data: notificationsData,
+    });
 
   const existingWorkspace = await db.workspace.findFirst({
     where: {

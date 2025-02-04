@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { NotifyType } from "@prisma/client";
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -132,6 +133,17 @@ export async function POST(request: Request) {
       select: {
         userId: true,
       },
+    });
+
+    const notificationsData = workspaceUsers.map((user) => ({
+      notifyCreatorId: session.user.id,
+      userId: user.userId,
+      workspaceId: id,
+      notifyType: NotifyType.USER_LEFT_WORKSPACE,
+    }));
+
+    await db.notification.createMany({
+      data: notificationsData,
     });
 
     return NextResponse.json("ok", { status: 200 });

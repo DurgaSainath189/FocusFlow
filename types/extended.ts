@@ -137,3 +137,15 @@ export interface UserActiveItemList {
   image: string | null;
   userRole: UserPermission;
 }
+
+export interface UserNotification extends Notification {
+  notifyCreator: {
+    id: string;
+    username: string;
+    image: string | null;
+  };
+  workspace: {
+    id: string;
+    name: string;
+  } | null;
+}
