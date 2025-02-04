@@ -15,6 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 import { WorkspaceShortcuts } from "@/types/extended";
 import { WorkspaceOption } from "./WorkspaceOption";
 import { NewMindMap } from "./actions/NewMindMap";
+import { UsersContainer } from "./usersList/UsersContainer";
 
 interface Props {
   workspaceId: string;
@@ -74,6 +75,7 @@ export const WorkspaceOptions = ({ workspaceId }: Props) => {
           <NewMindMap workspaceId={workspaceId} />
         </div>
       </div>
+      <UsersContainer />
     </div>
   );
 };
