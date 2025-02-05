@@ -1,4 +1,5 @@
 import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
+import { ChatContainer } from "@/components/chat/ChatContainer";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import {
@@ -59,13 +60,13 @@ const Chat = async ({ params: { workspace_id, chat_id } }: Params) => {
         <AddTaskShortcut userId={session.user.id} />
       </DashboardHeader>
       <main className="h-full w-full max-h-fit">
-        {/* <ChatContainer
+        <ChatContainer
           chatId={conversationId}
           workspaceId={workspace.id}
-          initialMessages={initialMessages ? initialMessages : []}
-          sessionUserId={session.user.id}
-          workspaceName={workspace?.name}
-        /> */}
+          // initialMessages={initialMessages ? initialMessages : []}
+          // sessionUserId={session.user.id}
+          // workspaceName={workspace?.name}
+        />
       </main>
     </>
   );
