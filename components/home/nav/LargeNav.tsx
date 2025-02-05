@@ -12,7 +12,7 @@ export const LargeNav = () => {
           <div className="flex items-center gap-2 hover:scale-105 transition-transform duration-200">
             <Focus className="w-10 h-10" />
             <p className="text-2xl font-semibold">
-              Focus<span className="text-primary">Flow</span>
+              Focus<span className="text-primary"> Flow</span>
             </p>
           </div>
         </Link>
