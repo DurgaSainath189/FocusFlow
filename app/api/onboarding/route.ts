@@ -80,11 +80,11 @@ export async function POST(request: Request) {
       },
     });
 
-    // const conversation = await db.conversation.create({
-    //   data: {
-    //     workspaceId: workspace.id,
-    //   },
-    // });
+    const conversation = await db.conversation.create({
+      data: {
+        workspaceId: workspace.id,
+      },
+    });
 
     return NextResponse.json("OK", { status: 200 });
   } catch (err) {

@@ -83,11 +83,11 @@ export async function POST(request: Request) {
       },
     });
 
-    // const conversation = await db.conversation.create({
-    //   data: {
-    //     workspaceId: workspace.id,
-    //   },
-    // });
+    const conversation = await db.conversation.create({
+      data: {
+        workspaceId: workspace.id,
+      },
+    });
 
     return NextResponse.json(workspace, { status: 200 });
   } catch (_) {
