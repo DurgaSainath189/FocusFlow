@@ -1,4 +1,5 @@
 import {
+  ExtendedMessage,
   ExtendedMindMap,
   ExtendedTask,
   ExtendedWorkspace,
@@ -104,21 +105,21 @@ export const getWorkspaceWithChatId = async (
   return res.json() as Promise<ExtendedWorkspace>;
 };
 
-// export const getInitialMessages = async (userId: string, chatId: string) => {
-//   const res = await fetch(
-//     `${domain}/api/conversation/get/initial_messages?userId=${userId}&chatId=${chatId}`,
-//     {
-//       method: "GET",
-//       cache: "no-store",
-//     }
-//   );
+export const getInitialMessages = async (userId: string, chatId: string) => {
+  const res = await fetch(
+    `${domain}/api/conversation/get/initial_messages?userId=${userId}&chatId=${chatId}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
 
-//   if (!res.ok) {
-//     return notFound();
-//   }
+  if (!res.ok) {
+    return notFound();
+  }
 
-//   return res.json() as Promise<ExtendedMessage[]>;
-// };
+  return res.json() as Promise<ExtendedMessage[]>;
+};
 
 export const getUserWorkspaceRole = async (
   workspace_id: string,
