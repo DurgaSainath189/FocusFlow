@@ -3,11 +3,13 @@ import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { PomodoContainer } from "@/components/pomodoro/timer/PomodoroContainer";
 import { getUserPomodoroSettings } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
+import { notFound } from "next/navigation";
 
 const Pomodoro = async () => {
   const session = await checkIfUserCompletedOnboarding(`/dashboard/pomodoro`);
 
   const pomodoroSettings = await getUserPomodoroSettings(session.user.id);
+  if (!pomodoroSettings) return notFound();
   return (
     <>
       <DashboardHeader>

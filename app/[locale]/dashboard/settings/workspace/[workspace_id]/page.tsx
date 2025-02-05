@@ -5,6 +5,7 @@ import { WorkspaceTab } from "@/components/settings/workspace/WorkspaceTab";
 import { getWorkspaceSettings } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 import { subscribe } from "diagnostics_channel";
+import { notFound } from "next/navigation";
 
 interface Params {
   params: {
@@ -17,6 +18,7 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
     `/dashboard/settings/workplace/${workspace_id}`
   );
   const workspace = await getWorkspaceSettings(workspace_id, session.user.id);
+  if (!workspace) return notFound();
   const user = workspace.subscribers.find(
     (subscriber) => subscriber.user.id === session.user.id
   );
