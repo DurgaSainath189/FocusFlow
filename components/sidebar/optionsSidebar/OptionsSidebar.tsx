@@ -1,10 +1,10 @@
 "use client";
 
 import { usePathname } from "next-intl/client";
+import { Settings } from "./settingsOptions/Settings";
 import { CreatedWorkspacesInfo } from "@/components/common/CreatedWorkspacesInfo";
 import { Workspace } from "@prisma/client";
 import { WorkspaceOptions } from "./workspaceOptions/WorkspaceOptions";
-import { Settings } from "./settingsOptions/Settings";
 import { PomodoroLinks } from "./pomodoro/PomodoroLinks";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AssignedToMeFilter } from "./assignedToMeFilter/AssignedToMeFilter";
@@ -25,6 +25,7 @@ export const OptionsSidebar = ({
 
   const urlWorkspaceId: string | undefined = pathname.split("/")[3];
   const urlAdditionalId: string | undefined = pathname.split("/")[6];
+  const chatId: string | undefined = pathname.split("/")[5];
   const workspaceId = urlWorkspaceId ? urlWorkspaceId : "";
 
   if (
@@ -50,10 +51,9 @@ export const OptionsSidebar = ({
           pathname ===
             `/dashboard/workspace/${workspaceId}/tasks/task/${urlAdditionalId}` ||
           pathname ===
-            `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}`) && (
-          //   ||
-          // pathname ===
-          //   `/dashboard/workspace/${workspaceId}/chat/${chatId}`)
+            `/dashboard/workspace/${workspaceId}/mind-maps/mind-map/${urlAdditionalId}` ||
+          pathname ===
+            `/dashboard/workspace/${workspaceId}/chat/${chatId}`) && (
           <WorkspaceOptions workspaceId={workspaceId} />
         )}
 
