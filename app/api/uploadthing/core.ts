@@ -11,7 +11,10 @@ export const ourFileRouter = {
       return { userId: user.id };
     })
     .onUploadComplete(async () => {}),
-  pdfUplaoder: f({ pdf: { maxFileSize: "8MB" } })
+  addToChatFile: f({
+    pdf: { maxFileSize: "32MB", maxFileCount: 5 },
+    image: { maxFileSize: "16MB", maxFileCount: 5 },
+  })
     .middleware(async (req) => {
       const user = await getToken(req);
       if (!user) throw new Error("Unauthorized");
