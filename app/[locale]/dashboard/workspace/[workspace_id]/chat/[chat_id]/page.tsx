@@ -66,7 +66,7 @@ const Chat = async ({ params: { workspace_id, chat_id } }: Params) => {
           workspaceId={workspace.id}
           initialMessages={initialMessages ? initialMessages : []}
           sessionUserId={session.user.id}
-          // workspaceName={workspace?.name}
+          workspaceName={workspace?.name}
         />
       </main>
     </>
