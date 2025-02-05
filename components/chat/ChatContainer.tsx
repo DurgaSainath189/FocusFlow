@@ -2,7 +2,7 @@
 
 import { ExtendedMessage } from "@/types/extended";
 import { Header } from "./header/Header";
-import { MessagesContainer } from "./messages/MessageContainer";
+import { MessagesContainer } from "./messages/MessagesContainer";
 import { NewMessageContainer } from "./newMessage/NewMessageContainer";
 import { useEffect, useRef } from "react";
 import { MESSAGES_LIMIT } from "@/lib/constants";
@@ -13,7 +13,7 @@ interface Props {
   chatId: string;
   initialMessages: ExtendedMessage[];
   sessionUserId: string;
-  // workspaceName: string;
+  workspaceName: string;
 }
 
 export const ChatContainer = ({
@@ -21,6 +21,7 @@ export const ChatContainer = ({
   chatId,
   initialMessages,
   sessionUserId,
+  workspaceName,
 }: Props) => {
   const initState = useRef(false);
 

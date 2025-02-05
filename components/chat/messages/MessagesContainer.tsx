@@ -5,7 +5,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMessage } from "@/store/conversation/messages";
 import React, { useEffect, useRef, useState } from "react";
 import { Message } from "./Message";
-import { DeleteMessage } from "./DeleteMessage";
 import { supabase } from "@/lib/supabase";
 import {
   RealtimePostgresDeletePayload,
@@ -15,10 +14,11 @@ import {
 import axios from "axios";
 import { ExtendedMessage } from "@/types/extended";
 import { domain } from "@/lib/api";
-import { ScrollDown } from "./ScrollDown";
-import { LoadMoreMessages } from "./LoadMoreMessages";
 import { MessageSquare } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ScrollDown } from "./ScrollDown";
+import { LoadMoreMessages } from "./LoadMoreMessages";
+import { DeleteMessage } from "./DeleteMessage";
 
 interface Props {
   workspaceId: string;

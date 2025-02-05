@@ -2,7 +2,6 @@ import { UserAvatar } from "@/components/ui/user-avatar";
 import { ExtendedMessage } from "@/types/extended";
 import { useFormatter } from "next-intl";
 import { useMemo, useRef, useState } from "react";
-import { EditedBadge } from "./EditedBadge";
 import { useUserActivityStatus } from "@/context/UserActivityStatus";
 import { showUserInformation } from "@/lib/utils";
 import { useMessage } from "@/store/conversation/messages";
@@ -10,6 +9,7 @@ import { useOnClickOutside } from "@/hooks/useOnClickOutside";
 import { EditMessage } from "./EditMessage";
 import { AdditionalResource } from "./AdditionalResource";
 import { Options } from "./Options";
+import { EditedBadge } from "./EditedBadge";
 
 interface Props {
   message: ExtendedMessage;
