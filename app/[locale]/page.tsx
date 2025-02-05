@@ -1,25 +1,9 @@
 "use client";
 
-import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
-import { Button } from "@/components/ui/button";
-import { signOut, useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
+import { HomePage } from "@/components/home/HomePage";
 
 const Home = () => {
-  const t = useTranslations("Index");
-  const session = useSession();
-
-  const logoutHandler = () => {
-    signOut({
-      callbackUrl: `${window.location.origin}/sign-in`,
-    });
-  };
-  return (
-    <>
-      <Button onClick={logoutHandler}>Logout</Button>
-      <ThemeSwitcher />
-    </>
-  );
+  return <HomePage />;
 };
 
 export default Home;
