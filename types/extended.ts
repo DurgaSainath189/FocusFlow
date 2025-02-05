@@ -1,6 +1,9 @@
 import {
+  AdditionalResourceTypes,
   CustomColors,
+  Message,
   MindMap,
+  Notification,
   savedMindMaps,
   savedTask,
   Tag,
@@ -163,12 +166,6 @@ export interface FilterUser {
   image: string | null;
 }
 
-export interface ExtendedWorkspace extends Workspace {
-  conversation: {
-    id: string;
-  };
-}
-
 export interface WorkspaceRecentActivityTagItem {
   id: string;
   name: string;
@@ -206,3 +203,25 @@ export interface AssignedToMeTaskAndMindMapsWorkspaceRecentActivity {
   tasks: WorkspaceRecentActivity[];
   mindMaps: WorkspaceRecentActivity[];
 }
+
+export interface ExtendedWorkspace extends Workspace {
+  conversation: {
+    id: string;
+  };
+}
+
+// export interface AdditionalResource {
+//   id: string;
+//   name: string;
+//   url: string;
+//   type: AdditionalResourceTypes;
+// }
+
+// export interface ExtendedMessage extends Message {
+//   additionalResources: AdditionalResource[];
+//   sender: {
+//     id: string;
+//     username: string;
+//     image?: string | null;
+//   };
+// }
