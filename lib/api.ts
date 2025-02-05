@@ -1,10 +1,15 @@
 import {
   ExtendedMindMap,
   ExtendedTask,
+  ExtendedWorkspace,
   HomeRecentActivity,
   SettingsWorkspace,
 } from "@/types/extended";
-import { PomodoroSettings, UserPermission, Workspace } from "@prisma/client";
+import {
+  PomodoroSettings,
+  UserPermission,
+  Workspace,
+} from "@prisma/client";
 import { notFound } from "next/navigation";
 import { ACTIVITY_PER_PAGE } from "./constants";
 
@@ -79,6 +84,41 @@ export const getWorkspaceSettings = async (
 
   return res.json() as Promise<SettingsWorkspace>;
 };
+
+export const getWorkspaceWithChatId = async (
+  workspace_id: string,
+  userId: string
+) => {
+  const res = await fetch(
+    `${domain}/api/workspace/get/workspace_with_chat/${workspace_id}?userId=${userId}`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    return notFound();
+  }
+
+  return res.json() as Promise<ExtendedWorkspace>;
+};
+
+// export const getInitialMessages = async (userId: string, chatId: string) => {
+//   const res = await fetch(
+//     `${domain}/api/conversation/get/initial_messages?userId=${userId}&chatId=${chatId}`,
+//     {
+//       method: "GET",
+//       cache: "no-store",
+//     }
+//   );
+
+//   if (!res.ok) {
+//     return notFound();
+//   }
+
+//   return res.json() as Promise<ExtendedMessage[]>;
+// };
 
 export const getUserWorkspaceRole = async (
   workspace_id: string,
