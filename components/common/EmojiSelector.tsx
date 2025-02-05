@@ -19,8 +19,8 @@ interface Props {
   onSelectedEmoji: (emoji: string) => void;
   slide?: "top" | "right" | "bottom" | "left";
   align?: "start" | "center" | "end";
-  //   id?: string;
-  //   onOpenChange?: (open: boolean) => void;
+  id?: string;
+  onOpenChange?: (open: boolean) => void;
 }
 
 interface OnSelect {
@@ -39,8 +39,9 @@ export const EmojiSelector = ({
   onSelectedEmoji,
   slide,
   align,
-}: //   id,
-Props) => {
+  id,
+  onOpenChange,
+}: Props) => {
   const { theme, setTheme, systemTheme } = useTheme();
   const locale = useLocale();
   const [open, setOpen] = useState(false);
@@ -59,7 +60,7 @@ Props) => {
   return (
     <DropdownMenu modal={false} open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
-        // id={id}
+        id={id}
         asChild={asChild}
         className={cn(
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background rounded-lg"
