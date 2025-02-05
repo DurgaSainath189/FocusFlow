@@ -1,13 +1,12 @@
 import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
-import { getUserWorkspaceRole, getWorkspace } from "@/lib/api";
+import { getUserWorkspaceRole, getWorkspaceWithChatId } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
 import { FilterByUsersAndTagsInWorkspaceProvider } from "@/context/FilterByUsersAndTagsInWorkspace";
 import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { ShortcutContainer } from "@/components/workSpaceMainPage/shortcuts/ShortcutContainer";
 import { FilterContainer } from "@/components/workSpaceMainPage/filter/FilterContainer";
-import { PermissionIndicator } from "@/components/workSpaceMainPage/shortcuts/permissionIndicator/PermissionIndicator";
 import { RecentActivityContainer } from "@/components/workSpaceMainPage/recentActivity/RecentActivityContainer";
 
 interface Params {
@@ -22,7 +21,7 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
   );
 
   const [workspace, userRole] = await Promise.all([
-    getWorkspace(workspace_id, session.user.id),
+    getWorkspaceWithChatId(workspace_id, session.user.id),
     getUserWorkspaceRole(workspace_id, session.user.id),
   ]);
   return (
@@ -40,10 +39,6 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
           },
         ]}
       >
-        <PermissionIndicator
-          userRole={userRole}
-          workspaceName={workspace.name}
-        />
         {(userRole === "ADMIN" || userRole === "OWNER") && (
           <InviteUsers workspace={workspace} />
         )}
