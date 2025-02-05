@@ -3,6 +3,7 @@ import { ChatContainer } from "@/components/chat/ChatContainer";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import {
+  getInitialMessages,
   getUserWorkspaceRole,
   getWorkspaceWithChatId,
 } from "@/lib/api";
@@ -21,10 +22,10 @@ const Chat = async ({ params: { workspace_id, chat_id } }: Params) => {
     `/dashboard/workspace/${workspace_id}/chat/${chat_id}`
   );
 
-  const [workspace, userRole] = await Promise.all([
+  const [workspace, userRole,initialMessages] = await Promise.all([
     getWorkspaceWithChatId(workspace_id, session.user.id),
     getUserWorkspaceRole(workspace_id, session.user.id),
-    // getInitialMessages(session.user.id, chat_id),
+    getInitialMessages(session.user.id, chat_id),
   ]);
 
   if (!workspace) return notFound();
@@ -63,8 +64,8 @@ const Chat = async ({ params: { workspace_id, chat_id } }: Params) => {
         <ChatContainer
           chatId={conversationId}
           workspaceId={workspace.id}
-          // initialMessages={initialMessages ? initialMessages : []}
-          // sessionUserId={session.user.id}
+          initialMessages={initialMessages ? initialMessages : []}
+          sessionUserId={session.user.id}
           // workspaceName={workspace?.name}
         />
       </main>
