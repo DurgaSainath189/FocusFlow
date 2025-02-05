@@ -34,7 +34,6 @@ model User {
   assignedToMindMap assignedToMindMap[]
   userNotifications Notification[] @relation("NotifyUser")
   userCreatedNotifications Notification[] @relation("NotifyCreator")
-  lastTimeActive DateTime @default(now())
   messages Message[]
 }
 
