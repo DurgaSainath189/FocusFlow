@@ -1,3 +1,4 @@
+import { HomePageImage } from "@/types/extended";
 import {
   CalendarDays,
   Clock,
@@ -34,5 +35,28 @@ export const homePageHeaderLinks = [
     href: "Pomodoro",
     Icon: Clock,
     title: "Pomodoro",
+  },
+];
+
+export const homePageHeaderImgs: HomePageImage[] = [
+  {
+    src: "/images/dashboardBlack.png",
+    alt: "Home page - dark theme",
+  },
+  {
+    src: "/images/dashboardWhite.png",
+    alt: "Home page - light theme",
+  },
+  {
+    src: "/images/workspaceMainPage.png",
+    alt: "Workspace main page - dark theme",
+  },
+  {
+    src: "/images/workspaceMainPageFiltersBlack.png",
+    alt: "Workspace main page - dark theme",
+  },
+  {
+    src: "/images/workspaceMainPageFiltersWhite.png",
+    alt: "Workspace main page - light theme",
   },
 ];
