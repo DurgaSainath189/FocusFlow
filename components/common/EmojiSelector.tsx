@@ -40,7 +40,6 @@ export const EmojiSelector = ({
   slide,
   align,
   id,
-  onOpenChange,
 }: Props) => {
   const { theme, setTheme, systemTheme } = useTheme();
   const locale = useLocale();
