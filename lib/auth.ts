@@ -2,11 +2,11 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { getServerSession, NextAuthOptions } from "next-auth";
 import { db } from "./db";
 import { Adapter } from "next-auth/adapters";
-import bcrypt from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
 import AppleProvider from "next-auth/providers/apple";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
 import { generateFromEmail } from "unique-username-generator";
 
 export const authOptions: NextAuthOptions = {
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.APPLE_CLIENT_SECRET!,
     }),
     CredentialsProvider({
-      name: "credential",
+      name: "credentials",
       credentials: {
         username: { label: "Username", type: "text", placeholder: "Username" },
         email: { label: "Email", type: "text", placeholder: "Email" },
@@ -67,11 +67,15 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials.password) {
-          throw new Error("Please enter email and password");
+          throw new Error("Please enter email and password.");
         }
+
         const user = await db.user.findUnique({
-          where: { email: credentials.email },
+          where: {
+            email: credentials.email,
+          },
         });
+
         if (!user || !user?.hashedPassword) {
           throw new Error("User was not found, Please enter valid email");
         }
@@ -93,8 +97,6 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
-      // console.log("Token :", token);
-
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
@@ -117,7 +119,6 @@ export const authOptions: NextAuthOptions = {
         session.user.username = user.username;
       }
 
-      // console.log("Session :", session);
 
       return session;
     },
