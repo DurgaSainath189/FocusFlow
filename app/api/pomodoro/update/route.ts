@@ -2,7 +2,6 @@ import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { pomodoroSettingsSchema } from "@/schema/pomodoroSettingsSchema";
 import { PomodoroSoundEffect } from "@prisma/client";
-// import { PomodoroSoundEffect } from "@prisma/client";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
