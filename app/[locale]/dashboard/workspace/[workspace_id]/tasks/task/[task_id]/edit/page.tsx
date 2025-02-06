@@ -1,11 +1,11 @@
-import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
 import { DashboardHeader } from "@/components/header/DashboardHeader";
 import { InviteUsers } from "@/components/inviteUsers/InviteUsers";
 import { TaskContainer } from "@/components/tasks/editable/container/TaskContainer";
 import { AutosaveIndicatorProvider } from "@/context/AutosaveIndicator";
 import { getTask, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
-import { redirect } from "next-intl/server";
+import { AddTaskShortcut } from "@/components/addTaskShortCut/AddTaskShortcut";
+import { notFound } from "next/navigation";
 
 interface Params {
   params: {
@@ -25,18 +25,13 @@ const EditTask = async ({ params: { workspace_id, task_id } }: Params) => {
     getTask(task_id, session.user.id),
   ]);
 
-  const canEdit =
-    userRole === "ADMIN" || userRole === "OWNER" || userRole === "CAN_EDIT"
-      ? true
-      : false;
-  if (!canEdit)
-    redirect(`/dashboard/workspace/${workspace_id}/tasks/task/${task_id}`);
+  if (!workspace || !userRole || !task) notFound();
 
   return (
     <>
       <AutosaveIndicatorProvider>
         {" "}
-        <DashboardHeader hideBreadCrumb showingSavingStatus showBackBtn>
+        <DashboardHeader showBackBtn hideBreadCrumb showingSavingStatus>
           {(userRole === "ADMIN" || userRole === "OWNER") && (
             <InviteUsers workspace={workspace} />
           )}

@@ -8,6 +8,7 @@ import { LeaveWorkspace } from "@/components/leaveWorkspace/LeaveWorkspace";
 import { ShortcutContainer } from "@/components/workSpaceMainPage/shortcuts/ShortcutContainer";
 import { FilterContainer } from "@/components/workSpaceMainPage/filter/FilterContainer";
 import { RecentActivityContainer } from "@/components/workSpaceMainPage/recentActivity/RecentActivityContainer";
+import { notFound } from "next/navigation";
 
 interface Params {
   params: {
@@ -24,6 +25,9 @@ const Workspace = async ({ params: { workspace_id } }: Params) => {
     getWorkspaceWithChatId(workspace_id, session.user.id),
     getUserWorkspaceRole(workspace_id, session.user.id),
   ]);
+
+  if (!workspace || !userRole) notFound();
+  
   return (
     <FilterByUsersAndTagsInWorkspaceProvider>
       <DashboardHeader

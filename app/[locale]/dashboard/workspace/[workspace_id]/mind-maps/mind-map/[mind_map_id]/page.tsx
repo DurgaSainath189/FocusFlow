@@ -8,6 +8,7 @@ import { AutoSaveMindMapProvider } from "@/context/AutoSaveMindMap";
 import { getMindMap, getUserWorkspaceRole, getWorkspace } from "@/lib/api";
 import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 import { checkIfUserCompletedOnboarding } from "@/lib/checkIfUserCompletedOnboarding";
+import { notFound } from "next/navigation";
 
 interface Params {
   params: {
@@ -28,6 +29,8 @@ const MindMapPage = async ({
     getUserWorkspaceRole(workspace_id, session.user.id),
     getMindMap(mind_map_id, session.user.id),
   ]);
+
+  if (!workspace || !userRole || !mindMap) notFound();
 
   const canEdit = userRole === "ADMIN" || userRole === "OWNER" ? true : false;
 
@@ -64,7 +67,7 @@ const MindMapPage = async ({
           {canEdit && <InviteUsers workspace={workspace} />}
           <AddTaskShortcut userId={session.user.id} />
         </DashboardHeader>
-        <main className="flex flex-col gap-2 h-full mb-2">
+        <main className="flex flex-col gap-2 h-full mb-4">
           <MindMapPreviewCardWrapper
             mindMap={mindMap}
             userRole={userRole}
