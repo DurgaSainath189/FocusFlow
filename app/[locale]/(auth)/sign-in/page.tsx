@@ -1,10 +1,9 @@
 import { AuthCard } from "@/components/auth/AuthCard";
 import { Metadata } from "next";
-import React from "react";
 
 export const metadata: Metadata = {
-  title: "Sign In",
-  description: "Sign In Page",
+  title: "Sign in",
+  description: "Sign in",
 };
 
 const SignIn = () => {
