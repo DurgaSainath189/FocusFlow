@@ -19,7 +19,7 @@ export const SidebarContainer = ({
 }: Props) => {
   const { isOpen, setIsOpen } = useToggleSidebar();
   const createdWorkspaces = userWorkspaces.filter(
-    (workspace) => workspace.creatorId === userId
+    (workspace) => workspace.creatorId == userId
   );
   return (
     <>
@@ -29,7 +29,7 @@ export const SidebarContainer = ({
         }`}
       >
         <ShortcutSidebar
-          userWorkspaces={userWorkspaces}
+          userWorkspaces={userWorkspaces ? userWorkspaces : []}
           createdWorkspaces={createdWorkspaces.length}
         />
         <OptionsSidebar
