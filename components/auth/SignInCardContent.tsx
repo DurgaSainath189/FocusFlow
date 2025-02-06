@@ -8,7 +8,7 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProviderSignInBtns } from "./ProviderSignInBtns";
 import { Input } from "../ui/input";
@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { LoadingState } from "../ui/loadingState";
 
 export const SignInCardContent = () => {
   const t = useTranslations("AUTH");
@@ -37,12 +38,14 @@ export const SignInCardContent = () => {
 
   const onSubmit = async (data: SignInSchema) => {
     setIsLoading(true);
+
     try {
       const account = await signIn("credentials", {
         email: data.email,
         password: data.password,
         redirect: false,
       });
+
       if (!account) throw new Error("Something went wrong");
 
       if (account.error) {
@@ -53,17 +56,16 @@ export const SignInCardContent = () => {
       } else {
         toast({
           title: m("SUCCESS.SIGN_IN"),
-          variant: "destructive",
         });
+        router.push("/onboarding");
+        router.refresh();
       }
-      router.push("/onboarding");
-      router.refresh();
-    } catch (error) {
+    } catch (err) {
       let errMsg = m("ERRORS.DEFAULT");
-      if (typeof error === "string") {
-        errMsg = error;
-      } else if (error instanceof Error) {
-        errMsg = m(error.message);
+      if (typeof err === "string") {
+        errMsg = err;
+      } else if (err instanceof Error) {
+        errMsg = m(err.message);
       }
       toast({
         title: errMsg,
@@ -109,12 +111,17 @@ export const SignInCardContent = () => {
             />
           </div>
           <div className="space-y-2">
-            <Button className="w-full font-bold text-white" type="submit">
-              {t("SIGN_IN.SUBMIT_BTN")}
+            <Button
+              disabled={isLoading}
+              className="w-full font-bold text-white"
+              type="submit"
+            >
+              {isLoading ? (
+                <LoadingState loadingText={m("PENDING.LOADING")} />
+              ) : (
+                t("SIGN_IN.SUBMIT_BTN")
+              )}
             </Button>
-            <p className="text-xs text-center text-muted-foreground">
-              {t("SIGN_IN.FORGOT_PASSWORD")}{" "}
-            </p>
           </div>
         </form>
       </Form>

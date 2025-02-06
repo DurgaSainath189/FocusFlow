@@ -8,14 +8,13 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
 import { signUpSchema, SignUpSchema } from "@/schema/signUpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProviderSignInBtns } from "./ProviderSignInBtns";
 import { Input } from "../ui/input";
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
-import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -48,7 +47,8 @@ export const SignUpCardContent = () => {
           "Content-Type": "application/json",
         },
       });
-      if (!res.ok) throw new Error("Something went wrong!!");
+
+      if (!res.ok) throw new Error("Something went wrong");
       const signUpInfo = await res.json();
 
       if (res.status === 200) {
@@ -62,12 +62,12 @@ export const SignUpCardContent = () => {
         });
         router.push("/");
       } else throw new Error(signUpInfo);
-    } catch (error) {
+    } catch (err) {
       let errMsg = m("ERRORS.DEFAULT");
-      if (typeof error === "string") {
-        errMsg = error;
-      } else if (error instanceof Error) {
-        errMsg = m(error.message);
+      if (typeof err === "string") {
+        errMsg = err;
+      } else if (err instanceof Error) {
+        errMsg = m(err.message);
       }
       toast({
         title: errMsg,
@@ -138,9 +138,7 @@ export const SignUpCardContent = () => {
             </Button>
             <p className="text-xs text-center text-muted-foreground">
               {t("SIGN_UP.TERMS.FIRST")}{" "}
-              <Link href="/" className="font-bold">
-                {t("SIGN_UP.TERMS.SECOND")}
-              </Link>
+              <span className="font-bold">{t("SIGN_UP.TERMS.SECOND")}</span>
             </p>
           </div>
         </form>
