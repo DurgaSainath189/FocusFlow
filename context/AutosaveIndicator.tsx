@@ -11,9 +11,8 @@ interface AutosaveIndicatorContext {
   onSetStatus: (status: "unsaved" | "saved" | "pending") => void;
 }
 
-export const AutosaveIndicatorCtx = createContext<AutosaveIndicatorContext | null>(
-  null
-);
+export const AutosaveIndicatorCtx =
+  createContext<AutosaveIndicatorContext | null>(null);
 
 export const AutosaveIndicatorProvider = ({ children }: Props) => {
   const [status, setStatus] = useState<"unsaved" | "saved" | "pending">(
