@@ -9,7 +9,6 @@ import {
 import { Button } from "../ui/button";
 import { LoadingState } from "../ui/loadingState";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next-intl/client";
 import { HoverCard, HoverCardContent } from "../ui/hover-card";
 import { useChangeLocale } from "@/hooks/useChangeLocale";
 
@@ -39,7 +38,7 @@ export const LocaleSwitcher = ({
 
   const t = useTranslations("COMMON");
 
-  const { isLoading, isPending, onSelectChange } = useChangeLocale();
+  const { isLoading, onSelectChange } = useChangeLocale();
 
   return (
     <HoverCard openDelay={250} closeDelay={250}>
@@ -75,6 +74,14 @@ export const LocaleSwitcher = ({
             className="cursor-pointer"
           >
             EN
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              onSelectChange("hi");
+            }}
+            className="cursor-pointer"
+          >
+            HI
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
