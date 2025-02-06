@@ -1,14 +1,6 @@
 "use client";
 
-import ActiveLink from "@/components/ui/active-link";
-import {
-  Brain,
-  CalendarRange,
-  Files,
-  Map,
-  PencilRuler,
-  Workflow,
-} from "lucide-react";
+import { PencilRuler, Workflow } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { NewTask } from "./actions/NewTask";
 import { useQuery } from "@tanstack/react-query";
@@ -40,9 +32,7 @@ export const WorkspaceOptions = ({ workspaceId }: Props) => {
   return (
     <div>
       <div>
-        <p className="text-xs sm:text-sm upppercase text-muted-foreground">
-          {t("SHORTCUTS")}
-        </p>
+        <p>{t("SHORTCUTS")}</p>
         {!isLoading && workspaceShortcuts && (
           <div>
             <WorkspaceOption
