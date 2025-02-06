@@ -5,6 +5,7 @@ import { z } from "zod";
 
 export async function POST(request: Request) {
   const session = await getAuthSession();
+
   if (!session?.user) {
     return new Response("Unauthorized", {
       status: 400,
@@ -36,11 +37,11 @@ export async function POST(request: Request) {
     if (!user) {
       return new NextResponse("User not found", {
         status: 404,
-        statusText: "User Not Found",
+        statusText: "User not Found",
       });
     }
 
-    const updateUser = await db.user.update({
+    const updatedUser = await db.user.update({
       where: {
         id: session.user.id,
       },
@@ -48,7 +49,8 @@ export async function POST(request: Request) {
         image: profileImage,
       },
     });
-    return NextResponse.json(updateUser, { status: 200 });
+
+    return NextResponse.json(updatedUser, { status: 200 });
   } catch (_) {
     return NextResponse.json("ERRORS.DB_ERROR", { status: 405 });
   }
