@@ -38,7 +38,7 @@ export const TextNode = ({ data, id }: NodeProps<NodeData>) => {
       setNodes((prevNodes) => {
         const nodes = prevNodes.map((node: any) =>
           node.id === nodeId
-            ? { ...node, data: { ...node.date, text: nodeText } }
+            ? { ...node, data: { ...node.data, text: nodeText } }
             : node
         );
         return nodes;
@@ -46,7 +46,7 @@ export const TextNode = ({ data, id }: NodeProps<NodeData>) => {
       onSetStatus("unsaved");
       debouncedMindMapInfo();
     },
-    [setNodes, onSetStatus, debouncedMindMapInfo]
+    [setNodes, debouncedMindMapInfo, onSetStatus]
   );
 
   const form = useForm<TextNodeSchema>({
