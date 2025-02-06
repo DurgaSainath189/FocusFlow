@@ -61,7 +61,10 @@ export const ReadOnlyContent = ({ task, isSavedByUser, userRole }: Props) => {
                 taskId={task.id}
                 workspaceId={task.workspaceId}
               />
-              <ReadOnlyCalendar from={task.taskDate?.from} to={task.taskDate?.to} />
+              <ReadOnlyCalendar
+                from={task.taskDate?.from}
+                to={task.taskDate?.to}
+              />
               {task.tags &&
                 task.tags.map((tag) => <LinkTag key={tag.id} tag={tag} />)}
             </div>

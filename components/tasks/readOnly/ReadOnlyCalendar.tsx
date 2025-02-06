@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
-import { te } from "date-fns/locale";
+import { te, hi } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -18,6 +18,7 @@ export const ReadOnlyCalendar = ({ from, to }: Props) => {
 
   const currentLocale = useMemo(() => {
     if (lang === "te") return te;
+    if (lang === "hi") return hi;
   }, [lang]);
   return (
     <Badge
