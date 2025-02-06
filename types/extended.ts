@@ -141,6 +141,11 @@ export interface UserActiveItemList {
   userRole: UserPermission;
 }
 
+export interface HomePageImage {
+  src: string;
+  alt: string;
+}
+
 export interface UserNotification extends Notification {
   notifyCreator: {
     id: string;
