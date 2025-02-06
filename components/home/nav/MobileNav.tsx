@@ -1,3 +1,4 @@
+"use client";
 import { LocaleSwitcher } from "@/components/switchers/LocaleSwitcher";
 import { ThemeSwitcher } from "@/components/switchers/ThemeSwitcher";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -9,13 +10,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { navLinks } from "@/lib/constants";
+import { scrollToHash } from "@/lib/utils";
 import { Focus, Menu } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 export const MobileNav = () => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="md:hidden py-2 px-2 w-full flex items-center justify-between">
-      <Sheet>
+      <Sheet onOpenChange={setOpen} open={open}>
         <SheetTrigger asChild>
           <Button variant={"ghost"} size={"icon"}>
             <Menu />
@@ -27,19 +32,26 @@ export const MobileNav = () => {
         >
           <SheetHeader>
             <SheetTitle asChild>
-              <Link className="group" href={"/"}>
-                <div className="flex items-center gap-2">
-                  <Focus className="w-10 h-10" />
-                  <p className="text-2xl font-semibold">
-                    Focus<span className="text-primary"> Flow</span>
-                  </p>
-                </div>
-              </Link>
+              <Button
+                className="w-fit bg-transparent text-secondary-foreground hover:bg-transparent flex items-center gap-2 hover:scale-105 transition-transform duration-200"
+                onClick={() => {
+                  setOpen(false);
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                <Focus className="w-10 h-10" />
+                <p className="text-2xl font-semibold">
+                  Focus<span className="text-primary">Flow</span>
+                </p>
+              </Button>
             </SheetTitle>
           </SheetHeader>
 
           <ScrollArea className="my-4 flex-grow">
-            {/* <div className="h-full flex flex-col gap-2">
+            <div className="h-full flex flex-col gap-2">
               {navLinks.map((link, i) => (
                 <Button
                   variant={"link"}
@@ -53,17 +65,13 @@ export const MobileNav = () => {
                   {link.title}
                 </Button>
               ))}
-            </div> */}
-            <div className="h-full">
-              <p>lorem</p>
-              <p>lorem</p>
-              <p>lorem</p>
-              <p>lorem</p>
-              <p>lorem</p>
             </div>
           </ScrollArea>
           <div className="w-full flex flex-col gap-2">
             <Link
+              onClick={() => {
+                setOpen(false);
+              }}
               href={"/"}
               className={`${buttonVariants({ variant: "default" })}`}
             >
@@ -71,6 +79,9 @@ export const MobileNav = () => {
             </Link>
             <Link
               href={"/"}
+              onClick={() => {
+                setOpen(false);
+              }}
               className={`${buttonVariants({ variant: "outline" })}`}
             >
               Log in
@@ -78,6 +89,7 @@ export const MobileNav = () => {
           </div>
         </SheetContent>
       </Sheet>
+
       <div className="flex items-center gap-2">
         <LocaleSwitcher
           alignHover="end"
