@@ -17,12 +17,12 @@ interface Props {
 
 export const Emoji = ({ onFormSelect, emoji, taskId, workspaceId }: Props) => {
   const [selectedEmoji, setSelectedEmoji] = useState(emoji);
-  const { onSetStatus, status } = useAutosaveIndicator();
+  const { status, onSetStatus } = useAutosaveIndicator();
   const renderedEmoji = useChangeCodeToEmoji(selectedEmoji);
 
   const { mutate: updateTaskEmoji, isPending } = useMutation({
     mutationFn: async () => {
-      await axios.post(`/api/task/update/emoji`, {
+      await axios.post("/api/task/update/emoji", {
         workspaceId,
         selectedEmoji,
         taskId,
@@ -46,7 +46,7 @@ export const Emoji = ({ onFormSelect, emoji, taskId, workspaceId }: Props) => {
   const debounced = useDebouncedCallback(() => {
     onSetStatus("pending");
     updateTaskEmoji();
-  }, 5000);
+  }, 2000);
 
   return (
     <EmojiSelector onSelectedEmoji={selectEmojiHandler}>

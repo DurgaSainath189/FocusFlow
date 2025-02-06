@@ -92,7 +92,7 @@ export function TaskCalendar({
             size={"sm"}
             variant={"outline"}
             className={cn(
-              "w-fit h-fit text-xs justify-start text-left font-normalnpx-2.5 py-0.5"
+              "w-fit h-fit text-xs justify-start text-left font-normal px-2.5 py-0.5"
             )}
           >
             <CalendarIcon size={16} className="mr-2 w-3 h-3" />

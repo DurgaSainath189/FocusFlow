@@ -1,19 +1,15 @@
 "use client";
-import { CustomColors, Tag } from "@prisma/client";
-
+import { Tag } from "@prisma/client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { taskSchema, TaskSchema } from "@/schema/taskSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-
 import TextareaAutosize from "react-textarea-autosize";
-
 import { DateRange } from "react-day-picker";
 import { Card, CardContent } from "@/components/ui/card";
 import { Emoji } from "@/components/tasks/editable/container/Emoji";
 import { TaskCalendar } from "@/components/tasks/editable/container/TaskCalendar";
-
 import { EditorTasks } from "../editor/Editor";
 import { TagSelector } from "../../../common/tag/TagSelector";
 import { LinkTag } from "../tag/LinkTag";
@@ -21,9 +17,7 @@ import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
 import { useAutosaveIndicator } from "@/context/AutosaveIndicator";
 import axios from "axios";
-import { changeCodeToEmoji } from "@/lib/changeCodeToEmoji";
 import { useTags } from "@/hooks/UseTags";
-import { isError } from "util";
 
 interface Props {
   workspaceId: string;
