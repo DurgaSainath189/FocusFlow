@@ -1,8 +1,8 @@
-import { ExtendedMessage } from "@/types/extended";
 import { clsx, type ClassValue } from "clsx";
-import dayjs from "dayjs";
 import { CalendarDays, Clock, Home, Star, User } from "lucide-react";
 import { twMerge } from "tailwind-merge";
+import dayjs from "dayjs";
+import { ExtendedMessage } from "@/types/extended";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -75,6 +75,15 @@ export const getMonth = (month = dayjs().month()) => {
   }
 
   return daysMatrix;
+};
+
+export const scrollToHash = (elementId: string) => {
+  const element = document.getElementById(elementId);
+  element?.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+    inline: "nearest",
+  });
 };
 
 export const showUserInformation = (
