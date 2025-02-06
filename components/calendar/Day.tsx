@@ -16,21 +16,21 @@ interface Props {
 
 export const Day = ({ day, monthIndex, calendarItems }: Props) => {
   const isPreviousMonth = day.month() !== monthIndex;
-    const [tasks, setTasks] = useState<CalendarItem[]>([]);
+  const [tasks, setTasks] = useState<CalendarItem[]>([]);
 
-    useEffect(() => {
-      const filterTasks = calendarItems.filter((dayInfo, i) => {
-        const startDate = dayjs(dayInfo.taskDate?.from);
-        const endDate = dayInfo.taskDate?.to ? dayjs(dayInfo.taskDate?.to) : null;
+  useEffect(() => {
+    const filterTasks = calendarItems.filter((dayInfo, i) => {
+      const startDate = dayjs(dayInfo.taskDate?.from);
+      const endDate = dayInfo.taskDate?.to ? dayjs(dayInfo.taskDate?.to) : null;
 
-        if (startDate.isSame(day) && !endDate) return dayInfo;
-        else if (day.isSameOrAfter(startDate) && day.isSameOrBefore(endDate)) {
-          return dayInfo;
-        }
-      });
+      if (startDate.isSame(day) && !endDate) return dayInfo;
+      else if (day.isSameOrAfter(startDate) && day.isSameOrBefore(endDate)) {
+        return dayInfo;
+      }
+    });
 
-      setTasks(filterTasks);
-    }, [day, calendarItems]);
+    setTasks(filterTasks);
+  }, [day, calendarItems]);
   return (
     <div
       className={cn(
