@@ -3,10 +3,10 @@ import { MAX_FILE_SIZE, ACCEPTED_IMAGE_TYPES } from "./imageSchema";
 
 const file = z
   .any()
-  .refine((file) => file?.size <= MAX_FILE_SIZE, "SCHEMA.IMAGE.MAX")
+  .refine((file) => file?.size <= MAX_FILE_SIZE, "Max image size is 5MB")
   .refine(
     (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-    "SCHEMA.IMAGE.SUPPORTED"
+    "Only .jpeg, .jpg, .png, .webp, .gif types are supported"
   )
   .optional()
   .nullable();
@@ -28,10 +28,10 @@ export const color = z.enum([
 
 const workspaceName = z
   .string()
-  .min(2, "SCHEMA.WORKSPACE.SHORT")
-  .max(20, "SCHEMA.WORKSPACE.LONG")
+  .min(2, "Workspace name is too short")
+  .max(20, "Workspace name is too long")
   .refine((username) => /^[a-zA-Z0-9]+$/.test(username), {
-    message: "SCHEMA.WORKSPACE.SPECIAL_CHARS",
+    message: "Workspace name must only contain letters and digits",
   });
 
 export const workspaceSchema = z.object({
@@ -42,9 +42,9 @@ export const workspaceSchema = z.object({
 export const apiWorkspaceSchema = z.object({
   workspaceName: z
     .string()
-    .min(4, "SCHEMA.WORKSPACE.SHORT")
+    .min(4, "Workspace name is too short")
     .refine((username) => /^[a-zA-Z0-9]+$/.test(username), {
-      message: "SCHEMA.WORKSPACE.SPECIAL_CHARS",
+      message: "Workspace name must only contain letters and digits",
     }),
   file: z.string().optional().nullable(),
 });

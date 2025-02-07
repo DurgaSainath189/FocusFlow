@@ -8,11 +8,11 @@ export const changePasswordSchema = z
     repeat_password: z.string(),
   })
   .refine((data) => data.new_password === data.repeat_password, {
-    message: "SCHEMA.PASSWORD_NOT_THE_SAME",
+    message: "Passwords are not the same",
     path: ["repeat_password"],
   })
   .refine((data) => data.new_password === data.current_password, {
-    message: "SCHEMA.PASSWORD_NOT_THE_SAME",
+    message: "Passwords are not the same",
     path: ["new_password"],
   });
 

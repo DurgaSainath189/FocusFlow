@@ -3,10 +3,10 @@ import { color } from "./workspaceSchema";
 
 const tagName = z
   .string()
-  .min(2, "SCHEMA.WORKSPACE.SHORT")
-  .max(20, "SCHEMA.WORKSPACE.LONG")
+  .min(2, "Tag name is too short")
+  .max(20, "Tag name is too long")
   .refine((username) => /^[a-zA-Z0-9]+$/.test(username), {
-    message: "SCHEMA.WORKSPACE.SPECIAL_CHARS",
+    message: "Tag name must only contain letters and digits",
   });
 
 const id = z.string();

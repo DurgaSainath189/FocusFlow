@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const deleteAccountSchema = z.object({
-  email: z.string().email("SCHEMA.EMAIL"),
+  email: z.string().email("Please enter a valid email"),
 });
 
 export type DeleteAccountSchema = z.infer<typeof deleteAccountSchema>;

@@ -12,10 +12,10 @@ export const imageSchema = z.object({
   image: z
     .any()
     .optional()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, "SCHEMA.IMAGE.MAX")
+    .refine((file) => file?.size <= MAX_FILE_SIZE, "Max image size is 5MB")
     .refine(
       (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "SCHEMA.IMAGE.SUPPORTED"
+      "Only .jpeg, .jpg, .png, .webp, .gif types are supported"
     ),
 });
 

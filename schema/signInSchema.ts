@@ -3,16 +3,16 @@ import { z } from "zod";
 export const password = z
   .string()
   .refine((password) => password.length >= 6, {
-    message: "SCHEMA.PASSWORD.MIN",
+    message: "Password must have at least 6 characters",
   })
   .refine((password) => /[A-Z]/.test(password), {
-    message: "SCHEMA.PASSWORD.UPPERCASE",
+    message: "Password must contain at least one uppercase letter",
   })
   .refine((password) => /[a-z]/.test(password), {
-    message: "SCHEMA.PASSWORD.LOWERCASE",
+    message: "Password must contain at least one lowercase letter",
   })
   .refine((password) => /\d/.test(password), {
-    message: "SCHEMA.PASSWORD.DIGIT",
+    message: "Password must contain at least one digit",
   });
 
 export const signInSchema = z.object({

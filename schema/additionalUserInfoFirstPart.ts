@@ -4,14 +4,14 @@ export const additionalUserInfoFirstPart = z.object({
   name: z
     .string()
     .refine((username) => /^[a-zA-Z0-9]+$/.test(username), {
-      message: "SCHEMA.USERNAME.SPECIAL_CHARS",
+      message: "Name must only contain letters and digits",
     })
     .optional(),
 
   surname: z
     .string()
     .refine((username) => /^[a-zA-Z0-9]+$/.test(username), {
-      message: "SCHEMA.USERNAME.SPECIAL_CHARS",
+      message: "Surname must only contain letters and digits",
     })
     .optional(),
 });
