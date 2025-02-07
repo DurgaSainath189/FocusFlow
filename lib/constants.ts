@@ -232,10 +232,6 @@ export const homePageRolesAndSettingsImgs: HomePageImage[] = [
     alt: "Task Content editor options page - dark theme",
   },
   {
-    src: "/images/accountSettingsWithImageBlack.png",
-    alt: "Task Content Add Image by link page - dark theme",
-  },
-  {
     src: "/images/workspaceMembersBlack.png",
     alt: "Task Content Add Image from device page - dark theme",
   },
