@@ -17,7 +17,7 @@ export const HomePage = () => {
   return (
     <>
       <Nav />
-      <div className="w-full mx-auto max-w-screen-xl px-4 sm:px-6">
+      <div className="w-full mx-auto max-w-screen-xl px-4 sm:px-6 mb-10">
         <Header />
         <main>
           <TextSection
