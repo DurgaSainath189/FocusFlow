@@ -58,7 +58,7 @@ export const FirstStep = ({ profileImage }: Props) => {
       </h2>
       <div className="max-w-md w-full space-y-8">
         <div className="w-full flex flex-col justify-center items-center gap-2">
-          <p>{t("FIRST_STEP.PHOTO")}</p>
+          {/* <p>{t("FIRST_STEP.PHOTO")}</p> */}
           <AddUserImage profileImage={profileImage} />
         </div>
 
