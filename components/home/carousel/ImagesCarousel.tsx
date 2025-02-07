@@ -31,12 +31,12 @@ export const ImagesCarousel = ({ className, images }: Props) => {
         {images.map((img, index) => (
           <CarouselItem key={index}>
             <div className="w-full overflow-hidden rounded-3xl border border-border h-fit">
-              <AspectRatio ratio={16 / 9}>
+              <AspectRatio ratio={15.3 / 8.6}>
                 <Image
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   src={img.src}
                   alt={img.alt}
-                  width={1900}
+                  width={1700}
                   height={1900}
                 />
               </AspectRatio>
