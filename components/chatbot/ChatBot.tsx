@@ -1,5 +1,5 @@
 // components/Chatbot.tsx
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import * as use from "@tensorflow-models/universal-sentence-encoder";
 import * as tf from "@tensorflow/tfjs";
 import { botFAQs } from "./FAQ";
@@ -16,9 +16,10 @@ export const Chatbot = () => {
   const [model, setModel] = useState<use.UniversalSentenceEncoder>();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<
-    { user: string; bot: string; time: string }[]
+    { user: string; bot: string; time: string; isStreaming?: boolean }[]
   >([]);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
 
   const loadModel = async () => {
     const loaded = await use.load();
@@ -46,25 +47,59 @@ export const Chatbot = () => {
         bestAnswer = faq.answer;
       }
     }
+    if (bestScore < 0.5) {
+      bestAnswer = "Hmm, I don't know that yet."; // Remove HTML tags
+    }
+    console.log("bestscore:", bestScore);
 
     return bestAnswer;
   };
 
+  const streamResponse = async (fullText: string, index: number) => {
+    for (let i = 0; i <= fullText.length; i++) {
+      await new Promise((res) => setTimeout(res, 25)); // 25ms per char
+      setMessages((prev) => {
+        const newMessages = [...prev];
+        newMessages[index] = {
+          ...newMessages[index],
+          bot: fullText.slice(0, i),
+        };
+        return newMessages;
+      });
+    }
+
+    // Mark streaming as done
+    setMessages((prev) => {
+      const newMessages = [...prev];
+      newMessages[index].isStreaming = false;
+      return newMessages;
+    });
+    setIsTyping(false);
+  };
+
   const handleSend = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || isTyping) return;
+
     const time = new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
-    const botReply = await getBotResponse(input);
-    setMessages([...messages, { user: input, bot: botReply, time }]);
+
+    const userMsg = { user: input, bot: "", time, isStreaming: true };
+    const newIndex = messages.length;
+
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    setIsTyping(true);
+
+    const botReply = await getBotResponse(input);
+    await streamResponse(botReply, newIndex);
   };
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
       {isOpen ? (
-        <div className="w-80 bg-white shadow-lg rounded-xl border flex flex-col h-96">
+        <div className="w-80 bg-background shadow-lg rounded-xl border flex flex-col h-96">
           <div className="p-3 border-b font-semibold text-center relative">
             <h2 className="font-bold text-center">🤖 FocusBot</h2>
             <button
@@ -82,6 +117,11 @@ export const Chatbot = () => {
                 </div>
                 <div className="bg-gray-100 text-black p-2 rounded-md text-sm self-start max-w-xs mt-1">
                   <p>{msg.bot}</p>
+                  {msg.isStreaming && (
+                    <span className="animate-pulse text-xs text-gray-400">
+                      Typing...
+                    </span>
+                  )}
                 </div>
                 <span className="text-xs text-gray-400 self-end">
                   {msg.time}
@@ -96,10 +136,12 @@ export const Chatbot = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Ask me anything..."
+              disabled={isTyping}
             />
             <button
               onClick={handleSend}
-              className="text-sm px-3 py-1 rounded bg-primary text-white"
+              className="text-sm px-3 py-1 rounded bg-primary text-white disabled:opacity-50"
+              disabled={isTyping}
             >
               Send
             </button>
