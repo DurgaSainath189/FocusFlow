@@ -11,6 +11,7 @@ import { Header } from "./header/Header";
 import { Nav } from "./nav/Nav";
 import { Section } from "./section/Section";
 import { TextSection } from "./section/TextSection";
+import { Chatbot } from "../chatbot/ChatBot";
 // import { Footer } from "./footer/Footer";
 
 export const HomePage = () => {
@@ -80,6 +81,7 @@ export const HomePage = () => {
         </main>
       </div>
       {/* <Footer /> */}
+      <Chatbot />
     </>
   );
 };
