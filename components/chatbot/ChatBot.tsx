@@ -4,6 +4,8 @@ import * as use from "@tensorflow-models/universal-sentence-encoder";
 import * as tf from "@tensorflow/tfjs";
 import { botFAQs } from "./FAQ";
 import { X } from "lucide-react";
+import EmojiPicker from "@emoji-mart/react";
+import { EmojiSelector } from "../common/EmojiSelector";
 
 const cosineSimilarity = (vecA: number[], vecB: number[]) => {
   const dot = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
