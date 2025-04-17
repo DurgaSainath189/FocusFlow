@@ -1,215 +1,193 @@
 export const botFAQs = [
   {
     question: "Hlo,Hi, Hello",
-    answer: "👋Hey There. Welcome to FocusFlow!",
+    answer: "👋 Hey there! Welcome to FocusFlow, your all-in-one productivity companion. How can I assist you today?",
   },
   {
     question: "Hello, Hlo, Hi there! What can I help you with today?",
     answer:
-      "👋 Welcome to FocusFlow! You can ask me about tasks, calendars, timers, mind maps, or setting up your workspace. Let’s get productive!",
+      "👋 Welcome to FocusFlow! I'm here to help you with task management, organizing your schedule, using the Pomodoro Timer, brainstorming with mind maps, collaborating with teammates, and more. Just ask away!",
   },
   {
     question: "What is FocusFlow?",
     answer:
-      "FocusFlow is a productivity app combining all your work tools into one workspace.",
+      "FocusFlow is a modern productivity and collaboration platform that unifies essential tools like task management, mind mapping, calendar scheduling, team chat, and a Pomodoro timer. It helps individuals and teams work smarter by reducing the need to switch between different apps.",
   },
   {
     question: "What features does FocusFlow offer?",
     answer:
-      "FocusFlow provides Mind Maps, Tasks, Pomodoro Timer, Unified Calendar, Chat, and Role-based Permissions.",
+      "FocusFlow includes: \n• Task Management\n• Mind Maps\n• Unified Calendar\n• Real-Time Group Chat\n• Pomodoro Focus Timer\n• Customizable Workspaces\n• Role-Based Access Control\n• Productivity Analytics\n• Integrations with popular tools like Google Calendar and Slack.",
   },
   {
     question: "How do I invite teammates?",
     answer:
-      "You can invite teammates via shareable project links or by adding users directly.",
+      "To invite teammates, go to your workspace settings and either:\n1. Share a secure invite link.\n2. Add their email directly to send an invitation.\nOnce joined, you can assign roles and manage permissions.",
   },
   {
     question: "How does the Pomodoro Timer work?",
     answer:
-      "Set custom work and break durations, and the timer handles focused sessions for you.",
+      "The Pomodoro Timer is a time management tool that encourages focused work sessions. Set a custom duration for work and breaks. For example, 25 minutes of focused work followed by a 5-minute break. It boosts productivity and prevents burnout.",
   },
   {
     question: "Is FocusFlow available on mobile?",
-    answer: "A mobile-optimized version is coming soon!",
+    answer: "Not yet, but we’re actively developing a mobile-optimized version for both Android and iOS. Stay tuned!",
   },
   {
     question: "Can FocusFlow integrate with other tools?",
     answer:
-      "Yes, FocusFlow supports integrations with tools like Google Calendar, Slack, and more.",
+      "Yes! FocusFlow supports integrations with popular tools like Google Calendar, Slack, Notion, and Trello. We’re expanding support for more tools in upcoming updates.",
   },
   {
     question: "How can I create and manage projects in FocusFlow?",
     answer:
-      "Projects can be created directly in the app. You can assign tasks, set deadlines, and track progress within each project.",
+      "You can create a new project from your dashboard, assign members, define tasks, set deadlines, and monitor progress in real-time using boards or lists.",
   },
   {
     question: "What is the Mind Maps feature in FocusFlow?",
     answer:
-      "Mind Maps allow you to visually organize your ideas, brainstorm, and create hierarchies for your projects.",
+      "Mind Maps let you visualize ideas and tasks in a structured way. They’re great for brainstorming, planning, and understanding the relationships between different parts of your projects.",
   },
   {
     question: "Can I use FocusFlow offline?",
     answer:
-      "FocusFlow offers limited offline functionality, and full features are accessible when connected to the internet.",
+      "Some basic features work offline, like viewing cached tasks and notes. However, real-time collaboration and syncing require an internet connection.",
   },
   {
     question: "How secure is my data in FocusFlow?",
     answer:
-      "FocusFlow uses encryption protocols to secure your data and ensures compliance with data protection regulations.",
+      "Your data is encrypted both in transit and at rest. We use Supabase for secure authentication and real-time updates, and our infrastructure is designed with security-first principles to comply with modern data protection standards.",
   },
   {
     question: "Are there any templates available in FocusFlow?",
     answer:
-      "Yes, FocusFlow provides templates for tasks, mind maps, and workflows to help you get started quickly.",
+      "Yes, you can use built-in templates for task lists, project plans, mind maps, and productivity workflows to save time and standardize your work process.",
   },
   {
     question: "Does FocusFlow support real-time collaboration?",
     answer:
-      "Yes, FocusFlow enables real-time collaboration on tasks, mind maps, and projects.",
+      "Absolutely! Multiple users can edit tasks, mind maps, and calendars simultaneously. Changes appear instantly across all users' screens.",
   },
   {
     question: "What is the Unified Calendar, and how does it work?",
     answer:
-      "The Unified Calendar syncs all your events, deadlines, and schedules into one view, integrating with third-party calendar tools.",
+      "The Unified Calendar combines all your personal and team events, task deadlines, and meetings into a single view. It also syncs with Google Calendar and other tools for seamless scheduling.",
   },
   {
     question: "How do role-based permissions work in FocusFlow?",
     answer:
-      "Role-based permissions allow you to control access levels for different users, ensuring security and proper task delegation.",
+      "Admins can assign roles such as Viewer, Contributor, or Manager. Each role has different permissions for editing tasks, accessing settings, and viewing workspace content.",
   },
   {
     question: "What platforms does FocusFlow support?",
     answer:
-      "Currently, FocusFlow is available on web and desktop. A mobile version is under development.",
+      "FocusFlow is currently available on web and desktop (Windows and macOS). Mobile versions for iOS and Android are in development.",
   },
   {
     question: "What kind of support does FocusFlow provide for users?",
     answer:
-      "FocusFlow offers in-app documentation, FAQs, and direct support via email or chat.",
+      "We offer in-app documentation, tooltips, FAQs, live chat support (during business hours), and email support for premium users.",
   },
   {
     question: "How does FocusFlow help with productivity?",
     answer:
-      "FocusFlow centralizes your tools, reduces context-switching, and provides features like a Pomodoro Timer and Unified Calendar to improve efficiency.",
+      "It centralizes your work, prevents context switching, and offers features like Pomodoro Timer, Mind Maps, and goal tracking to help you stay focused and organized throughout the day.",
   },
   {
     question: "Can I customize my workspace in FocusFlow?",
     answer:
-      "Yes, you can customize layouts, themes, and widgets to tailor the workspace to your needs.",
+      "Yes, you can personalize your workspace by choosing color themes, layout preferences, widget visibility, and more. You can also configure access levels for each user.",
   },
   {
     question: "Does FocusFlow have a free plan?",
     answer:
-      "FocusFlow offers a free tier with basic features, while advanced features are available in premium plans.",
+      "Yes! FocusFlow offers a free plan with core features like task management and Pomodoro timer. Premium plans unlock team collaboration, integrations, analytics, and more.",
   },
   {
     question: "How do I report bugs or request features?",
     answer:
-      "You can report bugs or request features via the Feedback section in the app or through our support email.",
+      "Use the 'Feedback' section in the app or send an email to support@focusflow.app. We actively review feedback and prioritize improvements.",
   },
   {
     question: "What insights does FocusFlow provide for my productivity?",
     answer:
-      "FocusFlow tracks your progress and generates reports on productivity trends, task completion rates, and time utilization.",
+      "FocusFlow generates weekly and monthly reports on task completion rates, time usage, team collaboration, and goal progress to help you improve.",
   },
   {
     question: "Can I sync FocusFlow with my existing tools?",
     answer:
-      "Yes, FocusFlow supports syncing with tools like Google Calendar, task managers, and communication platforms.",
+      "Yes, FocusFlow can sync with external tools like Google Calendar, Outlook, Trello, and more to streamline your workflow.",
   },
   {
     question: "What is the pricing model for FocusFlow?",
     answer:
-      "FocusFlow offers a free plan alongside premium plans with advanced features and team collaboration tools.",
+      "We offer a Free plan, Pro plan (for individuals with advanced features), and Team plans for organizations. Details are available on our pricing page.",
   },
   {
     question: "How does FocusFlow handle notifications?",
     answer:
-      "FocusFlow provides customized notifications for task deadlines, calendar events, and messages, ensuring you stay informed without distractions.",
+      "FocusFlow offers smart, customizable notifications for deadlines, comments, chat messages, and team updates. You can tailor the frequency and channels (email, in-app, etc.).",
   },
   {
     question: "Can I track my team's progress in FocusFlow?",
     answer:
-      "Yes, FocusFlow offers dashboards and analytics to monitor team performance and project progress in real-time.",
+      "Yes, managers can view project dashboards with metrics on task completion, overdue items, and user activity to ensure everything stays on track.",
   },
   {
     question: "What is the roadmap for FocusFlow’s future features?",
     answer:
-      "FocusFlow plans to add AI-driven task recommendations, deeper integrations, and mobile app enhancements in upcoming updates.",
+      "Upcoming features include AI task suggestions, Gantt chart views, calendar sharing, deeper integrations, and full mobile app rollout.",
   },
   {
     question: "How does FocusFlow ensure accessibility?",
     answer:
-      "FocusFlow is designed with accessibility in mind, supporting screen readers, keyboard navigation, and high-contrast themes.",
+      "FocusFlow supports keyboard navigation, screen readers, and includes a high-contrast theme for visually impaired users.",
   },
   {
     question: "Can I manage all my work in one place using FocusFlow?",
     answer:
-      "Yes, FocusFlow is an all-in-one productivity platform that lets you manage tasks, visualize ideas, schedule with a unified calendar, chat with teams, and more.",
+      "Yes! With tasks, notes, Pomodoro timer, calendar, and team chat all in one place, FocusFlow becomes your go-to productivity HQ.",
   },
   {
-    question: "How does task management work in FocusFlow?",
+    question: "Is onboarding easy for new users?",
     answer:
-      "FocusFlow offers an intuitive task management system where you can create, assign, prioritize, and track tasks with ease.",
+      "Very! Our onboarding flow walks you through key features, lets you customize your setup, and shows tips tailored to your needs.",
   },
   {
-    question: "Does FocusFlow have a built-in Pomodoro timer?",
+    question: "What makes FocusFlow different from other tools?",
     answer:
-      "Yes! FocusFlow features a built-in Pomodoro timer to help you work in focused intervals and take strategic breaks.",
+      "Instead of using 5 different apps, FocusFlow gives you one workspace with everything built-in, beautifully integrated, and optimized for both solo work and team collaboration.",
   },
   {
-    question: "How are mind maps used in FocusFlow?",
+    question: "What makes the task system unique in FocusFlow?",
     answer:
-      "Mind maps in FocusFlow let you visually brainstorm and plan projects, helping you organize ideas and workflows effectively.",
+      "Tasks in FocusFlow can be grouped into projects, linked with deadlines, assigned to users, visualized as lists or boards, and filtered by tags, due dates, or priority.",
+  },
+
+  // NEW QUESTIONS
+
+  {
+    question: "Can I duplicate or clone existing projects or mind maps?",
+    answer:
+      "Yes, FocusFlow allows you to clone entire projects or mind maps, making it easy to reuse templates and repeat workflows.",
   },
   {
-    question: "Can I chat with my team inside FocusFlow?",
+    question: "Is there a dark mode in FocusFlow?",
     answer:
-      "Absolutely! FocusFlow includes a real-time group chat system so your team can communicate and collaborate seamlessly.",
+      "Absolutely! You can switch between light and dark themes from the user settings to match your environment or preference.",
   },
   {
-    question: "Is there a calendar in FocusFlow?",
+    question: "Does FocusFlow support file uploads?",
     answer:
-      "Yes, FocusFlow includes a unified calendar that integrates your tasks and events into one streamlined view.",
+      "Yes, you can attach files to tasks and chats. Support for cloud storage integrations is also available.",
   },
   {
-    question: "What kind of workspace customization does FocusFlow allow?",
+    question: "Can I export my data from FocusFlow?",
     answer:
-      "You can fully customize workspaces in FocusFlow with user roles, access permissions, themes, and personalized settings.",
+      "Yes, you can export tasks, mind maps, and calendar events in standard formats like CSV and JSON.",
   },
   {
-    question: "Is onboarding easy for new FocusFlow users?",
+    question: "Is there an API for developers?",
     answer:
-      "Yes, FocusFlow provides a guided onboarding experience that tailors the platform to user preferences for a smooth start.",
-  },
-  {
-    question: "What settings can I configure in FocusFlow?",
-    answer:
-      "Users can configure security options, notification preferences, theme styles, and workspace access settings easily from the settings panel.",
-  },
-  {
-    question: "Does FocusFlow support multiple user roles?",
-    answer:
-      "Yes, FocusFlow supports role-based access, allowing admins to manage team permissions within each workspace.",
-  },
-  {
-    question: "Is FocusFlow good for personal productivity too?",
-    answer:
-      "Definitely! FocusFlow is perfect for individuals looking to stay organized with tasks, calendar syncing, Pomodoro sessions, and more.",
-  },
-  {
-    question: "How secure is my data on FocusFlow?",
-    answer:
-      "FocusFlow uses Supabase with secure authentication and real-time data updates to ensure your information stays protected.",
-  },
-  {
-    question: "Can I use FocusFlow for project planning?",
-    answer:
-      "Yes! With tools like task boards, mind maps, and calendars, FocusFlow is ideal for planning and executing projects of any size.",
-  },
-  {
-    question: "What makes FocusFlow different from other productivity tools?",
-    answer:
-      "FocusFlow combines all essential productivity tools—tasks, calendar, chat, focus timer, mind maps—into one sleek and unified experience.",
-  },
+      "An API is in development and will allow integrations with custom tools, automations, and third-party services.",
+  }
 ];
