@@ -1,7 +1,13 @@
 export const botFAQs = [
   {
     question: "Hlo,Hi, Hello",
-    answer: "👋 Hey there! Welcome to FocusFlow, your all-in-one productivity companion. How can I assist you today?",
+    answer:
+      "👋 Hey there! Welcome to FocusFlow, your all-in-one productivity companion. How can I assist you today?",
+  },
+  {
+    question: "Good Morning, afternoon, evening",
+    answer:
+      "Greetings of the day! 🌞 Welcome to FocusFlow. How can I help you make the most of your time today?",
   },
   {
     question: "Hello, Hlo, Hi there! What can I help you with today?",
@@ -30,7 +36,8 @@ export const botFAQs = [
   },
   {
     question: "Is FocusFlow available on mobile?",
-    answer: "Not yet, but we’re actively developing a mobile-optimized version for both Android and iOS. Stay tuned!",
+    answer:
+      "Not yet, but we’re actively developing a mobile-optimized version for both Android and iOS. Stay tuned!",
   },
   {
     question: "Can FocusFlow integrate with other tools?",
@@ -189,5 +196,15 @@ export const botFAQs = [
     question: "Is there an API for developers?",
     answer:
       "An API is in development and will allow integrations with custom tools, automations, and third-party services.",
-  }
+  },
+  {
+    question: "Thank you, FocusFlow!",
+    answer:
+      "You're welcome! 😊 We're glad to help you stay productive. If you have more questions or feedback, don’t hesitate to reach out. Happy focusing!",
+  },
+  {
+    question: "Thank you",
+    answer:
+      "You're welcome! 😊 We're glad to help you stay productive. If you have more questions or feedback, don’t hesitate to reach out. Happy focusing!",
+  },
 ];
