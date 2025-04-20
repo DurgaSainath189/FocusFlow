@@ -1,3 +1,5 @@
+'use client'
+
 import { clsx, type ClassValue } from "clsx";
 import { CalendarDays, Clock, Home, Star, User } from "lucide-react";
 import { twMerge } from "tailwind-merge";
