@@ -1,9 +1,8 @@
-'use client'
-
 import { clsx, type ClassValue } from "clsx";
 import { CalendarDays, Clock, Home, Star, User } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import dayjs from "dayjs";
+import { array } from "zod";
 import { ExtendedMessage } from "@/types/extended";
 
 export function cn(...inputs: ClassValue[]) {
